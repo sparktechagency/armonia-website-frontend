@@ -12,7 +12,7 @@ export default function Verify() {
   };
 
   return (
-    <div className="h-screen bg-white flex items-center justify-center">
+    (<div className="h-screen bg-white flex items-center justify-center">
       <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg px-12">
         {/ Header /}
 
@@ -76,6 +76,6 @@ export default function Verify() {
           </Link>
         </div>
       </div>
-    </div>
+    </div>)
   );
 }

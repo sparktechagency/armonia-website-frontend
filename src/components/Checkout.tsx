@@ -1,6 +1,6 @@
 "use client";
 // import { DatePicker, DatePickerProps, TimePicker } from "antd";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useState } from "react";
 import Button from "./Button";
 

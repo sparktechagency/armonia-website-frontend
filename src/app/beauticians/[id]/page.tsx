@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import ProfileCategory from "@/components/ProfileCategory";
 import Button from "@/components/Button";
 import Testimonials from "@/components/Testimonials";

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React from "react";
 
 export default function page() {
@@ -24,7 +24,7 @@ export default function page() {
         </p>
         <h2>Our Mission</h2>
         <p>
-          Our mission is to [State your company's mission]. We aim to [mention
+          Our mission is to [State your company&apos;s mission]. We aim to [mention
           key goals], offering top-notch services that meet the unique needs of
           each individual or organization we work with.
         </p>
