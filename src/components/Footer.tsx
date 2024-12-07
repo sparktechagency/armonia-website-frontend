@@ -24,13 +24,7 @@ export default function Footer() {
                 <Link href="/">Home</Link>
               </li>
               <li>
-                <Link href="/beautician">About Us</Link>
-              </li>
-              <li>
-                <Link href="/contact">Services</Link>
-              </li>
-              <li>
-                <Link href="/contact">Blog</Link>
+                <Link href="/beauticians">Beauticians</Link>
               </li>
               <li>
                 <Link href="/contact">Contact Us</Link>
@@ -43,10 +37,13 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
               <li>
-                <Link href="/">Privacy Policy</Link>
+                <Link href="/about">About Us</Link>
               </li>
               <li>
-                <Link href="/beautician">Terms of Use</Link>
+                <Link href="/policy">Privacy Policy</Link>
+              </li>
+              <li>
+                <Link href="/terms">Terms of Use</Link>
               </li>
             </ul>
           </div>

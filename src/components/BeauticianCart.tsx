@@ -91,15 +91,15 @@ export default function BeauticianCart() {
             d="M4.25 12.2744L19.25 12.2744"
             stroke="#3F5362"
             strokeWidth="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976"
             stroke="#3F5362"
             strokeWidth="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
         <span className="px-6 py-2 border border-blue-400 rounded bg-blue-100 text-sm">
@@ -125,15 +125,15 @@ export default function BeauticianCart() {
             d="M19.75 11.7256L4.75 11.7256"
             stroke="#3F5362"
             strokeWidth="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502"
             stroke="#3F5362"
             strokeWidth="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </div>

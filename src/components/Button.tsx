@@ -1,18 +1,24 @@
-import React from "react";
+"use client";
+import { ReactNode, useContext } from "react";
+import { context } from "@/app/Context";
 
 export default function Button({
   children,
   className,
+  openModalOnClick,
   gradientBorder = false,
   paddingY = 16,
   type = "button",
 }: Readonly<{
   children: React.ReactNode;
   className?: string;
+  openModalOnClick?: ReactNode;
   gradientBorder?: boolean;
   paddingY?: number;
   type?: "button" | "submit" | "reset";
 }>) {
+  const appContext = useContext(context);
+
   return (
     <button
       className={
@@ -22,6 +28,7 @@ export default function Button({
       }
       style={{ paddingTop: paddingY + "px", paddingBottom: paddingY + "px" }}
       type={type}
+      onClick={() => appContext?.setModal(openModalOnClick)}
     >
       {children}
     </button>

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
+import Register from "./Register";
+import Login from "./Login";
 
 export default function Nav() {
   const links = [
@@ -36,7 +38,7 @@ export default function Nav() {
 
   return (
     <nav className="px-6 lg:px-36 py-4 flex items-center justify-between sticky top-0 bg-white shadow-lg z-50">
-      <Link href="/">
+      <Link href="/" onClick={() => setActive("Home")}>
         <Image src="/logo.png" alt="logo" width={200} height={32} />
       </Link>
       {open ? (
@@ -120,16 +122,21 @@ export default function Nav() {
           </Link>
         ) : (
           <div className="flex items-center gap-5">
-            <Link href="/login" onClick={() => setOpen(false)}>
-              <Button className="px-6 rounded" paddingY={12} gradientBorder>
-                Login
-              </Button>
-            </Link>
-            <Link href="/login" onClick={() => setOpen(false)}>
-              <Button className="px-6 rounded" paddingY={12}>
-                Signup
-              </Button>
-            </Link>
+            <Button
+              className="px-6 rounded"
+              paddingY={12}
+              gradientBorder
+              openModalOnClick={<Login />}
+            >
+              Login
+            </Button>
+            <Button
+              className="px-6 rounded"
+              paddingY={12}
+              openModalOnClick={<Register />}
+            >
+              Signup
+            </Button>
           </div>
         )}
       </ul>

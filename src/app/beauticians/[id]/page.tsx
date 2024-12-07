@@ -1,13 +1,124 @@
 import React from "react";
 import Image from "next/image";
 import ProfileCategory from "@/components/ProfileCategory";
+import Button from "@/components/Button";
+import Testimonials from "@/components/Testimonials";
+import Checkout from "@/components/Checkout";
 
 export default function page() {
+  const categories = {
+    "Make up": {
+      image: "/category/make-up.jpg",
+      name: "Make Up",
+      services: [
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+      ],
+    },
+    "Hair styling": {
+      image: "/category/hair-styling.jpg",
+      name: "Hair Styling",
+      services: [
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+      ],
+    },
+    "Nail care": {
+      image: "/category/nail-care.jpg",
+      name: "Skin Care",
+      services: [
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+      ],
+    },
+    Cosmetology: {
+      image: "/category/cosmetology.jpg",
+      name: "Manicure",
+      services: [
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+      ],
+    },
+    "SPA procedures": {
+      image: "/category/spa-procedures.jpg",
+      name: "Manicure",
+      services: [
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+        {
+          name: "Hair Cut",
+          duration: "30min",
+          price: "€50",
+        },
+      ],
+    },
+  };
+
   return (
     <>
       <header className="relative h-[350px] flex items-center justify-center bg-[#435981]">
         <Image
-          src="/beauticianDetailsHeaderBG.png"
+          src="/headerBG.png"
           alt="header"
           layout="fill"
           objectFit="cover"
@@ -73,7 +184,7 @@ export default function page() {
             <p className="text-2xl font-medium text-blue-500">
               I specialize in a wide range of beauty services, including bridal
               and party makeup, hair styling, skincare treatments, manicures,
-              pedicures, and more. clients' unique needs.s, See More...
+              pedicures, and more. clients unique needs.s, See More...
             </p>
           </div>
           <div className="w-full flex items-center justify-center overflow-hidden h-[600px] relative">
@@ -86,7 +197,7 @@ export default function page() {
             />
           </div>
         </div>
-        <div className="text-center">
+        <div className="text-center py-10">
           <h2 className="text-5xl font-bold font-Playfair_Display">
             Our Services
           </h2>
@@ -95,24 +206,54 @@ export default function page() {
             neque.
           </p>
         </div>
-        <div className="flex gap-10 items-center">
-          <div className="w-1/2 flex items-center justify-center overflow-hidden h-[550] relative">
-            <Image
-              src="/category/make-up.jpg"
-              alt="service1"
-              layout="fill"
-              objectFit="cover"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="w-1/2">
-            <h3 className="text-5xl font-bold text-blue-500">Hair Styling</h3>
-            <ul className="flex flex-col">
-              <li></li>
-            </ul>
-          </div>
-        </div>
+        {Object.entries(categories).map(
+          ([key, { image, name, services }], index) => (
+            <div
+              key={index}
+              className={`flex gap-10 items-center ${
+                index % 2 === 0 ? "" : "flex-row-reverse"
+              }`}
+            >
+              <div className="w-1/2 flex items-center justify-center overflow-hidden h-[550] relative">
+                <Image
+                  src={image}
+                  alt={name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="w-1/2">
+                <h3 className="text-5xl font-bold text-blue-500">{key}</h3>
+                <ul className="flex flex-col mt-5 gap-6">
+                  {services.map(({ name, duration, price }, index) => (
+                    <li className="flex items-center gap-3" key={index}>
+                      <div className="flex items-center justify-between max-w-md w-full relative">
+                        <span className="border-dotted border w-full absolute bottom-1.5"></span>
+                        <p className="z-10 bg-white">{name}</p>
+                        <p className="z-10 bg-white">{duration}</p>
+                      </div>
+                      <div className="flex items-center justify-center gap-3">
+                        <p>{price}</p>
+                        <input type="checkbox" />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )
+        )}
+        <Button
+          className="w-1/4 mx-auto bg-blue-500 text-white text-2xl font-bold rounded-2xl my-16"
+          paddingY={12}
+          gradientBorder
+          openModalOnClick={<Checkout />}
+        >
+          Continue to check out
+        </Button>
       </section>
+      <Testimonials />
     </>
   );
 }
