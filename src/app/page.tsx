@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Button from "@/components/Button";
 import BeauticianCart from "@/components/BeauticianCart";
 import Testimonials from "@/components/Testimonials";
@@ -12,10 +12,9 @@ export default function page() {
         <Image
           src="/paint-brush.png"
           alt="hero"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          className="absolute -z-10"
+          className="absolute -z-10 object-cover object-center"
+          fill
+          sizes="100vw"
         />
         <form className="p-10 rounded-xl bg-[#ffffffb3] flex flex-col items-center">
           <h3 className="font-Playfair_Display font-semibold text-3xl text-blue-500 mb-10">
@@ -65,6 +64,7 @@ export default function page() {
                 src={`/experience/${item}.png`}
                 alt="service"
                 fill
+                className="w-full"
               />
             </div>
           ))}

@@ -1,6 +1,6 @@
 "use client";
 // import { DatePicker, DatePickerProps, TimePicker } from "antd";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import React, { useState } from "react";
 import Button from "./Button";
 
@@ -28,7 +28,7 @@ export default function Checkout() {
     0
   );
   return (
-    <div className="gradient-bg max-w-[1440px] w-full py-16 px-56 relative">
+    (<div className="gradient-bg max-w-[1440px] w-full py-16 px-56 relative">
       <div className="text-black lg:flex justify-center items-start gap-8">
         <Image
           src={"/checkout.png"}
@@ -36,7 +36,10 @@ export default function Checkout() {
           width={334}
           className="hidden sm:block"
           alt="img"
-        />
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
         <div className="space-y-4">
           <p className="text-xl font-semibold font-Playfair_Display">
             Beautician
@@ -139,6 +142,6 @@ export default function Checkout() {
           Send Request
         </Button>
       </div>
-    </div>
+    </div>)
   );
 }

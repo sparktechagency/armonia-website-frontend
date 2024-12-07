@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import Register from "./Register";
@@ -37,9 +37,17 @@ export default function Nav() {
   const isLogin = false;
 
   return (
-    <nav className="px-6 lg:px-36 py-4 flex items-center justify-between sticky top-0 bg-white shadow-lg z-50">
+    (<nav className="px-6 lg:px-36 py-4 flex items-center justify-between sticky top-0 bg-white shadow-lg z-50">
       <Link href="/" onClick={() => setActive("Home")}>
-        <Image src="/logo.png" alt="logo" width={200} height={32} />
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={200}
+          height={32}
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </Link>
       {open ? (
         <svg
@@ -89,7 +97,6 @@ export default function Nav() {
           />
         </svg>
       )}
-
       <ul
         className={`flex flex-col lg:flex-row items-center gap-6 lg:gap-24 text-lg fixed lg:static bg-white lg:bg-none px-3 lg:px-0 pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen lg:h-auto top-0 -z-10 ${
           open ? "right-0" : "-right-full"
@@ -118,7 +125,10 @@ export default function Nav() {
               width={50}
               height={50}
               className="rounded-full overflow-hidden"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </Link>
         ) : (
           <div className="flex items-center gap-5">
@@ -140,6 +150,6 @@ export default function Nav() {
           </div>
         )}
       </ul>
-    </nav>
+    </nav>)
   );
 }

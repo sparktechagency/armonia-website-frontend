@@ -1,10 +1,10 @@
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import ProfileCategory from "./ProfileCategory";
 
 export default function BeauticianCart() {
   return (
-    <div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md">
+    (<div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md">
       <ProfileCategory category="Elite" className="absolute top-2 right-2" />
       <div className="flex px-8 py-5 gap-4">
         <div className="w-32 h-32 rounded-full overflow-hidden flex items-center justify-center">
@@ -13,7 +13,10 @@ export default function BeauticianCart() {
             alt="beautician"
             width={128}
             height={128}
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </div> 
         <div className="flex flex-col gap-4 text-start">
           <h3 className="font-Playfair_Display text-2xl font-bold">
@@ -137,6 +140,6 @@ export default function BeauticianCart() {
           />
         </svg>
       </div>
-    </div>
+    </div>)
   );
 }

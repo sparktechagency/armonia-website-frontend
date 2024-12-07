@@ -1,9 +1,9 @@
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 export default function Testimonials() {
   return (
-    <section className="px-36 py-16 text-center bg-yellow-50">
+    (<section className="px-36 py-16 text-center bg-yellow-50">
       <p className="text-yellow-500">Testimonials</p>
       <h3 className="text-5xl font-semibold text-blue-500 font-Playfair_Display">
         What our Customers says...
@@ -18,7 +18,10 @@ export default function Testimonials() {
                 alt="quote"
                 width={280}
                 height={280}
-              />
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />
             </div>
           </span>
         </div>
@@ -60,6 +63,6 @@ export default function Testimonials() {
           </svg>
         </div>
       </div>
-    </section>
+    </section>)
   );
 }
