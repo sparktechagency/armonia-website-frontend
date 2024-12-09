@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
 import Register from "./Register";
 import Login from "./Login";
+import { context } from "@/app/Context";
 
 export default function Nav() {
   const links = [
@@ -13,8 +14,11 @@ export default function Nav() {
     { name: "Contact Us", href: "/contact" },
   ];
 
+  const appContext = useContext(context);
+
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+  const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -34,10 +38,10 @@ export default function Nav() {
     }
   }, [open]);
 
-  const isLogin = false;
-
   return (
-    (<nav className="px-6 lg:px-36 py-4 flex items-center justify-between sticky top-0 bg-white shadow-lg z-50">
+    <nav
+      className={`px-6 lg:px-36 py-4 flex items-center justify-between top-0 bg-white shadow-lg z-50 sticky`}
+    >
       <Link href="/" onClick={() => setActive("Home")}>
         <Image
           src="/logo.png"
@@ -46,8 +50,9 @@ export default function Nav() {
           height={32}
           style={{
             maxWidth: "100%",
-            height: "auto"
-          }} />
+            height: "auto",
+          }}
+        />
       </Link>
       {open ? (
         <svg
@@ -117,19 +122,55 @@ export default function Nav() {
             {name}
           </Link>
         ))}
-        {isLogin ? (
-          <Link href="/profile" onClick={() => setOpen(false)}>
+        {appContext?.user ? (
+          <div
+            className="flex items-center gap-2 relative cursor-pointer"
+            onClick={() => setDashboardMenuOpen(!dashboardMenuOpen)}
+          >
             <Image
-              src="/avatar.png"
-              alt="avatar"
+              src={appContext.user.image}
+              alt={appContext.user.name}
               width={50}
               height={50}
-              className="rounded-full overflow-hidden"
-              style={{
-                maxWidth: "100%",
-                height: "auto"
-              }} />
-          </Link>
+              className="rounded-full overflow-hidden w-[50px] h-[50px] object-cover"
+            />
+            <p className="font-semibold">{appContext.user.name}</p>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className={dashboardMenuOpen ? "rotate-180" : ""}
+            >
+              <path
+                d="M5.83366 8.33333L10.0003 12.5L14.167 8.33333"
+                stroke="#142F62"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <ul
+              className={`absolute w-full bg-white top-16 text-base font-normal overflow-hidden transition-all ${
+                dashboardMenuOpen ? "h-auto" : "h-0"
+              }`}
+            >
+              {appContext
+                .dashboardRoutes(appContext.user.role)
+                .map(({ name, href }, index) => (
+                  <Link key={index} href={href}>
+                    <li className="p-2 hover:bg-slate-200">{name}</li>
+                  </Link>
+                ))}
+              <li
+                className="p-2 hover:bg-slate-200 cursor-pointer"
+                onClick={() => appContext.setUser(null)}
+              >
+                Logout
+              </li>
+            </ul>
+          </div>
         ) : (
           <div className="flex items-center gap-5">
             <Button
@@ -150,6 +191,6 @@ export default function Nav() {
           </div>
         )}
       </ul>
-    </nav>)
+    </nav>
   );
 }

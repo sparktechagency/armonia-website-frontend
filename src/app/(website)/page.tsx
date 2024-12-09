@@ -3,7 +3,7 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import BeauticianCart from "@/components/BeauticianCart";
 import Testimonials from "@/components/Testimonials";
-import Contact from "@/app/contact/page";
+import Contact from "@/app/(website)/contact/page";
 
 export default function page() {
   return (
@@ -47,13 +47,11 @@ export default function page() {
           </Button>
         </form>
       </header>
-      <section className="px-36 py-16 bg-[#fffbef]">
-        <h3 className="text-blue-500 text-5xl font-semibold text-center">
-          We are Experienced in making you
-          <br />
-          very Beautiful
+      <section className="px-6 lg:px-36 py-16 bg-[#fffbef]">
+        <h3 className="text-blue-500 text-2xl lg:text-5xl font-semibold text-center lg:w-2/4 mx-auto">
+          We are Experienced in making you very Beautiful
         </h3>
-        <div className="grid grid-cols-3 gap-6 h-[614px] rounded-[40px] w-full overflow-hidden mt-6">
+        <div className="grid grid-cols-3 gap-2 lg:gap-6 h-40 lg:h-[614px] rounded-3xl lg:rounded-[40px] w-full overflow-hidden mt-6">
           {[1, 2, 3, 4, 5].map((item, index) => (
             <div
               key={index}
@@ -75,7 +73,7 @@ export default function page() {
         <h3 className="text-5xl font-semibold text-blue-500 font-Playfair_Display">
           Recommended
         </h3>
-        <div className="flex items-center gap-9 px-36 mt-14">
+        <div className="flex items-center gap-9 px-6 lg:px-36 mt-14">
           <BeauticianCart />
           <BeauticianCart />
           <BeauticianCart />

@@ -1,7 +1,7 @@
 "use client";
 // import { DatePicker, DatePickerProps, TimePicker } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import Button from "./Button";
 
 export default function Checkout() {

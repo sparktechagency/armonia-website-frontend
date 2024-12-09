@@ -5,17 +5,18 @@ import Link from "next/link";
 export default function Verify() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]); // State for OTP inputs
 
-  const handleOtpChange = (e, index) => {
-    let newOtp = [...otp];
+  const handleOtpChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newOtp = [...otp];
     newOtp[index] = e.target.value;
     setOtp(newOtp);
   };
 
   return (
-    (<div className="h-screen bg-white flex items-center justify-center">
+    <div className="h-screen bg-white flex items-center justify-center">
       <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg px-12">
-        {/ Header /}
-
         <div className="text-center mb-6 space-y-3">
           <div className="flex items-center lg:gap-40 gap-16">
             <Link href={"/login"}>
@@ -44,7 +45,6 @@ export default function Verify() {
           </p>
         </div>
 
-        {/ OTP Input Fields /}
         <form action="" className="flex justify-around mb-3 ">
           {otp.map((digit, index) => (
             <input
@@ -52,21 +52,19 @@ export default function Verify() {
               className="w-12 h-12 text-center border border-gray-300 text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="text"
               value={digit}
-              maxLength="1"
+              maxLength={1}
               onChange={(e) => handleOtpChange(e, index)}
             />
           ))}
         </form>
 
-        {/ Resend OTP Link /}
         <div className="text-center text-sm text-gray-500 flex justify-around">
-          <span>Didn't receive the code?</span>
+          <span>Didn&apos;t receive the code?</span>
           <Link href="/resend-otp" className="text-green-500 ml-1">
             Resend
           </Link>
         </div>
 
-        {/ Verify Button /}
         <div className="mt-6">
           <Link
             href={"OTP/reset"}
@@ -76,6 +74,6 @@ export default function Verify() {
           </Link>
         </div>
       </div>
-    </div>)
+    </div>
   );
 }

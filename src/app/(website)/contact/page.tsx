@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 
 export default function page() {
   return (<>
-    <section className="py-40 flex gap-16 justify-center">
+    <section className="py-20 px-6 lg:px-36 flex gap-16 justify-center flex-col-reverse lg:flex-row">
       <Image
         src="/help.png"
         alt="help"
@@ -16,9 +16,8 @@ export default function page() {
         }} />
       <div className="w-[534px]">
         <p className="text-yellow-500 mb-2">Get in Touch!</p>
-        <h3 className="font-bold text-5xl mb-6">
+        <h3 className="font-bold text-5xl mb-6 w-3/4">
           We are here to help
-          <br />
           you always...
         </h3>
         <p className="text-lg text-blue-300">
@@ -129,7 +128,7 @@ export default function page() {
         </div>
       </div>
     </section>
-    <section className="py-32 text-center bg-yellow-50">
+    <section className="py-20 px-6 lg:px-36 text-center bg-yellow-50">
       <p className="font-semibold text-yellow-500">SCHEDULE YOUR PRESENCE</p>
       <h2 className="font-bold text-5xl text-blue-500 font-Playfair_Display mb-5">
         Get in touch
@@ -139,7 +138,7 @@ export default function page() {
         <br />
         but the majority have suffered alteration in some form.
       </p>
-      <form className="max-w-screen-lg bg-white mx-auto p-[100px] mt-16 flex flex-col gap-4 shadow-xl rounded-3xl">
+      <form className="max-w-screen-lg bg-white mx-auto p-8 lg:p-[100px] mt-16 flex flex-col gap-4 shadow-xl rounded-3xl">
         <div className="relative flex items-center">
           <svg
             width="24"

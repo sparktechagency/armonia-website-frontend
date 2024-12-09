@@ -98,7 +98,19 @@ export default function Login() {
         </div>
 
         <div className="mt-6">
-          <button className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300">
+          <button
+            className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300"
+            onClick={() => {
+              appContext?.setUser({
+                name: "Linda",
+                email: "adsf@gmail.com",
+                image: "/beautician.jpg",
+                role: "user",
+              });
+
+              appContext?.setModal(null);
+            }}
+          >
             Log In
           </button>
           <div className="flex justify-end mt-2">

@@ -2,21 +2,104 @@
 import { createContext, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
+type User = {
+  name: string;
+  email: string;
+  image: string;
+  role: "user" | "beautician" | "admin";
+};
+
 type ContextProps = {
   modal: null | ReactNode;
   setModal: Dispatch<SetStateAction<null | ReactNode>>;
+  user: null | User;
+  setUser: Dispatch<SetStateAction<null | User>>;
+  dashboardRoutes: (role: "user" | "beautician" | "admin") => {
+    name: string;
+    href: string;
+    menu: { name: string; href: string }[];
+  }[];
+};
+
+const dashboardLinks: {
+  [key in "user" | "beautician" | "admin"]: {
+    name: string;
+    href: string;
+    menu: { name: string; href: string }[];
+  }[];
+} = {
+  user: [
+    { name: "Profile", href: "/dashboard/profile", menu: [] },
+    {
+      name: "Bookings",
+      href: "/dashboard/bookings",
+      menu: [
+        {
+          name: "Booked Services",
+          href: "/dashboard/bookings",
+        },
+        {
+          name: "Send Request",
+          href: "/dashboard/bookings/completed-services",
+        },
+      ],
+    },
+    { name: "Messages", href: "/dashboard/messages", menu: [] },
+  ],
+  beautician: [
+    { name: "Profile", href: "/dashboard/profile", menu: [] },
+    {
+      name: "Bookings",
+      href: "/dashboard/bookings",
+      menu: [
+        {
+          name: "Booked Services",
+          href: "/dashboard/bookings",
+        },
+        {
+          name: "Send Request",
+          href: "/dashboard/bookings/completed-services",
+        },
+      ],
+    },
+    { name: "Messages", href: "/dashboard/messages", menu: [] },
+    { name: "Reviews", href: "/dashboard/reviews", menu: [] },
+    { name: "My Services ", href: "/dashboard/services", menu: [] },
+    { name: "Earning", href: "/dashboard/earning", menu: [] },
+  ],
+  admin: [
+    { name: "Dashboard", href: "/dashboard", menu: [] },
+    { name: "Users", href: "/dashboard/users", menu: [] },
+    { name: "Beauticians", href: "/dashboard/beauticians", menu: [] },
+    { name: "Services", href: "/dashboard/services", menu: [] },
+    { name: "Bookings", href: "/dashboard/bookings", menu: [] },
+    { name: "Messages", href: "/dashboard/messages", menu: [] },
+  ],
 };
 
 export const context = createContext<ContextProps | null>(null);
 
 export function Context({ children }: { children: React.ReactNode }) {
   const [modal, setModal] = useState<null | ReactNode>(null);
+  const [user, setUser] = useState<null | User>({
+    name: "Linda",
+    email: "adsf@gmail.com",
+    image: "/beautician.jpg",
+    role: "user",
+  });
+
+  function dashboardRoutes(role: "user" | "beautician" | "admin") {
+    return dashboardLinks[role];
+  }
 
   return (
     <context.Provider
       value={{
         modal,
         setModal,
+        user,
+        setUser,
+        dashboardRoutes,
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Testimonials() {
   return (
-    (<section className="px-36 py-16 text-center bg-yellow-50">
+    (<section className="px-6 lg:px-36 py-16 text-center bg-yellow-50">
       <p className="text-yellow-500">Testimonials</p>
       <h3 className="text-5xl font-semibold text-blue-500 font-Playfair_Display">
         What our Customers says...
