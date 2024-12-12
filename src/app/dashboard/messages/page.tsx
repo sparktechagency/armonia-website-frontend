@@ -38,9 +38,9 @@ export default function Page() {
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
         My Profile
       </h1>
-      <div className="h-screen mx-auto flex p-10 gap-8">
+      <div className="mx-auto flex p-10 gap-8">
         {/* Left Panel */}
-        <div className="w-1/4 ">
+        <div className="w-1/4">
           {/* Search Input */}
           <div className="relative w-full max-w-md mx-auto mt-8 px-2">
             <input

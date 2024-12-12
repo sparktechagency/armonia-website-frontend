@@ -6,6 +6,7 @@ import Button from "./Button";
 import Register from "./Register";
 import Login from "./Login";
 import { context } from "@/app/Context";
+import { redirect } from "next/navigation";
 
 export default function Nav() {
   const links = [
@@ -165,7 +166,7 @@ export default function Nav() {
                 ))}
               <li
                 className="p-2 hover:bg-slate-200 cursor-pointer"
-                onClick={() => appContext.setUser(null)}
+                onClick={appContext.logout}
               >
                 Logout
               </li>

@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { context } from "@/app/Context";
 import Forgot from "./Forgot";
 import Register from "./Register";
+import { redirect } from "next/navigation";
 
 export default function Login() {
   const appContext = useContext(context);
@@ -17,7 +18,21 @@ export default function Login() {
         <p className="text-gray-400">Please enter your e-mail and password:</p>
       </div>
 
-      <form action="" className="px-12">
+      <form
+        action=""
+        className="px-12"
+        onSubmit={() => {
+          appContext?.setUser({
+            name: "Linda",
+            email: "adsf@gmail.com",
+            image: "/beautician.jpg",
+            role: "user",
+          });
+
+          appContext?.setModal(null);
+          redirect("/dashboard/profile");
+        }}
+      >
         <div className="mb-4 space-y-4">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -100,16 +115,7 @@ export default function Login() {
         <div className="mt-6">
           <button
             className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300"
-            onClick={() => {
-              appContext?.setUser({
-                name: "Linda",
-                email: "adsf@gmail.com",
-                image: "/beautician.jpg",
-                role: "user",
-              });
-
-              appContext?.setModal(null);
-            }}
+            type="submit"
           >
             Log In
           </button>

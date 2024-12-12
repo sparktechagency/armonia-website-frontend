@@ -133,6 +133,9 @@ export default function page() {
           <BeauticianCart />
           <BeauticianCart />
           <BeauticianCart />
+          <BeauticianCart />
+          <BeauticianCart />
+          <BeauticianCart />
       </div>
     </section>
   </>);

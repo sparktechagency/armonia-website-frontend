@@ -4,7 +4,7 @@ export default function Page() {
   return (
     <section className="bg-yellow-50 w-full">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
-        My Profile
+      Confirmed Service
       </h1>
       <div className=" mx-auto sm:p-4 dark:text-gray-800">
         <div className="overflow-x-auto">

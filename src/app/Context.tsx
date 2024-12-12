@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
+import { redirect } from "next/navigation";
 
 type User = {
   name: string;
@@ -19,6 +20,7 @@ type ContextProps = {
     href: string;
     menu: { name: string; href: string }[];
   }[];
+  logout: () => void;
 };
 
 const dashboardLinks: {
@@ -40,7 +42,7 @@ const dashboardLinks: {
         },
         {
           name: "Send Request",
-          href: "/dashboard/bookings/completed-services",
+          href: "/dashboard/bookings/pending",
         },
       ],
     },
@@ -64,7 +66,7 @@ const dashboardLinks: {
     },
     { name: "Messages", href: "/dashboard/messages", menu: [] },
     { name: "Reviews", href: "/dashboard/reviews", menu: [] },
-    { name: "My Services ", href: "/dashboard/services", menu: [] },
+    { name: "My Services", href: "/dashboard/services", menu: [] },
     { name: "Earning", href: "/dashboard/earning", menu: [] },
   ],
   admin: [
@@ -85,11 +87,16 @@ export function Context({ children }: { children: React.ReactNode }) {
     name: "Linda",
     email: "adsf@gmail.com",
     image: "/beautician.jpg",
-    role: "user",
+    role: "beautician",
   });
 
   function dashboardRoutes(role: "user" | "beautician" | "admin") {
     return dashboardLinks[role];
+  }
+
+  function logout() {
+    setUser(null);
+    redirect("/");
   }
 
   return (
@@ -100,6 +107,7 @@ export function Context({ children }: { children: React.ReactNode }) {
         user,
         setUser,
         dashboardRoutes,
+        logout,
       }}
     >
       {children}

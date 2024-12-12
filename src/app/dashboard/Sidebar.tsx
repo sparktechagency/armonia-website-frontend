@@ -58,7 +58,10 @@ export default function Sidebar() {
             </div>
           ))}
       </div>
-      <button className="w-full pl-5 hover:pl-16 hover:bg-blue-500 transition-all bg-yellow-200">
+      <button
+        className="w-full pl-5 hover:pl-16 hover:bg-blue-500 transition-all bg-yellow-200"
+        onClick={appContext.logout}
+      >
         <p className="bg-yellow-50 border-r border-blue-500 p-2 w-full py-4">
           Logout
         </p>
