@@ -5,21 +5,19 @@ import ProfileCategory from "./ProfileCategory";
 export default function BeauticianCart() {
   return (
     (<div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md">
-      <ProfileCategory category="Elite" className="absolute top-2 right-2" />
-      <div className="flex px-8 py-5 gap-4">
-        <div className="w-32 h-32 rounded-full overflow-hidden flex items-center justify-center">
+      <ProfileCategory category="Elite" className="absolute top-4 right-4" />
+      <div className="flex px-5 lg:px-8 py-6 gap-4">
+        <div className="w-20 xl:w-32 h-20 xl:h-32 rounded-full overflow-hidden flex items-center justify-center">
           <Image
             src="/beautician.jpg"
             alt="beautician"
             width={128}
             height={128}
-            style={{
-              maxWidth: "100%",
-              height: "auto"
-            }} />
+            className="w-full h-full"
+             />
         </div> 
         <div className="flex flex-col gap-4 text-start">
-          <h3 className="font-Playfair_Display text-2xl font-bold">
+          <h3 className="font-Playfair_Display text-xl lg:text-2xl font-bold">
             Beautician Name
           </h3>
           <p className="flex items-center gap-2 text-blue-500">
@@ -29,6 +27,7 @@ export default function BeauticianCart() {
               viewBox="0 0 25 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              className="size-5 lg:size-6"
             >
               <g clipPath="url(#clip0_2413_2713)">
                 <path
@@ -69,20 +68,20 @@ export default function BeauticianCart() {
             EC3P
           </p>
           <div className="flex items-center gap-2 text-white">
-            <span className="bg-blue-400 w-[70px] rounded flex items-center justify-center">
+            <span className="bg-blue-400 w-full block text-center px-2 rounded text-base">
               Hair
             </span>
-            <span className="bg-blue-400 w-[70px] rounded flex items-center justify-center">
+            <span className="bg-blue-400 w-full block text-center px-2 rounded text-base">
               Nails
             </span>
-            <span className="bg-blue-400 w-[70px] rounded flex items-center justify-center">
+            <span className="bg-blue-400 w-full block text-center px-2 rounded text-base">
               Makeup
             </span>
           </div>
         </div>
       </div>
       <hr />
-      <div className="my-4 flex items-center gap-3 px-3 w-full justify-between">
+      <div className="my-5 flex items-center gap-3 px-3 w-full justify-between">
         <svg
           width="24"
           height="24"
@@ -105,16 +104,16 @@ export default function BeauticianCart() {
             strokeLinejoin="round"
           />
         </svg>
-        <span className="px-6 py-2 border border-blue-400 rounded bg-blue-100 text-sm">
+        <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
           09:00
         </span>
-        <span className="px-6 py-2 border border-blue-400 rounded bg-blue-100 text-sm">
+        <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
           09:00
         </span>
-        <span className="px-6 py-2 border border-blue-400 rounded bg-blue-100 text-sm">
+        <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
           09:00
         </span>
-        <span className="px-6 py-2 border border-blue-400 rounded bg-blue-100 text-sm">
+        <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
           09:00
         </span>
         <svg

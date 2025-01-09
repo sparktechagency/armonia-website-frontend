@@ -12,7 +12,7 @@ export default function ProfileCategory({
   if (!withName) {
     return (
       <span
-        className={`w-[60px] h-[60px] flex items-center justify-center text-white rounded-full text-2xl font-medium uppercase ${
+        className={`w-10 lg:w-[60px] h-10 lg:h-[60px] flex items-center justify-center text-white rounded-full text-lg lg:text-2xl font-medium uppercase ${
           category === "Classic"
             ? "bg-yellow-500"
             : category === "Elite"
@@ -27,7 +27,7 @@ export default function ProfileCategory({
 
   return (
     <p
-      className={`flex items-center gap-5 font-medium text-2xl ${
+      className={`flex items-center gap-5 font-medium  text-lg lg:text-2xl ${
         category === "Classic"
           ? "text-yellow-500"
           : category === "Elite"
@@ -36,7 +36,7 @@ export default function ProfileCategory({
       } ${className}`}
     >
       <span
-        className={`w-[60px] h-[60px] flex items-center justify-center text-white rounded-full uppercase ${
+        className={`w-10 lg:w-[60px] h-10 lg:h-[60px] flex items-center justify-center text-white rounded-full uppercase ${
           category === "Classic"
             ? "bg-yellow-500"
             : category === "Elite"

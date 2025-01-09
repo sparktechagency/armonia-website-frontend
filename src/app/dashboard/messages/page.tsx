@@ -69,7 +69,7 @@ export default function Page() {
           </div>
 
           {/* User List */}
-          <div className="px-6 mt-6">
+          <div className="px-3 mt-6">
             {users.map((user, index) => (
               <div
                 key={index}

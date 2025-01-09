@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     (<footer className="bg-gradient-pink-blue text-blue-300">
-      <div className="px-6 lg:px-36 py-8 lg:py-20 flex flex-col lg:flex-row items-center justify-between bg-blue-50 gap-10">
+      <div className="px-3 xl:px-36 py-8 lg:py-20 flex flex-col lg:flex-row items-center justify-between bg-blue-50 gap-10">
         <div>
           <Image
             src="/logo-footer.png"
@@ -68,7 +68,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <p className="py-3 text-center font-nunito bg-gradient-to-b from-[#7E8EAC] to-[#142F62] text-white">
+      <p className="py-3 text-sm md:text-base text-center font-nunito bg-gradient-to-b from-[#7E8EAC] to-[#142F62] text-white">
         Copyright © <span>{new Date().getFullYear()}</span> Vibely. All Rights
         Reserved
       </p>

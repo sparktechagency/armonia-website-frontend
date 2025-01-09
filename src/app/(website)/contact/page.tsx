@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 
 export default function page() {
   return (<>
-    <section className="py-20 px-6 lg:px-36 flex gap-16 justify-center flex-col-reverse lg:flex-row">
+    <section className="py-20 px-3 xl:px-36 flex gap-16 justify-center flex-col-reverse lg:flex-row">
       <Image
         src="/help.png"
         alt="help"
@@ -128,7 +128,7 @@ export default function page() {
         </div>
       </div>
     </section>
-    <section className="py-20 px-6 lg:px-36 text-center bg-yellow-50">
+    <section className="py-20 px-3 xl:px-36 text-center bg-yellow-50">
       <p className="font-semibold text-yellow-500">SCHEDULE YOUR PRESENCE</p>
       <h2 className="font-bold text-5xl text-blue-500 font-Playfair_Display mb-5">
         Get in touch

@@ -41,7 +41,7 @@ export default function Nav() {
 
   return (
     <nav
-      className={`px-6 lg:px-36 py-4 flex items-center justify-between top-0 bg-white shadow-lg z-50 sticky`}
+      className={`px-3 xl:px-36 py-4 flex items-center justify-between top-0 bg-white shadow-lg z-50 sticky`}
     >
       <Link href="/" onClick={() => setActive("Home")}>
         <Image
@@ -57,10 +57,10 @@ export default function Nav() {
       </Link>
       {open ? (
         <svg
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           viewBox="0 0 20 20"
-          className="w-8 h-8 cursor-pointer lg:hidden"
+          className="w-7 h-7 cursor-pointer lg:hidden"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           onClick={() => setOpen(false)}
@@ -78,7 +78,7 @@ export default function Nav() {
           width="20"
           height="20"
           viewBox="0 0 20 20"
-          className="w-8 h-8 cursor-pointer lg:hidden"
+          className="w-7 h-7 cursor-pointer lg:hidden"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           onClick={() => setOpen(true)}
@@ -133,7 +133,7 @@ export default function Nav() {
               alt={appContext.user.name}
               width={50}
               height={50}
-              className="rounded-full overflow-hidden w-[50px] h-[50px] object-cover"
+              className="rounded-full overflow-hidden min-w-[50px] w-[50px] h-[50px] object-cover"
             />
             <p className="font-semibold">{appContext.user.name}</p>
             <svg
@@ -175,7 +175,7 @@ export default function Nav() {
         ) : (
           <div className="flex items-center gap-5">
             <Button
-              className="px-6 rounded"
+              className="px-3 rounded"
               paddingY={12}
               gradientBorder
               openModalOnClick={<Login />}
@@ -183,7 +183,7 @@ export default function Nav() {
               Login
             </Button>
             <Button
-              className="px-6 rounded"
+              className="px-3 rounded"
               paddingY={12}
               openModalOnClick={<Register />}
             >

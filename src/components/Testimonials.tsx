@@ -3,27 +3,24 @@ import Image from "next/image";
 
 export default function Testimonials() {
   return (
-    (<section className="px-6 lg:px-36 py-16 text-center bg-yellow-50">
+    <section className="px-3 xl:px-36 py-16 text-center bg-yellow-50">
       <p className="text-yellow-500">Testimonials</p>
-      <h3 className="text-5xl font-semibold text-blue-500 font-Playfair_Display">
+      <h3 className="text-3xl md:text-5xl font-semibold text-blue-500 font-Playfair_Display px-2">
         What our Customers says...
       </h3>
-      <div className="my-14 flex h-[688px] bg-blue-500 rounded-[40px] items-center justify-center gap-44">
+      <div className="my-14 min-h-[688px] bg-blue-500 rounded-[40px] flex flex-col lg:flex-row items-center justify-center gap-44">
         <div className="flex justify-center max-w-xl w-full">
-          <span className="w-[70px] h-[228px] bg-white rounded-full block mr-3"></span>
-          <span className="w-[70px] h-[443px] bg-white rounded-full block relative">
-            <div className="w-[280px] h-[280px] rounded-full border-4 border-white overflow-hidden flex items-center justify-center absolute bottom-10 left-5">
-              <Image
-                src="/beautician.jpg"
-                alt="quote"
-                width={280}
-                height={280}
-                style={{
-                  maxWidth: "100%",
-                  height: "auto"
-                }} />
-            </div>
-          </span>
+          <div className="hidden lg:block w-[70px] h-[228px] bg-white rounded-full mr-3"/>
+          <div className="hidden lg:block w-[70px] h-[443px] bg-white rounded-full -mr-10"/>
+          <div className="w-[280px] h-[280px] my-auto rounded-full border-4 border-white overflow-hidden flex items-center justify-center">
+            <Image
+              src="/beautician.jpg"
+              alt="quote"
+              width={280}
+              height={280}
+              className="w-full h-full"
+            />
+          </div>
         </div>
         <div className="text-white max-w-xl text-start relative">
           <svg
@@ -63,6 +60,6 @@ export default function Testimonials() {
           </svg>
         </div>
       </div>
-    </section>)
+    </section>
   );
 }
