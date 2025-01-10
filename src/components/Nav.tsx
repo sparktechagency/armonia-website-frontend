@@ -104,7 +104,7 @@ export default function Nav() {
         </svg>
       )}
       <ul
-        className={`flex flex-col lg:flex-row items-center gap-6 lg:gap-24 text-lg fixed lg:static bg-white lg:bg-none px-3 lg:px-0 pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen lg:h-auto top-0 -z-10 ${
+        className={`flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-24 text-lg fixed lg:static bg-white lg:bg-none px-3 lg:px-0 pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen lg:h-auto top-0 -z-10 ${
           open ? "right-0" : "-right-full"
         } transition-all duration-500`}
       >

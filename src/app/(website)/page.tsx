@@ -73,7 +73,7 @@ export default function page() {
         <h3 className="text-3xl lg:text-5xl  font-semibold text-blue-500 font-Playfair_Display">
           Recommended
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-3 xl:px-36 mt-8 md:mt-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-6 xl:px-36 mt-8 md:mt-14">
           <BeauticianCart />
           <BeauticianCart />
           <BeauticianCart />

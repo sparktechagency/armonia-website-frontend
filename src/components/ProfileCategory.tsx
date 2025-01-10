@@ -27,7 +27,7 @@ export default function ProfileCategory({
 
   return (
     <p
-      className={`flex items-center gap-5 font-medium  text-lg lg:text-2xl ${
+      className={`flex items-center gap-1.5 sm:gap-3 lg:gap-5 font-medium  text-lg lg:text-2xl ${
         category === "Classic"
           ? "text-yellow-500"
           : category === "Elite"

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 export default function Testimonials() {
   return (
@@ -59,6 +60,15 @@ export default function Testimonials() {
             />
           </svg>
         </div>
+      </div>
+      <div className="flex gap-4 items-center justify-center">
+        {/* Left Button */}
+        <button className="flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-white shadow hover:bg-gray-200 transition">
+          <IoChevronBack className="text-[#382A3F] size-8" />
+        </button>
+        <button className="flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-[#382A3F] shadow hover:bg-[#4A3B50] transition">
+          <IoChevronForward className="text-white size-8" />
+        </button>
       </div>
     </section>
   );
