@@ -80,7 +80,7 @@ export default function page() {
         </div>
       </section>
       <Testimonials />
-      {/* <Contact /> */}
+      <Contact />
     </>
   );
 }
