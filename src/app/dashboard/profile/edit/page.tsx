@@ -5,15 +5,15 @@ import React from "react";
 export default function page() {
   return (
     <section className="bg-yellow-50 w-full">
-      <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
+      <h1 className="text-xl md:text-2xl font-semibold w-full bg-blue-500 px-3 xl:px-5 py-4 text-white ">
         Edit Profile
       </h1>
-      <div className="bg-white p-5 rounded-lg shadow-md flex gap-6 items-center w-1/2 mx-auto mt-14">
+      <div className="bg-white p-5 rounded-lg shadow-md flex gap-6 items-center md:w-1/2 mx-3 md:mx-auto mt-6 ">
         <div className="mb-4">
           <Image
             height={300}
             width={300}
-            src="/myprofile.png"
+            src="/beautician.jpg"
             alt="Profile Image"
           />
         </div>
@@ -39,9 +39,9 @@ export default function page() {
         </div>
       </div>
       <div className="mt-6 flex justify-center w-full">
-        <div className="w-1/4">
+        <div className="md:w-1/4">
           <Link href="">
-            <button className="hover:bg-[#f1f3f7] text-white hover:text-black py-2 px-4 border-2 font-bold rounded-md bg-[#1F4B99] transition duration-300 w-full">
+            <button className="hover:bg-[#f1f3f7] text-white hover:text-black py-2 px-4 border-2 font-bold rounded-md bg-[#1F4B99] transition duration-300 w-full text-sm md:text-base">
               Save Changes
             </button>
           </Link>

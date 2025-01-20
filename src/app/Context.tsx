@@ -37,12 +37,12 @@ const dashboardLinks: {
       href: "/dashboard/bookings",
       menu: [
         {
-          name: "Booked Services",
-          href: "/dashboard/bookings",
-        },
-        {
           name: "Send Request",
           href: "/dashboard/bookings/pending",
+        },
+        {
+          name: "Booked Services",
+          href: "/dashboard/bookings",
         },
       ],
     },
@@ -60,7 +60,7 @@ const dashboardLinks: {
         },
         {
           name: "Send Request",
-          href: "/dashboard/bookings/completed-services",
+          href: "/dashboard/bookings/pending",
         },
       ],
     },

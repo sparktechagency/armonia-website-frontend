@@ -7,6 +7,8 @@ import Register from "./Register";
 import Login from "./Login";
 import { context } from "@/app/Context";
 import { redirect } from "next/navigation";
+import { MdOutlineClose } from "react-icons/md";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function Nav() {
   const links = [
@@ -56,54 +58,19 @@ export default function Nav() {
         />
       </Link>
       {open ? (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          className="w-7 h-7 cursor-pointer lg:hidden"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={() => setOpen(false)}
-        >
-          <path
-            d="M6 18L18 6M6 6L18 18"
-            stroke="#2B2A2A"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <MdOutlineClose
+          className="lg:hidden"
+          size={22}
+          onClick={() => setOpen((c) => !c)}
+        />
       ) : (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          className="w-7 h-7 cursor-pointer lg:hidden"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={() => setOpen(true)}
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M3 5C3 4.44772 3.44772 4 4 4H16C16.5523 4 17 4.44772 17 5C17 5.55228 16.5523 6 16 6H4C3.44772 6 3 5.55228 3 5Z"
-            fill="#2B2A2A"
-          />
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M3 10C3 9.44772 3.44772 9 4 9H16C16.5523 9 17 9.44772 17 10C17 10.5523 16.5523 11 16 11H4C3.44772 11 3 10.5523 3 10Z"
-            fill="#2B2A2A"
-          />
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M3 15C3 14.4477 3.44772 14 4 14H16C16.5523 14 17 14.4477 17 15C17 15.5523 16.5523 16 16 16H4C3.44772 16 3 15.5523 3 15Z"
-            fill="#2B2A2A"
-          />
-        </svg>
+        <GiHamburgerMenu
+          className="lg:hidden"
+          size={22}
+          onClick={() => setOpen((c) => !c)}
+        />
       )}
-      <ul
+      <div
         className={`flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-24 text-lg fixed lg:static bg-white lg:bg-none px-3 lg:px-0 pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen lg:h-auto top-0 -z-10 ${
           open ? "right-0" : "-right-full"
         } transition-all duration-500`}
@@ -152,7 +119,7 @@ export default function Nav() {
                 strokeLinejoin="round"
               />
             </svg>
-            <ul
+            <div
               className={`absolute w-full bg-white top-16 text-base font-normal overflow-hidden transition-all ${
                 dashboardMenuOpen ? "h-auto" : "h-0"
               }`}
@@ -161,16 +128,16 @@ export default function Nav() {
                 .dashboardRoutes(appContext.user.role)
                 .map(({ name, href }, index) => (
                   <Link key={index} href={href}>
-                    <li className="p-2 hover:bg-slate-200">{name}</li>
+                    <p className="p-2 hover:bg-slate-200">{name}</p>
                   </Link>
                 ))}
-              <li
+              <div
                 className="p-2 hover:bg-slate-200 cursor-pointer"
                 onClick={appContext.logout}
               >
                 Logout
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="flex items-center gap-5">
@@ -191,7 +158,7 @@ export default function Nav() {
             </Button>
           </div>
         )}
-      </ul>
+      </div>
     </nav>
   );
 }

@@ -3,7 +3,7 @@ import React from "react";
 
 export default function page() {
   return (<>
-    <header className="relative h-[350px] flex items-center justify-center bg-[#435981]">
+    <header className="relative h-[350px] flex items-center justify-center bg-[#435981] px">
       <Image
         src="/headerBG.png"
         alt="header"
@@ -16,7 +16,7 @@ export default function page() {
         Privacy Policy
       </h1>
     </header>
-    <section className="max-w-screen-xl mx-auto my-10">
+    <section className="max-w-screen-xl mx-auto my-10 px-3">
       <p>
         At [Your Company Name], we value your privacy. This Privacy Policy
         outlines the types of personal information we collect and how we use,

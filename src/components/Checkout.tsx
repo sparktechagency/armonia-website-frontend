@@ -28,7 +28,7 @@ export default function Checkout() {
     0
   );
   return (
-    (<div className="gradient-bg max-w-[1440px] w-full py-16 px-56 relative">
+    (<div className="bg-white max-w-[1440px] w-full py-16 px-10 lg:px-56 relative">
       <div className="text-black lg:flex justify-center items-start gap-8">
         <Image
           src={"/checkout.png"}

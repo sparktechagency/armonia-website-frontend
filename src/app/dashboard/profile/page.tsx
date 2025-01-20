@@ -5,18 +5,18 @@ import React from "react";
 export default function page() {
   return (
     <section className="bg-yellow-50 w-full">
-      <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
+      <h1 className="text-2xl font-semibold w-full bg-blue-500 px-3 md:px-5 py-4 text-white">
         My Profile
       </h1>
-      <div className="mt-6 flex justify-end mx-6">
+      <div className="mt-6 flex justify-end lg:mx-6 px-3">
         <Link href="">
-          <button className="bg-[#f1f3f7] text-black py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300">
+          <button className="bg-[#f1f3f7] text-black py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base ">
             Change Password
           </button>
         </Link>
       </div>
 
-      <div className="bg-white p-5 rounded-lg shadow-md flex gap-6 items-center w-1/2 mx-auto mt-6">
+      <div className="bg-white p-5 rounded-lg shadow-md flex gap-6 items-center md:w-1/2 mx-3 md:mx-auto mt-6 ">
         <div className="mb-4">
           <Image
             height={300}
@@ -48,7 +48,7 @@ export default function page() {
       </div>
       <div className="flex justify-center mt-14">
         <Link href="profile/edit">
-          <button className="bg-[#1c3057] flex  text-white gap-3 text-black  py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300">
+          <button className="bg-[#1c3057] flex items-center text-white gap-3 py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base">
             <svg
               width="24"
               height="25"

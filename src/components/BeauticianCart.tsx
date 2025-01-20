@@ -5,10 +5,10 @@ import Link from "next/link";
 
 export default function BeauticianCart() {
   return (
-    <Link href={`/beauticians/${44}`}>
-      <div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md">
-        <ProfileCategory category="Elite" className="absolute top-4 right-4" />
-        <div className="flex px-5 lg:px-8 py-6 gap-4">
+    <div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md">
+      <ProfileCategory category="Elite" className="absolute top-4 right-4" />
+      <Link href={`/beauticians/${44}`}>
+        <div className="flex flex-col sm:flex-row px-5 lg:px-8 py-6 gap-4">
           <div className="w-20 xl:w-32 h-20 xl:h-32 rounded-full overflow-hidden flex items-center justify-center">
             <Image
               src="/beautician.jpg"
@@ -70,78 +70,80 @@ export default function BeauticianCart() {
               EC3P
             </p>
             <div className="flex items-center gap-2 text-white">
-              <span className="bg-blue-400 w-full block text-center px-2 rounded text-base">
+              <span className="bg-blue-400 w-full block text-center px-2 py-0.5 rounded text-base">
                 Hair
               </span>
-              <span className="bg-blue-400 w-full block text-center px-2 rounded text-base">
+              <span className="bg-blue-400 w-full block text-center px-2 py-0.5 rounded text-base">
                 Nails
               </span>
-              <span className="bg-blue-400 w-full block text-center px-2 rounded text-base">
+              <span className="bg-blue-400 w-full block text-center px-2 py-0.5 rounded text-base">
                 Makeup
               </span>
             </div>
           </div>
         </div>
-        <hr />
-        <div className="my-5 flex items-center gap-3 px-3 w-full justify-between">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.25 12.2744L19.25 12.2744"
-              stroke="#3F5362"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976"
-              stroke="#3F5362"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
-            09:00
-          </span>
-          <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
-            09:00
-          </span>
-          <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
-            09:00
-          </span>
-          <span className="px-3 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-sm">
-            09:00
-          </span>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M19.75 11.7256L4.75 11.7256"
-              stroke="#3F5362"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502"
-              stroke="#3F5362"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
+      </Link>
+      <hr />
+      <div className="my-5 flex items-center gap-2 sm:gap-3 px-3 w-full justify-between">
+        <svg
+          className="min-w-3.5"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4.25 12.2744L19.25 12.2744"
+            stroke="#3F5362"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976"
+            stroke="#3F5362"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
+          09:00
+        </span>
+        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
+          09:00
+        </span>
+        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
+          09:00
+        </span>
+        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
+          09:00
+        </span>
+        <svg
+          className="min-w-3.5"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19.75 11.7256L4.75 11.7256"
+            stroke="#3F5362"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502"
+            stroke="#3F5362"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
-    </Link>
+    </div>
   );
 }

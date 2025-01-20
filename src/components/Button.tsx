@@ -7,7 +7,6 @@ export default function Button({
   className,
   openModalOnClick,
   gradientBorder = false,
-  paddingY = 16,
   type = "button",
 }: Readonly<{
   children: React.ReactNode;
@@ -24,9 +23,9 @@ export default function Button({
       className={
         `${
           gradientBorder ? " text-blue-500" : "bg-blue-500 text-white"
-        } font-nunito border-blue-500 border-2 ` + className
+        } font-nunito border-blue-500 border-2 p-3 lg:p-4 ` + className
       }
-      style={{ paddingTop: paddingY + "px", paddingBottom: paddingY + "px" }}
+      // style={{ paddingTop: paddingY + "px", paddingBottom: paddingY + "px" }}
       type={type}
       onClick={() => appContext?.setModal(openModalOnClick)}
     >
