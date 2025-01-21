@@ -11,7 +11,8 @@ export default function layout({
   return (
     <body className="font-lato max-w-[1920px] mx-auto h-screen">
       <Nav />
-      <main className="xl:px-36 flex h-[calc(100vh-82px)]">
+      {/* h-[calc(100vh-82px)] */}
+      <main className="xl:px-36 flex">
         <Sidebar />
         {children}
       </main>

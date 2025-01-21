@@ -7,7 +7,7 @@ export default function page() {
         Earning
       </h1>
       <div className="px-2 mt-5">
-        <div className="flex items-center justify-between">
+        <div className="lg:flex items-center justify-between">
           <div className="bg-primary text-white text-center py-6 rounded-lg shadow-md max-w-md w-full mx-auto bg-blue-500">
             <h1 className="text-lg font-bold">Your balance</h1>
             <p className="text-4xl font-semibold mt-2">$340</p>
@@ -27,7 +27,7 @@ export default function page() {
         </div>
 
         {/* History Section */}
-        <div className="mt-8 w-full">
+        <div className="mt-8 w-full max-w-[100vw] overflow-scroll">
           <h2 className="text-xl font-bold mb-4">History</h2>
           <table className="w-full text-left border-collapse">
             <thead>
@@ -47,7 +47,7 @@ export default function page() {
                       {index === 0 ? "Withdraw" : "William Send"}
                     </td>
                     <td className="py-2 px-4 border">20*********4560</td>
-                    <td className="py-2 px-4 border">03-16-25 | 01:30 AM</td>
+                    <td className="py-2 px-4 border whitespace-pre">03-16-25 | 01:30 AM</td>
                     <td
                       className={`py-2 px-4 border font-semibold ${
                         index === 0 ? "text-red-500" : "text-green-500"

@@ -6,11 +6,12 @@ import Button from "./Button";
 import Register from "./Register";
 import Login from "./Login";
 import { context } from "@/app/Context";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { MdOutlineClose } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function Nav() {
+  const path = usePathname();
   const links = [
     { name: "Home", href: "/" },
     { name: "Beauticians", href: "/beauticians" },
@@ -24,14 +25,15 @@ export default function Nav() {
   const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
 
   useEffect(() => {
-    const path = window.location.pathname;
-
     links.forEach(({ name, href }) => {
       if (path === href) {
         setActive(name);
       }
     });
   }, []);
+  useEffect(() => {
+    setOpen(false);
+  }, [path]);
 
   useEffect(() => {
     if (open) {
@@ -40,7 +42,6 @@ export default function Nav() {
       document.body.style.overflow = "auto";
     }
   }, [open]);
-
   return (
     <nav
       className={`px-3 xl:px-36 py-4 flex items-center justify-between top-0 bg-white shadow-lg z-50 sticky`}
@@ -143,7 +144,7 @@ export default function Nav() {
           <div className="flex items-center gap-5">
             <Button
               className="px-3 rounded"
-              paddingY={12}
+              paddingY={2}
               gradientBorder
               openModalOnClick={<Login />}
             >
@@ -151,7 +152,7 @@ export default function Nav() {
             </Button>
             <Button
               className="px-3 rounded"
-              paddingY={12}
+              paddingY={2}
               openModalOnClick={<Register />}
             >
               Signup
