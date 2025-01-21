@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Lato } from "next/font/google";
 import "./globals.css";
 import { Context } from "./Context";
+import StoreProvider from "./StoreProvider";
 
 const playfairDisplay = Playfair_Display({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -27,9 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${lato.variable}`}>
-      <Context>
-        {children}
-      </Context>
+      <StoreProvider>
+        <Context>{children}</Context>
+      </StoreProvider>
     </html>
   );
 }
