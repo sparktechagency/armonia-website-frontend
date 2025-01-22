@@ -28,9 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${lato.variable}`}>
-      <StoreProvider>
-        <Context>{children}</Context>
-      </StoreProvider>
+        <StoreProvider>
+          <Context>{children}</Context>
+        </StoreProvider>
     </html>
   );
 }

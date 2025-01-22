@@ -13,7 +13,7 @@ export default function Modal() {
 
   return (
     <section
-      className="w-screen h-screen bg-[#0000004d] fixed top-0 left-0 z-50 flex items-center justify-center"
+      className="w-screen h-screen bg-[#2f242acc] fixed top-0 left-0 z-50 flex items-center justify-center"
       onClick={() => appContext.setModal(null)} // Close modal when clicking outside
     >
       <div

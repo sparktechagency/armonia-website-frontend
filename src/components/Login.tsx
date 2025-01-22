@@ -3,12 +3,56 @@ import React, { useState, useContext } from "react";
 import { context } from "@/app/Context";
 import Forgot from "./Forgot";
 import Register from "./Register";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { usePostLoginMutation } from "@/redux/features/users/authApi";
+import Swal from "sweetalert2";
+import { useAppDispatch } from "@/redux/hook";
+import { setLogin } from "@/redux/features/users/authSlice";
+import { BtnSpenner } from "./Spinner";
+import Verify from "./Verify";
 
 export default function Login() {
   const appContext = useContext(context);
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [mutation, { isLoading }] = usePostLoginMutation();
+  const dispatch = useAppDispatch();
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const formValues: Record<string, any> = {};
+    formData.forEach((value, key) => {
+      formValues[key] = value;
+    });
+    try {
+      const res = await mutation(formValues).unwrap();
+      dispatch(
+        setLogin({
+          token: res.data.token,
+          user: res.data.user,
+        })
+      );
+      appContext?.setModal(null);
+      router.push("/dashboard/profile");
+    } catch (error: any) {
+      console.log(error);
+      if (error?.data?.message === "Please verify your email") {
+        return appContext?.setModal(
+          <Verify userId={error?.data?.data.id} redirect="login" />
+        );
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed!!",
+          text:
+            error.message ||
+            error?.data?.message ||
+            "Something went wrong. Please try again later.",
+        });
+      }
+    }
+  };
   return (
     <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
       <div className="text-center mb-6">
@@ -18,25 +62,12 @@ export default function Login() {
         <p className="text-gray-400">Please enter your e-mail and password:</p>
       </div>
 
-      <form
-        action=""
-        className="px-12"
-        onSubmit={() => {
-          appContext?.setUser({
-            name: "Linda",
-            email: "adsf@gmail.com",
-            image: "/beautician.jpg",
-            role: "user",
-          });
-
-          appContext?.setModal(null);
-          redirect("/dashboard/profile");
-        }}
-      >
+      <form className="px-12" onSubmit={handleSubmit}>
         <div className="mb-4 space-y-4">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
+            name="email"
             type="email"
             placeholder="Email"
             required
@@ -114,15 +145,15 @@ export default function Login() {
 
         <div className="mt-6">
           <button
-            className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300"
+            className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 flex justify-center items-center gap-2.5"
             type="submit"
           >
-            Log In
+            Log In {isLoading && <BtnSpenner />}
           </button>
           <div className="flex justify-end mt-2">
             <span
               onClick={() => appContext?.setModal(<Forgot />)}
-              className="text-sm text-gray-500"
+              className="text-sm text-gray-500 cursor-pointer"
             >
               Forgot your password?
             </span>

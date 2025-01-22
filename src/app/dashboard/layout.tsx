@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import Nav from "@/components/Nav";
 import Modal from "@/components/Modal";
+import { ToastContainer } from "react-toastify";
 
 export default function layout({
   children,
@@ -17,6 +18,7 @@ export default function layout({
         {children}
       </main>
       <Modal />
+      <ToastContainer />
     </body>
   );
 }

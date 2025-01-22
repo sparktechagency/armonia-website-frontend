@@ -8,11 +8,13 @@ interface AuthState {
 }
 
 // Define the type for the User (adjust based on your actual user model)
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
-  // Add other fields as needed
+  type: "customer" | "beautician";
+  profile?: string;
+  image?: string;
 }
 
 // Define the initial state with the type

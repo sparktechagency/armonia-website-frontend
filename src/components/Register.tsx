@@ -2,42 +2,65 @@
 import { context } from "@/app/Context";
 import React, { useContext, useState } from "react";
 import Login from "./Login";
+import { cn } from "@/lib/utils";
+import { useRegistrationMutation } from "@/redux/features/users/authApi";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import { BtnSpenner } from "./Spinner";
+import Verify from "./Verify";
 
 export default function Register() {
   const appContext = useContext(context);
+  const [type, setType] = useState<string | null>(null);
+  const [matchingPass, setMatchingPass] = useState({ pass: "", confirm: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [confrimPassword, setConfrimPassword] = useState(false);
+  const [mutation, { isLoading }] = useRegistrationMutation();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const formValues: Record<string, any> = {};
+    formData.forEach((value, key) => {
+      formValues[key] = value;
+    });
+    if (formValues.password !== formValues.confirmPassword || !type) {
+      return;
+    }
+    try {
+      const res = await mutation(formValues).unwrap();
+      Swal.fire({
+        icon: "success",
+        title: "Success!!",
+        text: " OTP sent to your email. Please verify your account.",
+        draggable: true,
+        timer: 5000,
+        timerProgressBar: true,
+      });
+      appContext?.setModal(<Verify userId={res.data.id} />);
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!!",
+        text:
+          error.message ||
+          error?.data?.message ||
+          "Something went wrong. Please try again later.",
+      });
+    }
+  };
 
   return (
     <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
-      <div className="text-center mb-6">
+      <div className="text-center mb-8">
         <h1 className="text-2xl font-bold text-black">Sign Up</h1>
         <p className="text-gray-400">Please enter your e-mail and password:</p>
       </div>
-
-      <div className="flex justify-evenly items-center mb-5">
-        <div className="mt-4 text-xl font-semibold font-lato text-[#142f62] flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2 h-5 w-5 rounded-full border-gray-300 text-[#142f62] focus:ring-[#142f62]"
-          />
-          As a Client
-        </div>
-
-        <div className="mt-4 text-xl font-semibold font-lato text-[#142f62] flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2 h-5 w-5 rounded-full border-gray-300 text-[#142f62] focus:ring-[#142f62]"
-          />
-          As a Beautician
-        </div>
-      </div>
-
-      <form action="" className="px-12">
+      <form onSubmit={handleSubmit} className="px-12">
         <div className="mb-4 space-y-4">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="username"
+            name="name"
             type="text"
             placeholder="User Name"
             required
@@ -45,6 +68,7 @@ export default function Register() {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
+            name="email"
             type="email"
             placeholder="Email"
             required
@@ -59,9 +83,12 @@ export default function Register() {
             placeholder="Password"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
+            onChange={(e) =>
+              setMatchingPass((c) => ({ ...c, pass: e.target.value }))
+            }
           />
           <span
-            className="cursor-pointer absolute right-3 top-2 text-gray-600"
+            className="cursor-pointer absolute right-3 top-2 text-gray-600 select-none"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? (
@@ -123,14 +150,17 @@ export default function Register() {
         <div className="relative mb-4">
           <input
             type={confrimPassword ? "text" : "password"}
-            name="password"
+            name="confirmPassword"
             id="password"
             placeholder="Confirm Password"
             className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:outline-none focus:ring focus:ring-[#142f62]"
             required
+            onChange={(e) =>
+              setMatchingPass((c) => ({ ...c, confirm: e.target.value }))
+            }
           />
           <span
-            className="cursor-pointer absolute right-3 top-2 text-gray-600"
+            className="cursor-pointer absolute right-3 top-2 text-gray-600 select-none"
             onClick={() => setConfrimPassword(!confrimPassword)}
           >
             {confrimPassword ? (
@@ -187,11 +217,62 @@ export default function Register() {
               </svg>
             )}
           </span>
+          <p
+            className={cn("text-sm text-red-500 mt-1", {
+              hidden: !(
+                matchingPass.pass &&
+                matchingPass.confirm &&
+                matchingPass.pass !== matchingPass.confirm
+              ),
+            })}
+          >
+            Confirm password doesn't match!
+          </p>
         </div>
+        <div className="flex justify-evenly items-center mb-5">
+          <div className="mt-4 text-xl font-semibold font-lato text-[#142f62] flex items-center">
+            <input
+              type="checkbox"
+              id="type"
+              value={"customer"}
+              name="type"
+              checked={!!(type === "customer")}
+              onChange={() =>
+                setType((c) => (c === "customer" ? null : "customer"))
+              }
+              className="mr-2 h-5 w-5 rounded-full border-gray-300 text-[#142f62] focus:ring-[#142f62]"
+            />
+            As a Client
+          </div>
 
+          <div className="mt-4 text-xl font-semibold font-lato text-[#142f62] flex items-center">
+            <input
+              type="checkbox"
+              id="type"
+              name="type"
+              value={"beautician"}
+              checked={!!(type === "beautician")}
+              onChange={() =>
+                setType((c) => (c === "beautician" ? null : "beautician"))
+              }
+              className="mr-2 h-5 w-5 rounded-full border-gray-300 text-[#142f62] focus:ring-[#142f62]"
+            />
+            As a Beautician
+          </div>
+        </div>
+        <p
+          className={cn("text-sm text-red-500 text-center", {
+            hidden: !!type,
+          })}
+        >
+          Account type select is required!
+        </p>
         <div className="text-center mt-6">
-          <button className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300">
-            Sign Up
+          <button
+            disabled={isLoading}
+            className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 flex justify-center items-center gap-2.5"
+          >
+            Sign Up {isLoading && <BtnSpenner />}
           </button>
         </div>
       </form>

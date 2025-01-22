@@ -1,25 +1,83 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useContext, useState } from "react";
+import { context } from "@/app/Context";
+import Login from "./Login";
+import OTPInput from "react-otp-input";
+import { useVerifyEmailMutation } from "@/redux/features/users/authApi";
+import Swal from "sweetalert2";
+import { BtnSpenner } from "./Spinner";
+import { toast } from "react-toastify";
+import Forgot from "./Forgot";
+import { cn } from "@/lib/utils";
 
-export default function Verify() {
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]); // State for OTP inputs
-
-  const handleOtpChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const newOtp = [...otp];
-    newOtp[index] = e.target.value;
-    setOtp(newOtp);
+export default function Verify({
+  userId,
+  redirect,
+}: {
+  redirect?: string;
+  userId: string;
+}) {
+  const appContext = useContext(context);
+  const [otp, setOtp] = useState("");
+  const [mutation, { isLoading }] = useVerifyEmailMutation();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      if (otp.length !== 6)
+        throw new Error("Invalid OTP. Length must 6 character!");
+      await mutation({ userId, code: otp }).unwrap();
+      appContext?.setModal(<Login />);
+      toast.success("Verify Successful!", {
+        position: "bottom-center",
+        autoClose: 1000,
+      });
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!!",
+        text:
+          error.message ||
+          error?.data?.message ||
+          "Something went wrong. Please try again later.",
+      });
+    }
+  };
+  const handelResend = async () => {
+    try {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + "otp/resend?userId=" + userId
+      ).then((res) => res.json());
+      Swal.fire({
+        icon: res.ok ? "success" : "error",
+        text: res.message,
+      });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        text: "Something went wrong. Please try again later.",
+      });
+    }
   };
 
   return (
-    <div className="h-screen bg-white flex items-center justify-center">
-      <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg px-12">
+    <div className="bg-white flex items-center justify-center">
+      <form
+        onSubmit={handleSubmit}
+        className="w-[600px] mx-auto p-8 rounded-lg px-12"
+      >
         <div className="text-center mb-6 space-y-3">
           <div className="flex items-center lg:gap-40 gap-16">
-            <Link href={"/login"}>
+            <button
+              onClick={() =>
+                appContext?.setModal(
+                  redirect === "forgot" ? <Forgot /> : <Login />
+                )
+              }
+              className={cn("outline-none", {
+                invisible: !redirect,
+              })}
+            >
               <svg
                 width="24"
                 height="24"
@@ -34,8 +92,7 @@ export default function Verify() {
                   fill="#262626"
                 />
               </svg>
-            </Link>
-
+            </button>
             <h1 className="text-2xl font-bold text-black font-Playfair_Display">
               Verify OTP
             </h1>
@@ -44,36 +101,46 @@ export default function Verify() {
             Enter the code that was sent to your email.
           </p>
         </div>
-
-        <form action="" className="flex justify-around mb-3 ">
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              className="w-12 h-12 text-center border border-gray-300 text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="text"
-              value={digit}
-              maxLength={1}
-              onChange={(e) => handleOtpChange(e, index)}
+        <div className="flex justify-around mb-3 ">
+          <div className="text-4xl font-medium px-[2%]">
+            <OTPInput
+              value={otp}
+              onChange={setOtp}
+              numInputs={6}
+              inputStyle={{
+                height: "70px",
+                width: "20%",
+                margin: "2%",
+                background: "#E6F3EC",
+                border: "1px solid #142F62",
+                marginRight: "8px",
+                outline: "none",
+                borderRadius: "20px",
+                color: "#4E4E4E",
+              }}
+              renderSeparator={<span> </span>}
+              renderInput={(props) => <input {...props} />}
             />
-          ))}
-        </form>
+          </div>
+        </div>
 
-        <div className="text-center text-sm text-gray-500 flex justify-around">
+        <div className="text-center text-sm text-gray-500 flex justify-between px-4 py-2">
           <span>Didn&apos;t receive the code?</span>
-          <Link href="/resend-otp" className="text-green-500 ml-1">
+          <button
+            type="button"
+            onClick={handelResend}
+            className="text-green-500 ml-1 outline-none"
+          >
             Resend
-          </Link>
+          </button>
         </div>
 
-        <div className="mt-6">
-          <Link
-            href={"OTP/reset"}
-            className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300"
-          >
-            Verify
-          </Link>
+        <div className="my-4">
+          <button className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 flex justify-center items-center gap-2.5">
+            Verify {isLoading && <BtnSpenner />}
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

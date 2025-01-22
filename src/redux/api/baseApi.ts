@@ -10,28 +10,29 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: apiUrl,
     prepareHeaders: (headers, { getState }) => {
-    //   const token = Cookies.get("token");
-    //   if (token) {
-    //     headers.set("Authorization", `Bearer ${token}`);
-    //   }
+      //   const token = Cookies.get("token");
+      //   if (token) {
+      //     headers.set("Authorization", `Bearer ${token}`);
+      //   }
       headers.set("X-Custom-Header", "foobar");
       return headers;
     },
   }),
   tagTypes: [
-//     "portfolio",
-//     "business",
-//     "address",
-//     "service",
-//     "message",
-//     "review",
-//     "setting",
-//     "communication",
-//     "payments",
-//     "bits",
-//     "job",
-//     "promotion"
-//     , "referral"
+    "auth"
+    //     "portfolio",
+    //     "business",
+    //     "address",
+    //     "service",
+    //     "message",
+    //     "review",
+    //     "setting",
+    //     "communication",
+    //     "payments",
+    //     "bits",
+    //     "job",
+    //     "promotion"
+    //     , "referral"
   ],
   endpoints: () => ({}),
 });
