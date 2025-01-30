@@ -44,11 +44,11 @@ const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["auth"],
     }),
-    changePassword: builder.mutation({
-      query: (body) => {
-        const token = getFromLocalStorage("verify-token");
+    resetPassword: builder.mutation({
+      query: ({ body, endpoint }) => {
+        const token = sessionStorage.getItem("verify-token");
         return {
-          url: `users/forget-password`,
+          url: `auth/password/${endpoint}`,
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
           body,
@@ -64,5 +64,6 @@ export const {
   usePostLoginMutation,
   useForgotPasswordMutation,
   useVerifyEmailMutation,
-  useChangePasswordMutation,
+  useResetPasswordMutation
+  // useChangePasswordMutation,
 } = authApi;

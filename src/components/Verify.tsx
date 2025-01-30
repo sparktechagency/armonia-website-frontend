@@ -9,6 +9,7 @@ import { BtnSpenner } from "./Spinner";
 import { toast } from "react-toastify";
 import Forgot from "./Forgot";
 import { cn } from "@/lib/utils";
+import SetPassword from "./SetPassword";
 
 export default function Verify({
   userId,
@@ -25,8 +26,9 @@ export default function Verify({
     try {
       if (otp.length !== 6)
         throw new Error("Invalid OTP. Length must 6 character!");
-      await mutation({ userId, code: otp }).unwrap();
-      appContext?.setModal(<Login />);
+      const res = await mutation({ userId, code: otp }).unwrap();
+      sessionStorage.setItem("verify-token", res.data.token);
+      appContext?.setModal(redirect === "forgot" ? <SetPassword /> : <Login />);
       toast.success("Verify Successful!", {
         position: "bottom-center",
         autoClose: 1000,

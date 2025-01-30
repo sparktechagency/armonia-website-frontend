@@ -1,7 +1,8 @@
 "use client";
-import { AppStore, makeStore } from "@/redux/store";
+import { AppStore, makeStore, } from "@/redux/store";
 import { useRef } from "react";
 import { Provider } from "react-redux";
+// import { PersistGate } from "redux-persist/integration/react";
 // import { initializeCount } from '../lib/features/counter/counterSlice'
 
 export default function StoreProvider({
@@ -17,9 +18,11 @@ export default function StoreProvider({
     // storeRef.current.dispatch(initializeCount(count))
   }
 
+      // <PersistGate loading={null} persistor={persistor}>
+      // </PersistGate>
   return (
     <Provider store={storeRef.current}>
-      {children}
+        {children}
     </Provider>
   );
 }
