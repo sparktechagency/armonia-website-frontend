@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import Verify from "./Verify";
 import { context } from "@/app/Context";
-import { useForgotPasswordMutation } from "@/redux/features/users/authApi";
+import { useForgotPasswordMutation } from "@/redux/features/auth/authApi";
 import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
 import Login from "./Login";
@@ -39,7 +39,7 @@ export default function Forgot() {
     }
   };
   return (
-    <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
+    <div className="w-full md:w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
       <div className="text-center mb-6 space-y-3">
         <div className="flex items-center lg:gap-40 gap-16">
           <button
@@ -68,7 +68,7 @@ export default function Forgot() {
         <p className="text-gray-400">Please enter your e-mail</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="px-12">
+      <form onSubmit={handleSubmit} className="md:px-12">
         <div className="mb-4 space-y-4">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

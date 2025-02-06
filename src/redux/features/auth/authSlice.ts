@@ -13,7 +13,10 @@ export interface User {
   name: string;
   email: string;
   type: "customer" | "beautician";
+  phone?: string;
   profile?: string;
+  timeSlotIds?: string[]
+  bio?: string;
   image?: string;
 }
 

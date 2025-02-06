@@ -19,20 +19,8 @@ export const baseApi = createApi({
     },
   }),
   tagTypes: [
-    "auth"
-    //     "portfolio",
-    //     "business",
-    //     "address",
-    //     "service",
-    //     "message",
-    //     "review",
-    //     "setting",
-    //     "communication",
-    //     "payments",
-    //     "bits",
-    //     "job",
-    //     "promotion"
-    //     , "referral"
+    "auth",
+    "category"
   ],
   endpoints: () => ({}),
 });

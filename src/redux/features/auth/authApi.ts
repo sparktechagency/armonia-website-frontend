@@ -56,10 +56,20 @@ const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["auth"],
     }),
+    getProfile: builder.query({
+      query: () => {
+        return {
+          url: `profiles`,
+          method: "GET",
+        };
+      },
+      providesTags: ["auth"],
+    })
   }),
 });
 
 export const {
+  useGetProfileQuery,
   useRegistrationMutation,
   usePostLoginMutation,
   useForgotPasswordMutation,

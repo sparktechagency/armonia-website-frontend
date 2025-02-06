@@ -3,7 +3,7 @@ import { context } from "@/app/Context";
 import React, { useContext, useState } from "react";
 import Login from "./Login";
 import { cn } from "@/lib/utils";
-import { useRegistrationMutation } from "@/redux/features/users/authApi";
+import { useRegistrationMutation } from "@/redux/features/auth/authApi";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { BtnSpenner } from "./Spinner";
@@ -50,12 +50,12 @@ export default function Register() {
   };
 
   return (
-    <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
+    <div className="w-full md:w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold text-black">Sign Up</h1>
         <p className="text-gray-400">Please enter your e-mail and password:</p>
       </div>
-      <form onSubmit={handleSubmit} className="px-12">
+      <form onSubmit={handleSubmit} className="md:px-12">
         <div className="mb-4 space-y-4">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

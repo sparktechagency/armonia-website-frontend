@@ -1,14 +1,20 @@
+"use client";
+
+import { useAppSelector } from "@/redux/hook";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export default function page() {
+  const { user } = useAppSelector((state) => state.auth);
+  console.log({ user });
   return (
-    <section className="bg-yellow-50 w-full">
+    <section className="bg-yellow-50 w-full md:px-6 min-h-screen pb-7">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-3 md:px-5 py-4 text-white">
         My Profile
       </h1>
-      <div className="mt-6 flex justify-end lg:mx-6 px-3">
+      <div className="mt-6 flex justify-between lg:mx-6 px-3">
+        <div className="flex justify-start items-center gap-2"></div>
         <Link href="">
           <button className="bg-[#f1f3f7] text-black py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base ">
             Change Password
@@ -16,7 +22,7 @@ export default function page() {
         </Link>
       </div>
 
-      <div className="bg-white p-5 rounded-lg shadow-md flex gap-6 items-center md:w-1/2 mx-3 md:mx-auto mt-6 ">
+      <div className="bg-white p-5 rounded-lg shadow-md flex gap-6 items-center mx-3 md:mx-auto mt-6 ">
         <div className="mb-4">
           <Image
             height={300}
@@ -27,23 +33,38 @@ export default function page() {
         </div>
 
         <div className="w-full">
-          <input
-            type="text"
-            placeholder="Anilo Mari"
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
-          />
+          <label>
+            Name
+            <input
+              type="text"
+              defaultValue={user?.name}
+              placeholder="Anilo Mari"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
+            />
+          </label>
+          <label>
+            Email
+            <input
+              type="text"
+              defaultValue={user?.email}
+              placeholder="abc@gmail.com"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
+            />
+          </label>
 
           <input
             type="text"
-            placeholder="abc@gmail.com"
+            defaultValue={user?.phone}
+            placeholder="+213 48992201"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
           />
 
-          <input
-            type="number"
-            placeholder="213 48992201298"
+          {/* <input
+            type="text"
+            defaultValue={user?.phone}
+            placeholder="+213 48992201"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
-          />
+          /> */}
         </div>
       </div>
       <div className="flex justify-center mt-14">

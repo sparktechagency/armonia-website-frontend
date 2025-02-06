@@ -1,28 +1,29 @@
 "use client";
-import { AppStore, makeStore, } from "@/redux/store";
-import { useRef } from "react";
+
+import { persistor, store } from "@/redux/store";
+import { ReactNode } from "react";
 import { Provider } from "react-redux";
-// import { PersistGate } from "redux-persist/integration/react";
-// import { initializeCount } from '../lib/features/counter/counterSlice'
+import { PersistGate } from "redux-persist/integration/react";
 
-export default function StoreProvider({
-  //   count,
-  children,
-}: {
-  //   count: number
-  children: React.ReactNode;
-}) {
-  const storeRef = useRef<AppStore | null>(null);
-  if (!storeRef.current) {
-    storeRef.current = makeStore();
-    // storeRef.current.dispatch(initializeCount(count))
-  }
+interface ProvidersProps {
+  children: ReactNode;
+}
 
-      // <PersistGate loading={null} persistor={persistor}>
-      // </PersistGate>
+const Providers = ({ children }: ProvidersProps) => {
   return (
-    <Provider store={storeRef.current}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         {children}
+      </PersistGate>
     </Provider>
   );
-}
+};
+
+export default Providers;
+
+// const UserProvider = () => {
+//   const dispatch = useAppDispatch();
+//   const { data, isLoading, isError } = useGetProfileQuery(undefined);
+  
+//   return <div></div>;
+// };

@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { context } from "@/app/Context";
 import Login from "./Login";
 import OTPInput from "react-otp-input";
-import { useVerifyEmailMutation } from "@/redux/features/users/authApi";
+import { useVerifyEmailMutation } from "@/redux/features/auth/authApi";
 import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
 import { toast } from "react-toastify";
@@ -66,7 +66,7 @@ export default function Verify({
     <div className="bg-white flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="w-[600px] mx-auto p-8 rounded-lg px-12"
+        className="w-full lg:w-[600px] mx-auto p-8 rounded-lg md:px-12"
       >
         <div className="text-center mb-6 space-y-3">
           <div className="flex items-center lg:gap-40 gap-16">

@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { createElement, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./Button";
@@ -58,19 +58,13 @@ export default function Nav() {
           }}
         />
       </Link>
-      {open ? (
-        <MdOutlineClose
-          className="lg:hidden"
-          size={22}
-          onClick={() => setOpen((c) => !c)}
-        />
-      ) : (
-        <GiHamburgerMenu
-          className="lg:hidden"
-          size={22}
-          onClick={() => setOpen((c) => !c)}
-        />
-      )}
+      <button
+        onClick={() => setOpen((c) => !c)}
+        className="lg:hidden outline-none"
+      >
+        {createElement(open ? MdOutlineClose :GiHamburgerMenu  , {size: 22})}
+        {/* {open ?  <MdOutlineClose size={22} /> : <GiHamburgerMenu size={22} />} */}
+      </button>
       <div
         className={`flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-24 text-lg fixed lg:static bg-white lg:bg-none px-3 lg:px-0 pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen lg:h-auto top-0 -z-10 ${
           open ? "right-0" : "-right-full"

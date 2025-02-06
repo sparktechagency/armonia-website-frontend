@@ -4,10 +4,10 @@ import { context } from "@/app/Context";
 import Forgot from "./Forgot";
 import Register from "./Register";
 import { useRouter } from "next/navigation";
-import { usePostLoginMutation } from "@/redux/features/users/authApi";
+import { usePostLoginMutation } from "@/redux/features/auth/authApi";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "@/redux/hook";
-import { setLogin } from "@/redux/features/users/authSlice";
+import { setLogin } from "@/redux/features/auth/authSlice";
 import { BtnSpenner } from "./Spinner";
 import Verify from "./Verify";
 
@@ -36,7 +36,6 @@ export default function Login() {
       appContext?.setModal(null);
       router.push("/dashboard/profile");
     } catch (error: any) {
-      console.log(error);
       if (error?.data?.message === "Please verify your email") {
         return appContext?.setModal(
           <Verify userId={error?.data?.data.id} redirect="login" />
@@ -54,7 +53,7 @@ export default function Login() {
     }
   };
   return (
-    <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
+    <div className="w-full md:w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold text-black font-Playfair_Display">
           Log In
@@ -62,7 +61,7 @@ export default function Login() {
         <p className="text-gray-400">Please enter your e-mail and password:</p>
       </div>
 
-      <form className="px-12" onSubmit={handleSubmit}>
+      <form className="md:px-12" onSubmit={handleSubmit}>
         <div className="mb-4 space-y-4">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

@@ -3,7 +3,7 @@ import { context } from "@/app/Context";
 import React, { useContext, useState } from "react";
 import Login from "./Login";
 import { cn } from "@/lib/utils";
-import { useResetPasswordMutation } from "@/redux/features/users/authApi";
+import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
 import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
 import { toast } from "react-toastify";
@@ -46,12 +46,12 @@ export default function SetPassword() {
   };
 
   return (
-    <div className="w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
+    <div className="w-full md:w-[600px] mx-auto shadow-2xl p-8 rounded-lg bg-white">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold text-black">New Password</h1>
         <p className="text-gray-400">Please enter your strong password:</p>
       </div>
-      <form onSubmit={handleSubmit} className="px-12">
+      <form onSubmit={handleSubmit} className="md:px-12">
         <div className="relative mb-4">
           <input
             type={showPassword ? "text" : "password"}

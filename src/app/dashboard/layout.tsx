@@ -10,7 +10,7 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <body className="font-lato max-w-[1920px] mx-auto h-screen">
+    <>
       <Nav />
       {/* h-[calc(100vh-82px)] */}
       <main className="xl:px-36 flex">
@@ -19,6 +19,6 @@ export default function layout({
       </main>
       <Modal />
       <ToastContainer />
-    </body>
+    </>
   );
 }

@@ -10,12 +10,12 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <body className="font-lato max-w-[1920px] mx-auto">
+    <>
       <Nav />
       {children}
       <Modal />
       <Footer />
       <ToastContainer />
-    </body>
+    </>
   );
 }

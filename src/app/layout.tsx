@@ -3,6 +3,8 @@ import { Playfair_Display, Lato } from "next/font/google";
 import "./globals.css";
 import { Context } from "./Context";
 import StoreProvider from "./StoreProvider";
+import MultiLangProvider from "@/lib/Providers/MultiLangProvider";
+import TranslationButton from "@/components/TranslationButton";
 
 const playfairDisplay = Playfair_Display({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -28,9 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${lato.variable}`}>
-        <StoreProvider>
-          <Context>{children}</Context>
-        </StoreProvider>
+      <body className="font-lato max-w-[1920px] mx-auto">
+        {/* <MultiLangProvider> */}
+          {/* <TranslationButton /> */}
+          <StoreProvider>
+            <Context>{children}</Context>
+          </StoreProvider>
+        {/* </MultiLangProvider> */}
+      </body>
     </html>
   );
 }
