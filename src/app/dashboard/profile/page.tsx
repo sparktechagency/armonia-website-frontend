@@ -1,28 +1,36 @@
 "use client";
 
+import TimePicker from "@/components/Profile/TimePicker";
+import ProfileCategory from "@/components/ProfileCategory";
 import { useAppSelector } from "@/redux/hook";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { MdOutlineUpload } from "react-icons/md";
+import { TbEdit } from "react-icons/tb";
 
 export default function page() {
+  const [editable, setEditable] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
-  console.log({ user });
+  console.log(user?.availableSlots?.[0].slot.start);
   return (
-    <section className="bg-yellow-50 w-full md:px-6 min-h-screen pb-7">
+    <section className="bg-yellow-50 w-full md:px-6 min-h-full pb-7">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-3 md:px-5 py-4 text-white">
         My Profile
       </h1>
-      <div className="mt-6 flex justify-between lg:mx-6 px-3">
-        <div className="flex justify-start items-center gap-2"></div>
+      <div className="mt-8 flex justify-between lg:mx-6 px-3">
+        <div className="">
+          {!!user?.category && (
+            <ProfileCategory category={user?.category} withName={true} />
+          )}
+        </div>
         <Link href="">
-          <button className="bg-[#f1f3f7] text-black py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base ">
+          <button className="bg-[#f1f3f7] text-black py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] hover:text-white transition duration-300 text-sm md:text-base ">
             Change Password
           </button>
         </Link>
       </div>
-
-      <div className="bg-white p-5 rounded-lg shadow-md flex gap-6 items-center mx-3 md:mx-auto mt-6 ">
+      <div className="p-5 rounded-lg shadow-sm flex gap-6 items-center mx-3 md:mx-auto mt-2 mb-2">
         <div className="mb-4">
           <Image
             height={300}
@@ -51,45 +59,75 @@ export default function page() {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
             />
           </label>
-
-          <input
-            type="text"
-            defaultValue={user?.phone}
-            placeholder="+213 48992201"
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
-          />
-
-          {/* <input
-            type="text"
-            defaultValue={user?.phone}
-            placeholder="+213 48992201"
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4"
-          /> */}
+          <label>
+            Postal code
+            <input
+              type="text"
+              defaultValue={user?.postalCode}
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
+            />
+          </label>
+          <div className="grid grid-cols-8 gap-5 mb-4">
+            <div className="col-span-5">
+              Available for service
+              <div className="flex items-center gap-3">
+                {/* <input
+                  onChange={(e) => console.log(e.target.value)}
+                  type="time"
+                  step="1800" 
+                  defaultValue={"14:30"}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
+                /> */}
+                <TimePicker name="start" />
+                <span>to</span>
+                <input
+                  type="time"
+                  defaultValue={new Date().toISOString().slice(11, 16)}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
+                />
+              </div>
+            </div>
+            <label className="col-span-3">
+              Duration
+              <input
+                disabled
+                type="text"
+                defaultValue={"30min"}
+                placeholder="30min"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
+              />
+            </label>
+          </div>
         </div>
       </div>
-      <div className="flex justify-center mt-14">
-        <Link href="profile/edit">
-          <button className="bg-[#1c3057] flex items-center text-white gap-3 py-2 px-4 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base">
-            <svg
-              width="24"
-              height="25"
-              viewBox="0 0 24 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect y="0.5" width="22" height="22" rx="11" fill="white" />
-              <path
-                d="M9.90966 15.9457C10.1041 15.794 10.2805 15.6176 10.6332 15.2649L15.1529 10.7453C14.5377 10.4892 13.8092 10.0687 13.1201 9.37964C12.431 8.69049 12.0104 7.9618 11.7544 7.34661L7.23462 11.8664L7.2346 11.8664C6.88191 12.2191 6.70555 12.3955 6.55389 12.5899C6.37498 12.8193 6.22159 13.0675 6.09644 13.3301C5.99034 13.5527 5.91147 13.7893 5.75374 14.2625L4.92195 16.7579C4.84432 16.9908 4.90493 17.2475 5.0785 17.4211C5.25207 17.5946 5.50881 17.6552 5.74169 17.5776L8.23706 16.7458C8.71026 16.5881 8.94688 16.5092 9.16949 16.4031C9.43209 16.278 9.68028 16.1246 9.90966 15.9457Z"
-                fill="#484848"
-              />
-              <path
-                d="M16.407 9.49109C17.3455 8.55261 17.3455 7.03102 16.407 6.09254C15.4685 5.15405 13.947 5.15405 13.0085 6.09254L12.4664 6.63462C12.4738 6.65703 12.4815 6.67976 12.4895 6.70278C12.6882 7.27548 13.0631 8.02623 13.7683 8.73146C14.4735 9.43669 15.2243 9.81158 15.797 10.0103C15.8199 10.0182 15.8425 10.0259 15.8648 10.0333L16.407 9.49109Z"
-                fill="#484848"
-              />
-            </svg>
+      <label>
+        Bio
+        <textarea
+          defaultValue={user?.bio}
+          rows={4}
+          placeholder="Write anything..."
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
+        />
+      </label>
+      <div className={"flex justify-center mt-14"}>
+        {editable ? (
+          <button
+            type="submit"
+            className="bg-[#1c3057] flex items-center text-white gap-2 py-2 px-6 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base"
+          >
+            <MdOutlineUpload size={20} />
+            Update
+          </button>
+        ) : (
+          <button
+            onClick={() => setEditable(true)}
+            type="button"
+            className="bg-[#1c3057] flex items-center text-white gap-2 py-2 px-5 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base"
+          >
+            <TbEdit size={20} />
             Edit Profile
           </button>
-        </Link>
+        )}
       </div>
     </section>
   );

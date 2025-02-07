@@ -58,8 +58,9 @@ const authApi = baseApi.injectEndpoints({
     }),
     getProfile: builder.query({
       query: () => {
+        console.log("Inside amar matha")
         return {
-          url: `profiles`,
+          url: `/users/me`,
           method: "GET",
         };
       },

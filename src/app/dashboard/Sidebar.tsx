@@ -16,7 +16,7 @@ export default function Sidebar() {
 
   if (!appContext?.user) return null;
 
-  console.log(appContext.user);
+  // console.log(appContext.user);
   return (
     <div className="w-1/4 hidden lg:flex flex-col justify-between py-16 xl:text-xl">
       <div className="flex flex-col gap-3">

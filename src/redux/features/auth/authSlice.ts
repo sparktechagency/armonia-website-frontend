@@ -15,8 +15,16 @@ export interface User {
   type: "customer" | "beautician";
   phone?: string;
   profile?: string;
-  timeSlotIds?: string[]
+  availableSlots?: {
+    slot: {
+      id: string;
+      start: string; // Time in "HH:MM AM/PM" format
+      end: string;   // Time in "HH:MM AM/PM" format
+    }
+  }[]
+  postalCode?: string;
   bio?: string;
+  category?: "classic" | "elite" | "celebrity";
   image?: string;
 }
 

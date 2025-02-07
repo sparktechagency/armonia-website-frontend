@@ -27,10 +27,13 @@ export default function Login() {
     });
     try {
       const res = await mutation(formValues).unwrap();
+      const profile = res.data.user.profile;
+      let userinfo = { ...res.data.user };
+      delete userinfo.profile; 
       dispatch(
         setLogin({
           token: res.data.token,
-          user: res.data.user,
+          user: { ...userinfo, ...profile }, // ✅ Merge userinfo and profile
         })
       );
       appContext?.setModal(null);

@@ -5,7 +5,7 @@ export default function ProfileCategory({
   withName = false,
   className,
 }: {
-  category: "Classic" | "Elite" | "Celebrity";
+  category: "classic" | "elite" | "celebrity";
   className?: string;
   withName?: boolean;
 }) {
@@ -13,9 +13,9 @@ export default function ProfileCategory({
     return (
       <span
         className={`w-10 lg:w-[60px] h-10 lg:h-[60px] flex items-center justify-center text-white rounded-full text-lg lg:text-2xl font-medium uppercase ${
-          category === "Classic"
+          category === "classic"
             ? "bg-yellow-500"
-            : category === "Elite"
+            : category === "elite"
             ? "bg-blue-500"
             : "bg-black"
         } ${className}`}
@@ -28,18 +28,18 @@ export default function ProfileCategory({
   return (
     <p
       className={`flex items-center gap-1.5 sm:gap-3 lg:gap-5 font-medium  text-lg lg:text-2xl ${
-        category === "Classic"
+        category === "classic"
           ? "text-yellow-500"
-          : category === "Elite"
+          : category === "elite"
           ? "text-blue-500"
           : "text-black"
       } ${className}`}
     >
       <span
         className={`w-10 lg:w-[60px] h-10 lg:h-[60px] flex items-center justify-center text-white rounded-full uppercase ${
-          category === "Classic"
+          category === "classic"
             ? "bg-yellow-500"
-            : category === "Elite"
+            : category === "elite"
             ? "bg-blue-500"
             : "bg-black"
         }`}
