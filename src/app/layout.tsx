@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfairDisplay.variable} ${lato.variable}`}>
+    <html lang="fr" className={`${playfairDisplay.variable} ${lato.variable}`}>
       <body className="font-lato max-w-[1920px] mx-auto">
         {/* <MultiLangProvider> */}
           {/* <TranslationButton /> */}

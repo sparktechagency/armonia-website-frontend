@@ -7,6 +7,12 @@ interface AuthState {
   isLoading: boolean;
 }
 
+export interface Slot {
+  id: string;
+  start: string;
+  end: string;
+}
+
 // Define the type for the User (adjust based on your actual user model)
 export interface User {
   id: string;
@@ -16,11 +22,7 @@ export interface User {
   phone?: string;
   profile?: string;
   availableSlots?: {
-    slot: {
-      id: string;
-      start: string; // Time in "HH:MM AM/PM" format
-      end: string;   // Time in "HH:MM AM/PM" format
-    }
+    slot: Slot
   }[]
   postalCode?: string;
   bio?: string;

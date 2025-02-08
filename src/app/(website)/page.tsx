@@ -48,7 +48,7 @@ const  page =() => {
 
 export default page
 
-// "use client"; 
+// "use client";
 // import React from "react";
 // import Image from "next/image";
 // import Button from "@/components/Button";
@@ -60,7 +60,7 @@ export default page
 // // import { TFunction } from "react-i18next";
 
 // const Page = () => {
-//   const { translateText: t } = useTranslation();
+//   const { translateText: t,  } = useTranslation();
 //   return (
 //     <>
 //       <header className="flex items-center justify-center py-28 relative bg-gradient-to-b from-[#FFFFFF00] to-[#002B6B]">

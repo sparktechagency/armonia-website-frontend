@@ -58,14 +58,33 @@ const authApi = baseApi.injectEndpoints({
     }),
     getProfile: builder.query({
       query: () => {
-        console.log("Inside amar matha")
         return {
           url: `/users/me`,
           method: "GET",
         };
       },
       providesTags: ["auth"],
-    })
+    }),
+    updateProfile: builder.mutation({
+      query: ({ body, endpint }) => {
+        return {
+          url: "profiles/me",
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["auth"],
+    }),
+    updateImageName: builder.mutation({
+      query: ({ body, endpint }) => {
+        return {
+          url: "users/me",
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["auth"],
+    }),
   }),
 });
 
@@ -75,6 +94,8 @@ export const {
   usePostLoginMutation,
   useForgotPasswordMutation,
   useVerifyEmailMutation,
-  useResetPasswordMutation
+  useResetPasswordMutation,
+  useUpdateProfileMutation,
+  useUpdateImageNameMutation
   // useChangePasswordMutation,
 } = authApi;

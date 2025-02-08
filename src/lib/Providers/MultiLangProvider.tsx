@@ -10,7 +10,7 @@ export default function MultiLangProvider({
       <>
         <TranslationProvider
           apiKey={"AIzaSyBqEbe6am3CZPnsPCwGDXDrsSZ8N-Kxx18"}
-          defaultLanguage="en"
+          defaultLanguage="fr"
         >
             {children}
         </TranslationProvider>

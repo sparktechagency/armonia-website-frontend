@@ -20,7 +20,6 @@ const usersApi = baseApi.injectEndpoints({
             },
             providesTags: ["auth"],
         }),
-
     }),
 });
 

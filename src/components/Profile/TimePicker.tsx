@@ -1,8 +1,15 @@
-import { useState } from "react";
-import { GoStopwatch } from "react-icons/go";
+import { IoMdStopwatch } from "react-icons/io";
 
-const TimePicker = ({ name }: { name: string }) => {
-  const [selectedTime, setSelectedTime] = useState("");
+const TimePicker = ({
+  name,
+  defaultValue,
+  disabled,
+}: {
+  name: string;
+  defaultValue?: string;
+  disabled?: boolean;
+}) => {
+  // const [selectedTime, setSelectedTime] = useState("");
 
   // Generate times from 00:00 to 23:30 with 30-min intervals
   const generateTimes = () => {
@@ -18,37 +25,31 @@ const TimePicker = ({ name }: { name: string }) => {
   };
 
   return (
-    <div className="relative w-full">
-    <select className="appearance-none w-full border border-gray-300 rounded-lg p-3 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <option value="option1">Option 1</option>
-      <option value="option2">Option 2</option>
-      <option value="option3">Option 3</option>
-    </select>
-
-    {/* Custom Icon (Dropdown Arrow) */}
-    <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-      🔽 {/* Replace with any icon (like Heroicons or Lucide) */}
+    <div className="w-full relative">
+      <select
+        required
+        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
+        // value={selectedTime}
+        // onChange={(e) => setSelectedTime(e.target.value)}
+        defaultValue={defaultValue || ""}
+        id={name}
+        name={name}
+        disabled={disabled}
+      >
+        <option disabled value="">
+          {name.slice(0, 1).toUpperCase() + name.slice(1)} Time
+        </option>
+        {generateTimes().map((time) => (
+          <option key={time} value={time}>
+            {time}
+          </option>
+        ))}
+      </select>
+      <IoMdStopwatch
+        size={19}
+        className="text-gray-700 hover:text-gray-800 absolute top-[16.5px] right-2.5 pointer-events-none"
+      />
     </div>
-  </div>
-    // <div  className="w-full relative">
-    //   <select
-    //     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
-    //     value={selectedTime}
-    //     onChange={(e) => setSelectedTime(e.target.value)}
-    //     id={name}
-    //     name={name}
-    //   >
-    //     <option disabled value="">
-    //       Select Time
-    //     </option>
-    //     {generateTimes().map((time) => (
-    //       <option key={time} value={time}>
-    //         {time}
-    //       </option>
-    //     ))}
-    //   </select>
-    //   <GoStopwatch size={15}  className="text-gray-700 absolute top-4 right-2"/>
-    // </div>
   );
 };
 
