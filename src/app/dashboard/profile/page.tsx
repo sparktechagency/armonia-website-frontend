@@ -16,6 +16,7 @@ import { FaCaretDown } from "react-icons/fa";
 import { MdOutlineUpload } from "react-icons/md";
 import { TbCloudUpload, TbEdit } from "react-icons/tb";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 type FormValues = {
   [key: string]: FormDataEntryValue | undefined;
@@ -51,15 +52,17 @@ export default function page() {
         body: formData,
       });
       toast.success("Update success!");
-    } catch (error) {
-      console.log(error);
+      setEditable(false);
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!!",
+        text:
+          error.message ||
+          error?.data?.message ||
+          "Something went wrong. Please try again later.",
+      });
     }
-    // const params = Object.entries(formValues).filter(
-    //   ([_, value]) => value !== undefined && value
-    // ) as [string, string][];
-    // console.log(params);
-    // const queryString = new URLSearchParams(params).toString();
-    // router.push(`/beauticians${queryString ? `?${queryString}` : ""}`);
   };
   // console.log(`${process.env.NEXT_PUBLIC_API_URL}${user?.image}`)
   return (
@@ -114,15 +117,16 @@ export default function page() {
             height={300}
             width={300}
             src={
-              `${process.env.NEXT_PUBLIC_API_URL}${user?.image}` ||
-              "/beautician.jpg"
+              user?.image
+                ? `${process.env.NEXT_PUBLIC_API_URL}${user?.image}`
+                : "/profile-demo.png"
             }
             alt="Profile Image"
           />
           {editable && (
             <div className="h-full w-full bg-black/50 absolute top-0 left-0 flex justify-center items-center">
               <label htmlFor="image">
-                <div className="outline-none p-3 rounded-full flex flex-col items-center text-sm font-normal text-white drop-shadow">
+                <div className="outline-none p-3 rounded-full flex flex-col items-center text-sm font-normal text-white hover:text- drop-shadow cursor-pointer">
                   <TbCloudUpload size={28} className="text-white" />
                   Uplaod
                 </div>

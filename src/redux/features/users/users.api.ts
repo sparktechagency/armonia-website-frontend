@@ -20,9 +20,19 @@ const usersApi = baseApi.injectEndpoints({
             },
             providesTags: ["auth"],
         }),
+        getUser: builder.query({
+            query: (id: string) => {
+                return {
+                    url: `profiles/${id}`,
+                    method: "GET",
+                };
+            },
+            providesTags: ["auth"],
+        }),
     }),
 });
 
 export const {
-    useUsersQuery
+    useUsersQuery,
+    useGetUserQuery
 } = usersApi;

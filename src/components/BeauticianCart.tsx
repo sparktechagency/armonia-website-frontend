@@ -2,12 +2,17 @@ import React from "react";
 import Image from "next/image";
 import ProfileCategory from "./ProfileCategory";
 import Link from "next/link";
+import { Category, User } from "@/redux/features/auth/authSlice";
 
-export default function BeauticianCart() {
+export default function BeauticianCart({ data }: { data: User }) {
+  console.log(data);
   return (
     <div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md">
-      <ProfileCategory category="Elite" className="absolute top-4 right-4" />
-      <Link href={`/beauticians/${44}`}>
+      {/* <ProfileCategory
+        category={data.category as Category}
+        className="absolute top-4 right-4"
+      /> */}
+      <Link href={`/beauticians/${data.id}`}>
         <div className="flex flex-col sm:flex-row px-5 lg:px-8 py-6 gap-4">
           <div className="w-20 xl:w-32 h-20 xl:h-32 rounded-full overflow-hidden flex items-center justify-center">
             <Image

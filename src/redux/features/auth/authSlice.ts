@@ -13,6 +13,7 @@ export interface Slot {
   end: string;
 }
 
+export type Category = "classic" | "elite" | "celebrity";
 // Define the type for the User (adjust based on your actual user model)
 export interface User {
   id: string;
@@ -26,7 +27,7 @@ export interface User {
   }[]
   postalCode?: string;
   bio?: string;
-  category?: "classic" | "elite" | "celebrity";
+  category?: Category;
   image?: string;
 }
 
@@ -51,9 +52,14 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isLoading = false;
     },
+    logout(state) {
+      state.user = null;
+      state.token = null;
+      state.isLoading = false;
+    },
   },
 });
 
 // Export the actions and reducer
-export const { setUser, setLogin } = authSlice.actions;
+export const { setUser, setLogin, logout } = authSlice.actions;
 export default authSlice.reducer;

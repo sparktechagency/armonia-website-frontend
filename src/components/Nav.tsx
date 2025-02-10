@@ -9,8 +9,12 @@ import { context } from "@/app/Context";
 import { redirect, usePathname } from "next/navigation";
 import { MdOutlineClose } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { logout } from "@/redux/features/auth/authSlice";
+import { sweetAlertConfirmation } from "@/lib/alert";
 
 export default function Nav() {
+  const { user } = useAppSelector((state) => state.auth);
   const path = usePathname();
   const links = [
     { name: "Home", href: "/" },
@@ -42,6 +46,10 @@ export default function Nav() {
       document.body.style.overflow = "auto";
     }
   }, [open]);
+  const dispath = useAppDispatch();
+  const handleLogout = () => {
+    dispath(logout());
+  };
   return (
     <nav
       className={`px-3 xl:px-36 py-4 flex items-center justify-between top-0 bg-white shadow-lg z-50 sticky`}
@@ -62,7 +70,7 @@ export default function Nav() {
         onClick={() => setOpen((c) => !c)}
         className="lg:hidden outline-none"
       >
-        {createElement(open ? MdOutlineClose :GiHamburgerMenu  , {size: 22})}
+        {createElement(open ? MdOutlineClose : GiHamburgerMenu, { size: 22 })}
         {/* {open ?  <MdOutlineClose size={22} /> : <GiHamburgerMenu size={22} />} */}
       </button>
       <div
@@ -85,19 +93,23 @@ export default function Nav() {
             {name}
           </Link>
         ))}
-        {appContext?.user ? (
+        {user?.email ? (
           <div
             className="flex items-center gap-2 relative cursor-pointer"
             onClick={() => setDashboardMenuOpen(!dashboardMenuOpen)}
           >
             <Image
-              src={appContext.user.image}
-              alt={appContext.user.name}
+              src={
+                user?.image
+                  ? `${process.env.NEXT_PUBLIC_API_URL}${user.image}`
+                  : "/profile-demo.png"
+              }
+              alt={user?.name}
               width={50}
               height={50}
               className="rounded-full overflow-hidden min-w-[50px] w-[50px] h-[50px] object-cover"
             />
-            <p className="font-semibold">{appContext.user.name}</p>
+            <p className="font-semibold">{user?.name}</p>
             <svg
               width="20"
               height="20"
@@ -120,7 +132,7 @@ export default function Nav() {
               }`}
             >
               {appContext
-                .dashboardRoutes(appContext.user.role)
+                ?.dashboardRoutes(user?.type)
                 .map(({ name, href }, index) => (
                   <Link key={index} href={href}>
                     <p className="p-2 hover:bg-slate-200">{name}</p>
@@ -128,7 +140,13 @@ export default function Nav() {
                 ))}
               <div
                 className="p-2 hover:bg-slate-200 cursor-pointer"
-                onClick={appContext.logout}
+                onClick={() =>
+                  sweetAlertConfirmation({
+                    func: handleLogout,
+                    object: "Logout",
+                    okay: "Logout",
+                  })
+                }
               >
                 Logout
               </div>

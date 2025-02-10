@@ -4,3 +4,8 @@ export type TUniObject = {
 }
 
 export type TArgs = TUniObject[] | undefined;
+
+type Params = Promise<{ id: string }>
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
+
+export type TPageProps = { params: Params; searchParams: SearchParams }

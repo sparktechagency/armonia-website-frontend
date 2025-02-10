@@ -15,7 +15,7 @@ type ContextProps = {
   setModal: Dispatch<SetStateAction<null | ReactNode>>;
   user: null | User;
   setUser: Dispatch<SetStateAction<null | User>>;
-  dashboardRoutes: (role: "user" | "beautician" | "admin") => {
+  dashboardRoutes: (role: "customer" | "beautician" | "admin") => {
     name: string;
     href: string;
     menu: { name: string; href: string }[];
@@ -24,13 +24,13 @@ type ContextProps = {
 };
 
 const dashboardLinks: {
-  [key in "user" | "beautician" | "admin"]: {
+  [key in "customer" | "beautician" | "admin"]: {
     name: string;
     href: string;
     menu: { name: string; href: string }[];
   }[];
 } = {
-  user: [
+  customer: [
     { name: "Profile", href: "/dashboard/profile", menu: [] },
     {
       name: "Bookings",
@@ -90,7 +90,7 @@ export function Context({ children }: { children: React.ReactNode }) {
     role: "beautician",
   });
 
-  function dashboardRoutes(role: "user" | "beautician" | "admin") {
+  function dashboardRoutes(role: "customer" | "beautician" | "admin") {
     return dashboardLinks[role];
   }
 
