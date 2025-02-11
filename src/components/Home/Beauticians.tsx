@@ -4,7 +4,7 @@ import { User } from "@/redux/features/auth/authSlice";
 
 const Beauticians = async () => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}profiles?limit=3`,
+    `${process.env.NEXT_PUBLIC_API_URL}profiles/beauticians?limit=3`,
     {
       next: {
         revalidate: 60,
@@ -13,6 +13,7 @@ const Beauticians = async () => {
     }
   );
   const data = await response.json();
+  console.log(data)
   return (
     <section className="py-16 text-center">
       <p className="text-yellow-500">Popular Beautician</p>

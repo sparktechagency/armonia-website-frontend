@@ -13,12 +13,28 @@ const usersApi = baseApi.injectEndpoints({
                     });
                 }
                 return {
-                    url: `categories`,
+                    url: `users`,
                     method: "GET",
                     params,
                 };
             },
-            providesTags: ["auth"],
+            providesTags: ["user"],
+        }),
+        beauticians: builder.query({
+            query: (args: TArgs) => {
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item) => {
+                        params.append(item.name, item.value);
+                    });
+                }
+                return {
+                    url: `profiles/beauticians`,
+                    method: "GET",
+                    params,
+                };
+            },
+            providesTags: ["user"],
         }),
         getUser: builder.query({
             query: (id: string) => {
@@ -27,12 +43,13 @@ const usersApi = baseApi.injectEndpoints({
                     method: "GET",
                 };
             },
-            providesTags: ["auth"],
+            providesTags: ["user"],
         }),
     }),
 });
 
 export const {
     useUsersQuery,
+    useBeauticiansQuery,
     useGetUserQuery
 } = usersApi;

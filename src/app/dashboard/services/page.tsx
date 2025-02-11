@@ -66,22 +66,24 @@ export default function page() {
             className="flex-grow ml-2 max-w-xs bg-white border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
-        <table className="table-auto w-full text-left border-collapse border border-gray-200">
-          <thead className="bg-[#FFFBEF] text-[#142F62]">
-            <tr>
-              <th className="p-3 border border-gray-300">ID.NO.</th>
-              <th className="p-3 border border-gray-300">Service Name</th>
-              <th className="p-3 border border-gray-300">Category</th>
-              <th className="p-3 border border-gray-300">Price</th>
-              <th className="p-3 border border-gray-300">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <LoaderWraperComp
-              isError={isError}
-              isLoading={isLoading}
-              dataEmpty={services?.data?.length < 1}
-            >
+        <LoaderWraperComp
+          isError={isError}
+          isLoading={isLoading}
+          dataEmpty={services?.data?.length < 1}
+          className="min-h-[70vh]"
+        >
+          <table className="table-auto w-full text-left border-collapse border border-gray-200">
+            <thead className="bg-[#FFFBEF] text-[#142F62]">
+              <tr>
+                <th className="p-3 border border-gray-300">ID.NO.</th>
+                <th className="p-3 border border-gray-300">Service Name</th>
+                <th className="p-3 border border-gray-300">Category</th>
+                <th className="p-3 border border-gray-300">Price</th>
+                <th className="p-3 border border-gray-300">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
               {services?.data?.map((item: TUniObject, index: number) => (
                 <tr key={index} className="hover:bg-[#E7F8FF] even:bg-gray-50">
                   <td className="p-3 border border-gray-300">{item.id}</td>
@@ -96,9 +98,9 @@ export default function page() {
                   </td>
                 </tr>
               ))}
-            </LoaderWraperComp>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </LoaderWraperComp>
       </div>
     </section>
   );

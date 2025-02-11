@@ -49,6 +49,8 @@ export default function Nav() {
   const dispath = useAppDispatch();
   const handleLogout = () => {
     dispath(logout());
+    // dispath(.util.invalidateTags(["Profile"]));
+    
   };
   return (
     <nav

@@ -8,6 +8,7 @@ export const baseApi = createApi({
     baseUrl: apiUrl,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as { auth: { token: string } }).auth?.token;
+      // console.log(token)
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -16,6 +17,6 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["auth", "category", "services"],
+  tagTypes: ["auth", "user", "category", "services", "booking"],
   endpoints: () => ({}),
 });

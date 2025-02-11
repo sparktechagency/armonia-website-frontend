@@ -71,6 +71,7 @@ export default function Verify({
         <div className="text-center mb-6 space-y-3">
           <div className="flex items-center lg:gap-40 gap-16">
             <button
+            type="button"
               onClick={() =>
                 appContext?.setModal(
                   redirect === "forgot" ? <Forgot /> : <Login />
@@ -138,7 +139,7 @@ export default function Verify({
         </div>
 
         <div className="my-4">
-          <button className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 flex justify-center items-center gap-2.5">
+          <button type="submit" className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 flex justify-center items-center gap-2.5">
             Verify {isLoading && <BtnSpenner />}
           </button>
         </div>

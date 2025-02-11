@@ -43,6 +43,7 @@ export default function Forgot() {
       <div className="text-center mb-6 space-y-3">
         <div className="flex items-center lg:gap-40 gap-16">
           <button
+            type="button"
             onClick={() => appContext?.setModal(<Login />)}
             className="outline-none"
           >
@@ -81,7 +82,10 @@ export default function Forgot() {
         </div>
 
         <div className="mb-4 mt-9">
-          <button className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 flex justify-center items-center gap-2.5">
+          <button
+            type="submit"
+            className="bg-[#142F62] w-full py-2 text-white font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 flex justify-center items-center gap-2.5"
+          >
             Send OTP {isLoading && <BtnSpenner />}
           </button>
         </div>

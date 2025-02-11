@@ -23,6 +23,7 @@ type FormValues = {
 };
 
 export default function page() {
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
   const [editable, setEditable] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
   const { data } = useTimeSlotsQuery(undefined);
@@ -47,10 +48,10 @@ export default function page() {
           bio: formValues.bio,
           category: formValues.category,
         },
-      });
+      }).unwrap();
       await imageDispatch({
         body: formData,
-      });
+      }).unwrap();
       toast.success("Update success!");
       setEditable(false);
     } catch (error: any) {
@@ -64,11 +65,11 @@ export default function page() {
       });
     }
   };
-  // console.log(`${process.env.NEXT_PUBLIC_API_URL}${user?.image}`)
+  console.log(user?.availableSlots?.[0].slot.start)
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-yellow-50 w-full md:px-6 min-h-full pb-7"
+      className="bg-yellow-50 w-full px-3 md:px-6 min-h-full pb-7 "
     >
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-3 md:px-5 py-4 text-white">
         My Profile
@@ -104,24 +105,27 @@ export default function page() {
           // )
           <button
             type="button"
-            className="bg-[#f1f3f7] text-black px-4 border font-bold rounded-md hover:bg-[#1F4B99] hover:text-white transition duration-300 text-sm md:text-base "
+            className="bg-[#f1f3f7] text-black px-4 py-2.5 border font-bold rounded-md hover:bg-[#1F4B99] hover:text-white transition duration-300 text-sm md:text-base "
           >
             Change Password
           </button>
         )}
         {/* </Link> */}
       </div>
-      <div className="p-5 rounded-lg shadow-sm flex gap-6 items-center mx-3 md:mx-auto mt-2 mb-2">
-        <div className="mb-4 relative">
+      <div className="p-5 rounded-lg shadow-sm lg:flex gap-6 items-center md:mx-auto mt-2 mb-2">
+        <div className="mb-4 relative overflow-hidden w-full max-w-80 lg:max-w-60 h-full lg:max-h-80">
           <Image
             height={300}
             width={300}
             src={
-              user?.image
+              imageFile
+                ? URL.createObjectURL(imageFile)
+                : user?.image
                 ? `${process.env.NEXT_PUBLIC_API_URL}${user?.image}`
                 : "/profile-demo.png"
             }
             alt="Profile Image"
+            className="w-full h-full lg:object-center"
           />
           {editable && (
             <div className="h-full w-full bg-black/50 absolute top-0 left-0 flex justify-center items-center">
@@ -135,6 +139,11 @@ export default function page() {
                 name="image"
                 id="image"
                 type="file"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setImageFile(e.target.files[0]);
+                  }
+                }}
                 style={{ display: "none" }}
               />
             </div>
@@ -177,7 +186,7 @@ export default function page() {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
             />
           </label>
-          <div className="grid grid-cols-8 gap-5 mb-4">
+          <div className="grid lg:grid-cols-8 gap-5 mb-4">
             <div className="col-span-5">
               Available for service
               <div className="flex items-center gap-3">
@@ -190,14 +199,14 @@ export default function page() {
                 /> */}
                 <TimePicker
                   disabled={!editable}
-                  defaultValue={user?.availableSlots?.[0].slot.start || ""}
+                  defaultValue={user?.availableSlots?.[0].slot.start}
                   name="start"
                 />
                 <span>to</span>
 
                 <TimePicker
                   disabled={!editable}
-                  defaultValue={user?.availableSlots?.at(-1)?.slot.end || ""}
+                  defaultValue={user?.availableSlots?.at(-1)?.slot.end}
                   name="end"
                 />
               </div>
