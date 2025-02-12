@@ -16,7 +16,6 @@ type FormValues = {
 export default function AddService() {
   const appContext = useContext(context);
   const { data, isLoading } = useCategoriesQuery(undefined);
-  console.log(data);
   const [mutation, { isLoading: muLoading }] = useCreateServiceMutation();
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

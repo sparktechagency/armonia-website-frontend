@@ -1,3 +1,4 @@
+import { TUniObject } from "@/type/index.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Define the type for the state
@@ -12,7 +13,24 @@ export interface Slot {
   start: string;
   end: string;
 }
-
+export type Service = {
+  categoryName: string;
+  createdAt?: string;
+  id: string;
+  name: string;
+  price: number;
+  profileId?: string;
+  time: number;
+};
+export type Review = {
+  id?: string;
+  bookingId: string;
+  profileId: string;
+  rating: number;
+  user?: { name: string; image?: string }
+  review: string;
+  createdAt?: string;
+};
 export type Category = "classic" | "elite" | "celebrity";
 // Define the type for the User (adjust based on your actual user model)
 export interface User {
@@ -22,13 +40,19 @@ export interface User {
   type: "customer" | "beautician";
   phone?: string;
   profile?: string;
+  services: Service[];
   availableSlots?: {
     slot: Slot
-  }[]
+  }[];
+  reviews?: Review[];
+  total5StarReviews?: number;
+  reviewsAvgRating?: number;
   postalCode?: string;
+  reviewStatistics?: TUniObject;
   bio?: string;
   category?: Category;
   image?: string;
+  profileId?: string;
 }
 
 // Define the initial state with the type

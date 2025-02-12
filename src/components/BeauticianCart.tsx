@@ -1,22 +1,41 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import ProfileCategory from "./ProfileCategory";
 import Link from "next/link";
 import { Category, User } from "@/redux/features/auth/authSlice";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 export default function BeauticianCart({ data }: { data: User }) {
-  console.log(data);
+  const [sliceQty, setSliceQty] = useState(0);
+
+  // console.log(data);
+
+  const next = (length: number) => {
+    console.log({ sliceQty, length });
+    setSliceQty((c) => (c < length - 4 ? c + 1 : c));
+  };
+  const preview = () => {
+    setSliceQty((c) => (c > 0 ? c - 1 : c));
+  };
   return (
-    <div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md">
-      {/* <ProfileCategory
-        category={data.category as Category}
-        className="absolute top-4 right-4"
-      /> */}
-      <Link href={`/beauticians/${data.id}`}>
+    <div className="bg-yellow-50 rounded-lg relative w-full drop-shadow-md h-full">
+      {!!data.category && (
+        <ProfileCategory
+          category={data.category}
+          className="absolute top-4 right-4"
+        />
+      )}
+      <Link href={`/beauticians/${data.profileId}`}>
         <div className="flex flex-col sm:flex-row px-5 lg:px-8 py-6 gap-4">
           <div className="w-20 xl:w-32 h-20 xl:h-32 rounded-full overflow-hidden flex items-center justify-center">
             <Image
-              src="/beautician.jpg"
+              src={
+                data?.image
+                  ? `${process.env.NEXT_PUBLIC_API_URL}${data?.image}`
+                  : "/profile-demo.png"
+              }
               alt="beautician"
               width={128}
               height={128}
@@ -25,7 +44,7 @@ export default function BeauticianCart({ data }: { data: User }) {
           </div>
           <div className="flex flex-col gap-4 text-start">
             <h3 className="font-Playfair_Display text-xl lg:text-2xl font-bold">
-              Beautician Name
+              {data.name}
             </h3>
             <p className="flex items-center gap-2 text-blue-500">
               <svg
@@ -53,7 +72,8 @@ export default function BeauticianCart({ data }: { data: User }) {
                   </clipPath>
                 </defs>
               </svg>
-              5.0 (19)
+              {data.reviewsAvgRating ? data.reviewsAvgRating : "0.0"} (
+              {data.total5StarReviews})
             </p>
             <p className="flex items-center gap-2 text-blue-500">
               <svg
@@ -74,80 +94,44 @@ export default function BeauticianCart({ data }: { data: User }) {
               </svg>
               EC3P
             </p>
-            <div className="flex items-center gap-2 text-white">
-              <span className="bg-blue-400 w-full block text-center px-2 py-0.5 rounded text-base">
-                Hair
-              </span>
-              <span className="bg-blue-400 w-full block text-center px-2 py-0.5 rounded text-base">
-                Nails
-              </span>
-              <span className="bg-blue-400 w-full block text-center px-2 py-0.5 rounded text-base">
-                Makeup
-              </span>
+            <div className="flex items-center gap-2 overflow-hidden">
+              {data?.services?.slice(0, 3).map((item) => (
+                <span
+                  key={item.id}
+                  className="bg-blue-400 w-full block text-white text-center px-2 pt-0.5 pb-1 rounded text-base text-nowrap"
+                >
+                  {item.name}
+                </span>
+              ))}
+              {/* {data.services?.length > 3 && <span>etc.</span>} */}
             </div>
           </div>
         </div>
       </Link>
       <hr />
-      <div className="my-5 flex items-center gap-2 sm:gap-3 px-3 w-full justify-between">
-        <svg
-          className="min-w-3.5"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      <div className="my-5 flex items-center gap-2 sm:gap-3 px-3 2xl:px-4 w-full justify-between">
+        <button
+          disabled={sliceQty < 1}
+          onClick={() => preview()}
+          className="outline-none text-slate-600 disabled:text-slate-400 py-1.5"
         >
-          <path
-            d="M4.25 12.2744L19.25 12.2744"
-            stroke="#3F5362"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976"
-            stroke="#3F5362"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
-          09:00
-        </span>
-        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
-          09:00
-        </span>
-        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
-          09:00
-        </span>
-        <span className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm">
-          09:00
-        </span>
-        <svg
-          className="min-w-3.5"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+          <FaArrowLeft className="size-4" />
+        </button>
+        {data?.availableSlots?.slice(sliceQty, sliceQty + 4).map((item) => (
+          <span
+            key={item.slot.id}
+            className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm"
+          >
+            {item.slot.start}
+          </span>
+        ))}
+        <button
+          disabled={data.availableSlots?.length === sliceQty + 4}
+          onClick={() => next(data.availableSlots?.length as number)}
+          className="outline-none text-slate-600 disabled:text-slate-400 py-1.5"
         >
-          <path
-            d="M19.75 11.7256L4.75 11.7256"
-            stroke="#3F5362"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502"
-            stroke="#3F5362"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+          <FaArrowRight className="size-4" />
+        </button>
       </div>
     </div>
   );

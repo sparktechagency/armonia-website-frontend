@@ -10,11 +10,12 @@ import { IoLocationOutline } from "react-icons/io5";
 import { TPageProps } from "@/type/index.type";
 import { useGetUserQuery } from "@/redux/features/users/users.api";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
+import { Service } from "@/redux/features/auth/authSlice";
 
 export default function Page(props: TPageProps) {
   const { id } = use(props.params);
   const { data, isLoading, isError } = useGetUserQuery(id);
-  console.log(data);
+
   const categories = {
     "Make up": {
       image: "/category/make-up.jpg",
@@ -123,6 +124,14 @@ export default function Page(props: TPageProps) {
     },
   };
 
+  // const categories =Object.entries(
+  //   data?.data?.services.reduce((acc: Record<string, Service[]>, service: Service) => {
+  //     const key = service.categoryName; // Grouping key
+  //     if (!acc[key]) acc[key] = [];
+  //     acc[key].push(service);
+  //     return acc;
+  //   }, {}) || {});
+  // console.log(categories);
   return (
     <>
       <header className="relative h-[200px] lg:h-[350px] flex items-center justify-center bg-[#435981]">
@@ -146,44 +155,48 @@ export default function Page(props: TPageProps) {
               <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500">
                 {data?.data?.user.name}
               </h3>
-              <ProfileCategory category={data?.data?.category} withName />
+              <div className="flex justify-between items-center">
+                <ProfileCategory category={data?.data?.category} withName />
+                <p className="flex items-center gap-2 text-blue-500">
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="size-5 lg:size-6"
+                  >
+                    <g clipPath="url(#clip0_2413_2713)">
+                      <path
+                        d="M13.0876 20.2346C12.7257 20.0058 12.272 20.0058 11.9102 20.2347L6.36042 23.7446C5.50023 24.2887 4.43684 23.4837 4.66541 22.4616L6.13673 15.8821C6.23232 15.4547 6.09372 15.0071 5.77652 14.7189L0.891516 10.2798C0.134835 9.59221 0.541615 8.29345 1.5414 8.20485L7.97912 7.6344C8.39834 7.59726 8.76354 7.32137 8.92826 6.9174L11.4547 0.721256C11.8469 -0.240419 13.1531 -0.240418 13.5453 0.721257L16.0717 6.9174C16.2365 7.32137 16.6017 7.59726 17.0209 7.6344L23.4586 8.20485C24.4584 8.29345 24.8652 9.59221 24.1085 10.2798L19.2235 14.7189C18.9063 15.0071 18.7677 15.4547 18.8633 15.8821L20.3347 22.4621C20.5632 23.4841 19.5 24.2891 18.6398 23.7452L13.0876 20.2346Z"
+                        fill="#FFC500"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2413_2713">
+                        <rect
+                          width="24"
+                          height="24"
+                          fill="white"
+                          transform="translate(0.5)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  {data?.data?.reviewStatistics?._avg?.rating || "0.0"} (
+                  {data?.data?.reviewStatistics?._count?.rating})
+                </p>
+              </div>
               <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300">
                 <IoLocationOutline className="size-6 lg:size-8" />
                 EC3P
               </p>
               <p className="text-xl lg:text-3xl">
-                Available Time: 09:00 AM to 09:00 PM
+                Available Time: {data?.data?.availableSlots?.[0].slot.start} AM
+                to {data?.data?.availableSlots?.[0].slot.end} PM
               </p>
-              <p className="flex items-center gap-2 text-blue-500">
-                <svg
-                  width="25"
-                  height="24"
-                  viewBox="0 0 25 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-5 lg:size-6"
-                >
-                  <g clipPath="url(#clip0_2413_2713)">
-                    <path
-                      d="M13.0876 20.2346C12.7257 20.0058 12.272 20.0058 11.9102 20.2347L6.36042 23.7446C5.50023 24.2887 4.43684 23.4837 4.66541 22.4616L6.13673 15.8821C6.23232 15.4547 6.09372 15.0071 5.77652 14.7189L0.891516 10.2798C0.134835 9.59221 0.541615 8.29345 1.5414 8.20485L7.97912 7.6344C8.39834 7.59726 8.76354 7.32137 8.92826 6.9174L11.4547 0.721256C11.8469 -0.240419 13.1531 -0.240418 13.5453 0.721257L16.0717 6.9174C16.2365 7.32137 16.6017 7.59726 17.0209 7.6344L23.4586 8.20485C24.4584 8.29345 24.8652 9.59221 24.1085 10.2798L19.2235 14.7189C18.9063 15.0071 18.7677 15.4547 18.8633 15.8821L20.3347 22.4621C20.5632 23.4841 19.5 24.2891 18.6398 23.7452L13.0876 20.2346Z"
-                      fill="#FFC500"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_2413_2713">
-                      <rect
-                        width="24"
-                        height="24"
-                        fill="white"
-                        transform="translate(0.5)"
-                      />
-                    </clipPath>
-                  </defs>
-                </svg>
-                5.0 (19)
-              </p>
-              <p className="text-lg lg:text-2xl font-medium text-blue-500">
-              {data?.data?.bio}
+              <p className="text-lg lg:text-2xl font-medium text-blue-500 text-justify">
+                {data?.data?.bio}
               </p>
             </div>
             <div className="w-full flex items-center justify-center overflow-hidden h-[600px] relative">
@@ -208,8 +221,8 @@ export default function Page(props: TPageProps) {
               Our Services
             </h2>
             <p className="text-lg lg:text-xl mt-2">
-              Lorem ipsum dolor sit amet consectetur. Eu quis enim tempor et
-              proin neque.
+              Bringing Out Your Natural Beauty with Expert Care, Precision, and
+              a Touch of Elegance
             </p>
           </div>
           <div className="space-y-12 lg:space-y-10">
@@ -269,7 +282,7 @@ export default function Page(props: TPageProps) {
           </Button>
         </section>
       </LoaderWraperComp>
-      <Testimonials />
+      <Testimonials data={data?.data?.reviews} />
     </>
   );
 }
