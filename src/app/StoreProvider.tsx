@@ -25,7 +25,8 @@ export default Providers;
 
 const AuthProvider = ({ children }: ProvidersProps) => {
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetProfileQuery(undefined);
+  const { data, isLoading, isError } = useGetProfileQuery(undefined);
+  // console.log({ data, isLoading, isError })
   useEffect(() => {
     const profile = data?.data?.profile;
     let userinfo = { ...data?.data };

@@ -1,137 +1,155 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import Image from "next/image";
 import ProfileCategory from "@/components/ProfileCategory";
 import Button from "@/components/Button";
 import Testimonials from "@/components/Testimonials";
 import Checkout from "@/components/Checkout";
 import { IoLocationOutline } from "react-icons/io5";
-import { TPageProps } from "@/type/index.type";
+import { TPageProps, TUniObject } from "@/type/index.type";
 import { useGetUserQuery } from "@/redux/features/users/users.api";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { Service } from "@/redux/features/auth/authSlice";
+import { sweetAlertConfirmation } from "@/lib/alert";
+import Swal from "sweetalert2";
 
 export default function Page(props: TPageProps) {
   const { id } = use(props.params);
+  const [selectedService, setSelectedService] = useState<Service[]>([]);
   const { data, isLoading, isError } = useGetUserQuery(id);
 
-  const categories = {
-    "Make up": {
-      image: "/category/make-up.jpg",
-      name: "Make Up",
-      services: [
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-      ],
-    },
-    "Hair styling": {
-      image: "/category/hair-styling.jpg",
-      name: "Hair Styling",
-      services: [
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-      ],
-    },
-    "Nail care": {
-      image: "/category/nail-care.jpg",
-      name: "Skin Care",
-      services: [
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-      ],
-    },
-    Cosmetology: {
-      image: "/category/cosmetology.jpg",
-      name: "Manicure",
-      services: [
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-      ],
-    },
-    "SPA procedures": {
-      image: "/category/spa-procedures.jpg",
-      name: "Manicure",
-      services: [
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-        {
-          name: "Hair Cut",
-          duration: "30min",
-          price: "€50",
-        },
-      ],
-    },
-  };
+  // const categories = {
+  //   "Make up": {
+  //     image: "/category/make-up.jpg",
+  //     name: "Make Up",
+  //     services: [
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //     ],
+  //   },
+  //   "Hair styling": {
+  //     image: "/category/hair-styling.jpg",
+  //     name: "Hair Styling",
+  //     services: [
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //     ],
+  //   },
+  //   "Nail care": {
+  //     image: "/category/nail-care.jpg",
+  //     name: "Skin Care",
+  //     services: [
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //     ],
+  //   },
+  //   Cosmetology: {
+  //     image: "/category/cosmetology.jpg",
+  //     name: "Manicure",
+  //     services: [
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //     ],
+  //   },
+  //   "SPA procedures": {
+  //     image: "/category/spa-procedures.jpg",
+  //     name: "Manicure",
+  //     services: [
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //       {
+  //         name: "Hair Cut",
+  //         duration: "30min",
+  //         price: "€50",
+  //       },
+  //     ],
+  //   },
+  // };
 
-  // const categories =Object.entries(
-  //   data?.data?.services.reduce((acc: Record<string, Service[]>, service: Service) => {
-  //     const key = service.categoryName; // Grouping key
-  //     if (!acc[key]) acc[key] = [];
-  //     acc[key].push(service);
-  //     return acc;
-  //   }, {}) || {});
-  // console.log(categories);
+  const categories1 =
+    data?.data?.services?.reduce(
+      (
+        acc: Record<string, any>[],
+        { categoryName, id, name, price, time, category }: Service
+      ) => {
+        const existingCategory = acc.find(
+          (item) => item.categoryName === categoryName
+        );
+        if (existingCategory) {
+          existingCategory.services.push({ id, name, price, time, category });
+        } else {
+          acc.push({
+            image: category?.image,
+            categoryName,
+            categoryId: category?.id,
+            services: [{ id, name, price, time }],
+          });
+        }
+        return acc;
+      },
+      []
+    ) || [];
   return (
     <>
       <header className="relative h-[200px] lg:h-[350px] flex items-center justify-center bg-[#435981]">
@@ -226,8 +244,11 @@ export default function Page(props: TPageProps) {
             </p>
           </div>
           <div className="space-y-12 lg:space-y-10">
-            {Object.entries(categories).map(
-              ([key, { image, name, services }], index) => (
+            {categories1.map(
+              (
+                { image, categoryName, services }: TUniObject,
+                index: number
+              ) => (
                 <div
                   key={index}
                   className={`flex gap-5 lg:gap-10 items-center ${
@@ -238,8 +259,12 @@ export default function Page(props: TPageProps) {
                 >
                   <div className="w-full lg:w-1/2 flex items-center justify-center overflow-hidden h-[550] relative">
                     <Image
-                      src={image}
-                      alt={name}
+                      src={
+                        image
+                          ? `${process.env.NEXT_PUBLIC_API_URL}${image}`
+                          : "/profile-demo.png"
+                      }
+                      alt={categoryName}
                       className="w-full h-full object-cover"
                       fill
                       sizes="100vw"
@@ -248,21 +273,37 @@ export default function Page(props: TPageProps) {
                       }}
                     />
                   </div>
-                  <div className="lg:w-1/2">
+                  <div className="w-full lg:w-1/2">
                     <h3 className="text-3xl lg:text-5xl font-bold text-blue-500">
-                      {key}
+                      {categoryName}
                     </h3>
                     <ul className="flex flex-col mt-5 gap-6">
-                      {services.map(({ name, duration, price }, index) => (
-                        <li className="flex items-center gap-3" key={index}>
+                      {services.map((service: Service, cindex: number) => (
+                        <li className="flex items-center gap-3" key={cindex}>
                           <div className="flex items-center justify-between max-w-md w-full relative">
                             <span className="border-dotted border w-full absolute bottom-1.5"></span>
-                            <p className="z-10 bg-white">{name}</p>
-                            <p className="z-10 bg-white">{duration}</p>
+                            <p className="z-10 bg-white">{service.name}</p>
+                            <p className="z-10 bg-white">{service.time}min</p>
                           </div>
                           <div className="flex items-center justify-center gap-3">
-                            <p>{price}</p>
-                            <input type="checkbox" />
+                            <p>€{service.price}</p>
+                            <input
+                              checked={
+                                selectedService.find(
+                                  (item: Service) => item.id === service.id
+                                )
+                                  ? true
+                                  : false
+                              }
+                              onChange={() =>
+                                setSelectedService((c) =>
+                                  c.some((item) => item.id === service.id)
+                                    ? c.filter((item) => item.id !== service.id)
+                                    : [...c, service]
+                                )
+                              }
+                              type="checkbox"
+                            />
                           </div>
                         </li>
                       ))}
@@ -272,14 +313,34 @@ export default function Page(props: TPageProps) {
               )
             )}
           </div>
-          <Button
-            className="md:w-1/4 mx-auto bg-blue-500 text-white lg:text-2xl font-bold rounded-2xl my-16 px-4"
-            paddingY={12}
-            gradientBorder
-            openModalOnClick={<Checkout />}
-          >
-            Continue to check out
-          </Button>
+          {selectedService.length ? (
+            <Button
+              className="md:w-1/4 mx-auto bg-blue-500 text-white lg:text-2xl font-bold rounded-2xl my-16 px-4"
+              paddingY={12}
+              gradientBorder
+              openModalOnClick={
+                <Checkout
+                  selectedServices={selectedService}
+                  profileId={data?.data?.id}
+                />
+              }
+            >
+              Continue to Checkout
+            </Button>
+          ) : (
+            <button
+              onClick={() =>
+                Swal.fire({
+                  icon: "warning",
+                  title: "Checkout Failed!",
+                  text: `"Before proceeding to checkout, please select at least one service to continue."`,
+                })
+              }
+              className="font-nunito border-blue-500 border-2 p-3 lg:p-4 md:w-1/4 mx-auto bg-blue-500 text-white lg:text-2xl font-bold rounded-2xl my-16 px-4"
+            >
+              Select & Checkout
+            </button>
+          )}
         </section>
       </LoaderWraperComp>
       <Testimonials data={data?.data?.reviews} />

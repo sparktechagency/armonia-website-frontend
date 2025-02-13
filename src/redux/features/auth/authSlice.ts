@@ -21,6 +21,7 @@ export type Service = {
   price: number;
   profileId?: string;
   time: number;
+  category?: TUniObject
 };
 export type Review = {
   id?: string;

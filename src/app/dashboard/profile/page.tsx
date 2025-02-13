@@ -8,11 +8,10 @@ import {
   useUpdateImageNameMutation,
   useUpdateProfileMutation,
 } from "@/redux/features/auth/authApi";
-import { useTimeSlotsQuery } from "@/redux/features/category/category.api";
+import { useTimeSlotsQuery } from "@/redux/features/slots/slots.api";
 import { useAppSelector } from "@/redux/hook";
 import Image from "next/image";
 import React, { FormEvent, useState } from "react";
-import { FaCaretDown } from "react-icons/fa";
 import { MdOutlineUpload } from "react-icons/md";
 import { TbCloudUpload, TbEdit } from "react-icons/tb";
 import { toast } from "react-toastify";
@@ -65,7 +64,7 @@ export default function page() {
       });
     }
   };
-  console.log(user?.availableSlots?.[0].slot.start)
+  console.log(user?.availableSlots?.[0].slot.start);
   return (
     <form
       onSubmit={handleSubmit}

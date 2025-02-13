@@ -20,26 +20,10 @@ const categoryApi = baseApi.injectEndpoints({
             },
             providesTags: ["category"],
         }),
-        timeSlots: builder.query({
-            query: (args: TArgs) => {
-                const params = new URLSearchParams();
-                if (args) {
-                    args.forEach((item) => {
-                        params.append(item.name, item.value);
-                    });
-                }
-                return {
-                    url: `time-slots`,
-                    method: "GET",
-                    params,
-                };
-            },
-            // providesTags: ["slot"],
-        }),
+      
     }),
 });
 
 export const {
-    useCategoriesQuery, 
-    useTimeSlotsQuery
+    useCategoriesQuery,
 } = categoryApi;
