@@ -1,58 +1,30 @@
-"use client";
+"use client"; // Error boundaries must be Client Components
 
-import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
-import { FiAlertTriangle } from "react-icons/fi";
+import { useEffect } from "react";
 
-export default function ErrorPage({
-  error = "Oops! Something went wrong.",
-  resetError,
+export default function Error({
+  error,
+  reset,
 }: {
-  error?: string;
-  resetError?: () => void;
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
-  const router = useRouter();
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error);
+  }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-destructive/10 p-4">
-      <div className="text-center max-w-md w-full space-y-6 bg-white dark:bg-black p-8 rounded-xl shadow-lg">
-        <div className="flex justify-center mb-4">
-          <FiAlertTriangle
-            className="text-destructive"
-            size={64}
-            strokeWidth={1.5}
-          />
-        </div>
-
-        <h1 className="text-3xl font-bold text-destructive">Error</h1>
-
-        <p className="text-muted-foreground mb-6">{error}</p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            // variant="outline"
-            onClick={() => router.back()}
-          >
-            Go Back
-          </button>
-
-          <button
-            // variant="default"
-            onClick={() => router.push("/")}
-          >
-            Return to Home
-          </button>
-
-          {resetError && (
-            <button
-              //   variant="secondary"
-              onClick={resetError}
-            >
-              Try Again
-            </button>
-          )}
-        </div>
-      </div>
+    <div className="flex flex-col justify-center items-center min-h-screen">
+      <h2 className="text-lg text-red-400 font-semibold mb-3"><span className="capitalize">{error.message && error.message + "," }</span>{" Something went wrong!"}</h2>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
     </div>
   );
 }

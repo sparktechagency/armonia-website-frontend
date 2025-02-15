@@ -1,16 +1,20 @@
 "use client";
-// import { DatePicker, DatePickerProps, TimePicker } from "antd";
 import Image from "next/image";
-import React, { FormEvent, useState } from "react";
-import Button from "./Button";
+import React, { FormEvent, useContext, useState } from "react";
 import { Service, Slot } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useRemaningSlotsQuery } from "@/redux/features/slots/slots.api";
 import { FaCaretDown } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { TUniObject } from "@/type/index.type";
+import { useCreateBookingMutation } from "@/redux/features/booking/booking.api";
+import Swal from "sweetalert2";
+import { BtnSpenner } from "./Spinner";
+import { context } from "@/app/Context";
 
-type FormValues = {
-  [key: string]: FormDataEntryValue | undefined;
-};
+// type FormValues = {
+//   [key: string]: FormDataEntryValue | undefined;
+// };
 
 export default function Checkout({
   selectedServices,
@@ -19,6 +23,8 @@ export default function Checkout({
   selectedServices: Service[];
   profileId: string;
 }) {
+  const appContext = useContext(context);
+  const [selectedSlot, setSelectedSlot] = useState<TUniObject[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading, isError } = useRemaningSlotsQuery(
@@ -28,29 +34,50 @@ export default function Checkout({
     },
     { skip: !setSelectedDate }
   );
+  const [dispatch, { isLoading: muLoading }] = useCreateBookingMutation();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    //  e.preventDefault();
-    //  const formData = new FormData(e.currentTarget);
-    //  const formValues: FormValues = Object.fromEntries(formData.entries());
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const formValues = Object.values(Object.fromEntries(formData.entries()));
+    const payload = {
+      profileId,
+      bookingDate: selectedDate?.getTime(),
+      serviceIds: selectedServices.map((item) => item.id),
+      timeSlotIds: formValues,
+    };
+    try {
+      await dispatch(payload).unwrap();
+      appContext?.setModal(null);
+      Swal.fire({
+        icon: "success",
+        title: "Booking success!!",
+        text: "Your booking request has been sent successfully! 🎉",
+      });
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!!",
+        text:
+          error.message ||
+          error?.data?.message ||
+          "Something went wrong. Please try again later.",
+      });
+    }
   };
-  //   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-  //     console.log(date, dateString);
-  //   };
-  //   const [time, setTime] = useState(null);
-
-  //   const onChanges = (time, timeString) => {
-  //     setTime(timeString);
-  //     console.log("Selected time:", timeString);
-  //   };
-  console.log(data, isLoading, isError);
 
   const total = selectedServices.reduce(
     (sum, service) => sum + service.price,
     0
   );
+  // const bongoBoltu = selectedSlot.find((item) => item[`slot-${2}`]);
+  // console.log("bongoBoltu", bongoBoltu ? Object.values(bongoBoltu)[0] : "");
+  // console.log(selectedSlot.find((item) => item[`slot-${2}`]) ? selectedSlot.find((item) => item[`slot-${2}`])[`slot-${2}`] : "");
   return (
-    <form className="bg-white max-w-[1440px] w-full py-16 px-10 lg:px-56 relative">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white max-w-[1440px] w-full py-16 px-10 lg:px-56 relative"
+    >
       <div className="text-black lg:flex justify-center items-start gap-8">
         <Image
           src={"/checkout.png"}
@@ -104,75 +131,107 @@ export default function Checkout({
                 placeholder="Email"
               />
             </div>
-            <div className="w-full lg:flex justify-between items-center gap-5">
-              <div>
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-                >
-                  Appointment Date
-                </label>
-                <input
-                  required
-                  type="date"
-                  onChange={(e) => setSelectedDate(new Date(e.target.value))}
-                  min={new Date().toISOString().split("T")[0]}
-                />
-                {/* <DatePicker
-                    onChange={onChange}
-                    className="lg:w-[300px] w-full py-2 px-3"
-                  /> */}
-              </div>
-
-              <div>
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-                >
-                  Time
-                </label>
-                <input type="time" step={1800} />
-                {/* <TimePicker
-                    className="lg:w-[300px] w-full py-2 px-3"
-                    onChanges={onChanges}
-                    value={time}
-                  />
-                  {time && <p>Selected Time: {time}</p>} */}
-              </div>
+            <div>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                Appointment Date
+              </label>
+              <input
+                required
+                type="date"
+                onChange={(e) => setSelectedDate(new Date(e.target.value))}
+                min={new Date().toISOString().split("T")[0]}
+              />
             </div>
             <div className="lg:py-8 mt-20  mx-auto">
               <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-8">
                 Selected Service Prices
               </h1>
-              <ul className="space-y-4">
+              <ul className="space-y-2">
                 {selectedServices.map((service, index) => (
                   <li
                     key={index}
-                    className="flex justify-between items-center border-b border-dotted pb-2 text-gray-700"
+                    className="flex justify-between items-center border-b border-dotted gap-3 pb-3 text-gray-700"
                   >
-                    <p>
-                      <span className="font-semibold">{service.name}</span>
-                      <span className="text-[10px] font-medium"> (30min)</span>
-                    </p>
-                    <span className="text-blue-500">from €{service.price}</span>
-                    <div className="w-full relative max-w-44">
+                    <div className="flex justify-between items-center w-full gap-2">
+                      <p>
+                        <span className="font-semibold">{service.name}</span>
+                        <span className="text-[10px] font-medium">
+                          {" "}
+                          (30min)
+                        </span>
+                      </p>
+                      <span className="text-blue-500 text-right">
+                        from €{service.price}
+                      </span>
+                    </div>
+                    <div className="w-full relative max-w-[118px] sm:max-w-32">
                       <select
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
-                        defaultValue={""}
-                        name={"category"}
+                        className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-2 md:py-1 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1 text-sm sm:text-base"
+                        // defaultValue={""}
+                        value={
+                          selectedSlot.find((item) => item[`slot-${index}`])
+                            ? Object.values(
+                                selectedSlot.find(
+                                  (item) => item[`slot-${index}`]
+                                ) || {}
+                              )[0]
+                            : ""
+                        }
+                        required
+                        onClick={() => {
+                          if (!selectedDate)
+                            toast.warning(
+                              "Appointment date select is required!",
+                              { position: "bottom-center" }
+                            );
+                        }}
+                        name={"slot" + "-" + index}
+                        onChange={(e) => {
+                          const slotIsExist = selectedSlot.find((item) => {
+                            return Object.values(item)[0] === e.target.value;
+                          });
+                          // console.log(slotIsExist);
+                          if (slotIsExist) {
+                            toast.error("The slot is already selected!", {
+                              position: "bottom-center",
+                            });
+                          } else {
+                            const serviceIsExist = selectedSlot.find(
+                              (item) => `slot-${index}` in item
+                            );
+                            setSelectedSlot((c) =>
+                              serviceIsExist
+                                ? [
+                                    ...c.filter(
+                                      (item) => !(`slot-${index}` in item)
+                                    ),
+                                    {
+                                      ["slot" + "-" + index]: e.target.value,
+                                    },
+                                  ]
+                                : [
+                                    ...c,
+                                    { ["slot" + "-" + index]: e.target.value },
+                                  ]
+                            );
+                          }
+                        }}
                       >
                         <option disabled value="">
-                          Select Slot
+                          {isLoading ? "Loading..." : "Slot"}
                         </option>
-                        {data.data?.map((item: Slot) => (
-                          <option key={item.id} value={item.id}>
-                            {item.start} to {item.end}
+                        {data?.data?.map((item: Slot, slotIindex: number) => (
+                          <option key={slotIindex} value={item.id}>
+                            {item.start} - {item.end}
                           </option>
                         ))}
                       </select>
                       <FaCaretDown
-                        size={19}
-                        className="text-gray-700 hover:text-gray-800 absolute top-[16.5px] right-2.5 pointer-events-none"
+                        size={12}
+                        className="text-gray-500 hover:text-gray-400 absolute top-[15px] right-2 pointer-events-none"
                       />
                     </div>
                   </li>
@@ -193,9 +252,12 @@ export default function Checkout({
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <Button type="submit" className="max-w-lg w-full mt-10 rounded-2xl">
-          Send Request
-        </Button>
+        <button
+          type="submit"
+          className="flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 "
+        >
+          {muLoading && <BtnSpenner />} Send Request
+        </button>
       </div>
     </form>
   );

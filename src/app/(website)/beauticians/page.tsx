@@ -1,11 +1,16 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import ProfileCategory from "@/components/ProfileCategory";
 import BeauticianCart from "@/components/BeauticianCart";
 import { BsSearch } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
+import { useBeauticiansQuery } from "@/redux/features/users/users.api";
+import LoaderWraperComp from "@/components/LoaderWraperComp";
 
 export default function page() {
+  const { data, isLoading, isError } = useBeauticiansQuery([]);
+  console.log(data, isError, isLoading);
   return (
     <>
       <header className="bg-[#435981] relative h-[200px] md:h-[457px] flex items-center justify-center flex-col gap-10 md:gap-16">
@@ -54,18 +59,29 @@ export default function page() {
       </header>
       <section className=" py-16">
         <div className="flex items-center gap-6 lg:gap-36 justify-center py-4">
-          <ProfileCategory category="Classic" withName />
-          <ProfileCategory category="Elite" withName />
-          <ProfileCategory category="Celebrity" withName />
+          <ProfileCategory category="celebrity" withName />
+          <ProfileCategory category="elite" withName />
+          <ProfileCategory category="celebrity" withName />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-5 xl:px-36 mt-8 md:mt-14">
-          <BeauticianCart />
-          <BeauticianCart />
-          <BeauticianCart />
-          <BeauticianCart />
-          <BeauticianCart />
-          <BeauticianCart />
-        </div>
+        <LoaderWraperComp
+          isError={isError}
+          isLoading={isLoading}
+          dataEmpty={data?.data?.length < 1}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-5 xl:px-36 mt-8 md:mt-14">
+            {data?.data?.map((item: any) => {
+              const profile = item.profile;
+              let userinfo = { ...item };
+              delete userinfo.profile;
+              return (
+                <BeauticianCart
+                  key={item.id}
+                  data={{ ...userinfo, ...profile, profileId: profile.id }}
+                />
+              );
+            })}
+          </div>
+        </LoaderWraperComp>
       </section>
     </>
   );

@@ -35,22 +35,31 @@ export default function page() {
     const formData = new FormData(e.currentTarget);
     const formValues: FormValues = Object.fromEntries(formData.entries());
     try {
-      const timeSlotIds = validateionTime({
-        start: formValues.start as string,
-        end: formValues.end as string,
-        slots: data?.data || [],
-      });
-      await dispatch({
-        body: {
-          timeSlotIds,
-          postalCode: formValues.postalCode,
-          bio: formValues.bio,
-          category: formValues.category,
-        },
-      }).unwrap();
+      const timeSlotIds =
+        user?.type === "beautician" &&
+        validateionTime({
+          start: formValues.start as string,
+          end: formValues.end as string,
+          slots: data?.data || [],
+        });
+      const payload =
+        user?.type === "beautician"
+          ? {
+              timeSlotIds,
+              postalCode: formValues.postalCode,
+              bio: formValues.bio,
+              category: formValues.category,
+              phone: formValues.phone,
+            }
+          : null;
       await imageDispatch({
         body: formData,
       }).unwrap();
+      if (user?.type === "beautician") {
+        await dispatch({
+          body: payload,
+        }).unwrap();
+      }
       toast.success("Update success!");
       setEditable(false);
     } catch (error: any) {
@@ -64,7 +73,7 @@ export default function page() {
       });
     }
   };
-  console.log(user?.availableSlots?.[0].slot.start);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -174,66 +183,84 @@ export default function page() {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
             />
           </label>
-          <label>
-            Postal code
-            <input
-              type="text"
-              required
-              name="postalCode"
-              disabled={!editable}
-              defaultValue={user?.postalCode}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
-            />
-          </label>
-          <div className="grid lg:grid-cols-8 gap-5 mb-4">
-            <div className="col-span-5">
-              Available for service
-              <div className="flex items-center gap-3">
-                {/* <input
+          {user?.type === "beautician" ? (
+            <>
+              <label>
+                Postal code
+                <input
+                  type="text"
+                  required
+                  name="postalCode"
+                  disabled={!editable}
+                  defaultValue={user?.postalCode}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
+                />
+              </label>
+              <div className="grid lg:grid-cols-8 gap-5 mb-4">
+                <div className="col-span-5">
+                  Available for service
+                  <div className="flex items-center gap-3">
+                    {/* <input
                   onChange={(e) => console.log(e.target.value)}
                   type="time"
                   step="1800" 
                   defaultValue={"14:30"}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
                 /> */}
-                <TimePicker
-                  disabled={!editable}
-                  defaultValue={user?.availableSlots?.[0].slot.start}
-                  name="start"
-                />
-                <span>to</span>
+                    <TimePicker
+                      disabled={!editable}
+                      defaultValue={user?.availableSlots?.[0].slot.start}
+                      name="start"
+                    />
+                    <span>to</span>
 
-                <TimePicker
-                  disabled={!editable}
-                  defaultValue={user?.availableSlots?.at(-1)?.slot.end}
-                  name="end"
-                />
+                    <TimePicker
+                      disabled={!editable}
+                      defaultValue={user?.availableSlots?.at(-1)?.slot.end}
+                      name="end"
+                    />
+                  </div>
+                </div>
+                <label className="col-span-3">
+                  Duration
+                  <input
+                    disabled
+                    type="text"
+                    defaultValue={"30min"}
+                    placeholder="30min"
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
+                  />
+                </label>
               </div>
-            </div>
-            <label className="col-span-3">
-              Duration
+            </>
+          ) : (
+            <label>
+              Phone
               <input
-                disabled
                 type="text"
-                defaultValue={"30min"}
-                placeholder="30min"
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
+                name="phone"
+                disabled={!editable}
+                defaultValue={user?.phone}
+                placeholder="+1 (555) 123-4567"
+                className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
               />
             </label>
-          </div>
+          )}
         </div>
       </div>
-      <label>
-        Bio
-        <textarea
-          defaultValue={user?.bio}
-          disabled={!editable}
-          rows={4}
-          name="bio"
-          placeholder="Write anything..."
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
-        />
-      </label>
+      {user?.type === "beautician" && (
+        <label>
+          Bio
+          <textarea
+            defaultValue={user?.bio}
+            disabled={!editable}
+            rows={4}
+            name="bio"
+            placeholder="Write anything..."
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
+          />
+        </label>
+      )}
       <div className={"flex justify-center mt-14"}>
         {editable ? (
           <button

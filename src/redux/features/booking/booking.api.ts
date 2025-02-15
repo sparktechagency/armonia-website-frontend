@@ -4,6 +4,16 @@ import { baseApi } from "../../api/baseApi";
 const bookingApi = baseApi.injectEndpoints({
 
     endpoints: (builder) => ({
+        createBooking: builder.mutation({
+            query: (data) => {
+                return {
+                    url: `bookings`,
+                    method: "POST",
+                    body: data,
+                };
+            },
+            invalidatesTags: ["booking"],
+        }),
         bookings: builder.query({
             query: (args: TArgs) => {
                 const params = new URLSearchParams();
@@ -25,5 +35,6 @@ const bookingApi = baseApi.injectEndpoints({
 });
 
 export const {
+    useCreateBookingMutation,
     useBookingsQuery
 } = bookingApi;

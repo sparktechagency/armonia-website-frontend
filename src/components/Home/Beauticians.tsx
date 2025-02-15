@@ -8,7 +8,7 @@ const Beauticians = async () => {
       next: {
         revalidate: 60,
       },
-      // cache: "no-cache",
+      cache: "no-cache",
     }
   );
   const data = await response.json();

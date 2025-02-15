@@ -1,10 +1,12 @@
 "use client";
 import { context } from "@/app/Context";
 import BookingReviewForm from "@/components/BookingReviewForm";
+import { useBookingsQuery } from "@/redux/features/booking/booking.api";
 import React, { useContext } from "react";
 
 export default function Page() {
   const appContext = useContext(context);
+  const { data, isLoading, isError } = useBookingsQuery([]);
 
   return (
     <section className="bg-yellow-50 w-full">
