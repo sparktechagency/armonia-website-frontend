@@ -3,26 +3,33 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { context } from "../Context";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { logout } from "@/redux/features/auth/authSlice";
+import { sweetAlertConfirmation } from "@/lib/alert";
 
 export default function Sidebar() {
-  const appContext = useContext(context);
   const pathname = usePathname();
-
+  const dicpatch = useAppDispatch();
+  const appContext = useContext(context);
+  const { user } = useAppSelector((state) => state.auth);
   const [active, setActive] = useState("");
+  const handleLogout = () => {
+    dicpatch(logout());
+    // dispath(.util.invalidateTags(["Profile"]));
+  };
 
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
 
-  if (!appContext?.user) return null;
-
+  if (!user) return null;
   // console.log(appContext.user);
   return (
     <div className="w-1/4 hidden lg:flex flex-col justify-between py-16 xl:text-xl">
       <div className="flex flex-col gap-3">
         {appContext
-          ?.dashboardRoutes(appContext?.user?.role)
-          .map(({ name, href, menu }, index) => (
+          ?.dashboardRoutes(user?.type)
+          ?.map(({ name, href, menu }, index) => (
             <div key={index} className="border-r border-blue-500">
               <Link
                 href={href}
@@ -40,7 +47,7 @@ export default function Sidebar() {
                   {name}
                 </p>
               </Link>
-              {menu.some((m) => m.href === active) && (
+              {menu?.some((m) => m.href === active) && (
                 <ul className="pl-12 flex flex-col gap-1">
                   {menu.map(({ name, href }, index) => (
                     <Link
@@ -62,7 +69,13 @@ export default function Sidebar() {
       </div>
       <button
         className="w-full pl-5 hover:pl-12 hover:bg-blue-500 transition-all bg-yellow-200"
-        onClick={appContext.logout}
+        onClick={() =>
+          sweetAlertConfirmation({
+            func: handleLogout,
+            object: "Logout",
+            okay: "Logout",
+          })
+        }
       >
         <p className="bg-yellow-50 border-r border-blue-500 p-2 w-full py-4">
           Logout

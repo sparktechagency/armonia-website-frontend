@@ -12,7 +12,23 @@ const bookingApi = baseApi.injectEndpoints({
                     body: data,
                 };
             },
-            invalidatesTags: ["booking"],
+            invalidatesTags: ["booking", "slot"],
+        }),
+        updateBookingStatus: builder.mutation({
+            query: ({
+                status,
+                id,
+            }: {
+                status: string;
+                id: string;
+            }) => {
+                return {
+                    url: `bookings/${id}`,
+                    method: "PUT",
+                    body: { status, bookingId: id },
+                };
+            },
+            invalidatesTags: ["booking", "slot"],
         }),
         bookings: builder.query({
             query: (args: TArgs) => {
@@ -30,11 +46,22 @@ const bookingApi = baseApi.injectEndpoints({
             },
             providesTags: ["booking"],
         }),
+        bookingById: builder.query({
+            query: (id) => {
 
+                return {
+                    url: `bookings/services/${id}`,
+                    method: "GET"
+                };
+            },
+            providesTags: ["booking"],
+        }),
     }),
 });
 
 export const {
+    useBookingByIdQuery,
     useCreateBookingMutation,
+    useUpdateBookingStatusMutation,
     useBookingsQuery
 } = bookingApi;

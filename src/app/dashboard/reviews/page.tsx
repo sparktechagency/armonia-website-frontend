@@ -1,7 +1,11 @@
-import Image from "next/image";
+"use client";
 import React from "react";
+import Image from "next/image";
+import { useReviewsQuery } from "@/redux/features/reviews/review.api";
 
 export default function page() {
+  const { data, isLoading, isError } = useReviewsQuery([]);
+  console.log({ data, isLoading, isError });
   const reviews = [
     {
       name: "Sophia Gupta",
@@ -42,7 +46,7 @@ export default function page() {
         "I had a great time during my visit. The staff was welcoming, and the service was fast but thorough. I'll be recommending this place to my friends.",
       rating: 5,
       createdAt: "05/30/2022 10:45 AM",
-    }
+    },
   ];
 
   return (

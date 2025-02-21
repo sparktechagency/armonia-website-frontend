@@ -55,11 +55,11 @@ const dashboardLinks: {
       href: "/dashboard/bookings",
       menu: [
         {
-          name: "Booked Services",
+          name: "Confirmed Service",
           href: "/dashboard/bookings",
         },
         {
-          name: "Send Request",
+          name: "Requested service",
           href: "/dashboard/bookings/pending",
         },
       ],
