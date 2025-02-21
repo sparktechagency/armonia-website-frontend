@@ -19,35 +19,35 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
   });
   // const [dispatch, { isLoading: muLoading }] = useCreateBookingMutation();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const formValues = Object.values(Object.fromEntries(formData.entries()));
-    const payload = {
-      profileId,
-      bookingDate: selectedDate?.getTime(),
-      serviceIds: selectedServices.map((item) => item.id),
-      timeSlotIds: formValues,
-    };
-    try {
-      await dispatch(payload).unwrap();
-      appContext?.setModal(null);
-      Swal.fire({
-        icon: "success",
-        title: "Booking success!!",
-        text: "Your booking request has been sent successfully! 🎉",
-      });
-    } catch (error: any) {
-      Swal.fire({
-        icon: "error",
-        title: "Failed!!",
-        text:
-          error.message ||
-          error?.data?.message ||
-          "Something went wrong. Please try again later.",
-      });
-    }
-  };
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const formData = new FormData(e.currentTarget);
+  //   const formValues = Object.values(Object.fromEntries(formData.entries()));
+  //   const payload = {
+  //     profileId,
+  //     bookingDate: selectedDate?.getTime(),
+  //     serviceIds: selectedServices.map((item) => item.id),
+  //     timeSlotIds: formValues,
+  //   };
+  //   try {
+  //     await dispatch(payload).unwrap();
+  //     appContext?.setModal(null);
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Booking success!!",
+  //       text: "Your booking request has been sent successfully! 🎉",
+  //     });
+  //   } catch (error: any) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Failed!!",
+  //       text:
+  //         error.message ||
+  //         error?.data?.message ||
+  //         "Something went wrong. Please try again later.",
+  //     });
+  //   }
+  // };
   console.log(data?.data);
   const total = data?.data?.services?.reduce(
     (sum: number, service: TUniObject) => sum + service.price,
@@ -154,7 +154,10 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
             </div>
 
             <div className="flex justify-center ">
-              <button className=" w-fit bg-green-400 py-2 mb-28 px-5 font-Playfair_Display text-white rounded-3xl transition duration-300 ease-in-out transform hover:scale-105">
+              <button
+                onClick={() => appContext?.setModal(null)}
+                className=" w-fit bg-green-400 py-2 mb-28 px-5 font-Playfair_Display text-white rounded-3xl transition duration-300 ease-in-out transform hover:scale-105"
+              >
                 Okay
               </button>
             </div>

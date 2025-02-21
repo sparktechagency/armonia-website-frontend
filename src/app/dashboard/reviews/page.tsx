@@ -2,6 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import { useReviewsQuery } from "@/redux/features/reviews/review.api";
+import { TUniObject } from "@/type/index.type";
+import RatingStar from "@/components/ui/RatingStar";
 
 export default function page() {
   const { data, isLoading, isError } = useReviewsQuery([]);
@@ -58,92 +60,36 @@ export default function page() {
         <div className="max-w-lg w-full flex items-center justify-center bg-white rounded-3xl gap-10 mx-auto py-3">
           <p className="text-xl">Average Rating</p>
           <div className="flex flex-col items-center gap-2">
-            <span className="font-bold text-4xl">4.0</span>
-            <div className="flex items-center gap-1">
-              {[true, true, true, true, false].map((i, index) =>
-                i ? (
-                  <svg
-                    width="13"
-                    height="12"
-                    viewBox="0 0 13 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    key={index}
-                  >
-                    <path
-                      d="M5.54894 1.42705C5.8483 0.505738 7.1517 0.50574 7.45106 1.42705L8.0716 3.33688C8.20547 3.7489 8.58943 4.02786 9.02265 4.02786H11.0308C11.9995 4.02786 12.4023 5.26748 11.6186 5.83688L9.99395 7.01722C9.64347 7.27187 9.49681 7.72323 9.63068 8.13525L10.2512 10.0451C10.5506 10.9664 9.4961 11.7325 8.71238 11.1631L7.08778 9.98278C6.7373 9.72813 6.2627 9.72814 5.91221 9.98278L4.28761 11.1631C3.5039 11.7325 2.44942 10.9664 2.74878 10.0451L3.36932 8.13526C3.50319 7.72323 3.35653 7.27186 3.00604 7.01722L1.38144 5.83688C0.597731 5.26748 1.00051 4.02786 1.96923 4.02786H3.97735C4.41057 4.02786 4.79453 3.7489 4.9284 3.33688L5.54894 1.42705Z"
-                      fill="#FFD05E"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    width="13"
-                    height="12"
-                    viewBox="0 0 13 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    key={index}
-                  >
-                    <path
-                      d="M5.54894 1.42705C5.8483 0.505738 7.1517 0.50574 7.45106 1.42705L8.0716 3.33688C8.20547 3.7489 8.58943 4.02786 9.02265 4.02786H11.0308C11.9995 4.02786 12.4023 5.26748 11.6186 5.83688L9.99395 7.01722C9.64347 7.27187 9.49681 7.72323 9.63068 8.13525L10.2512 10.0451C10.5506 10.9664 9.4961 11.7325 8.71238 11.1631L7.08778 9.98278C6.7373 9.72813 6.2627 9.72814 5.91221 9.98278L4.28761 11.1631C3.5039 11.7325 2.44942 10.9664 2.74878 10.0451L3.36932 8.13526C3.50319 7.72323 3.35653 7.27186 3.00604 7.01722L1.38144 5.83688C0.597731 5.26748 1.00051 4.02786 1.96923 4.02786H3.97735C4.41057 4.02786 4.79453 3.7489 4.9284 3.33688L5.54894 1.42705Z"
-                      fill="#9FA0A2"
-                    />
-                  </svg>
-                )
-              )}
-            </div>
-            <p className="font-semibold">52 Reviews</p>
+            <span className="font-bold text-4xl">
+              {data?.data?.averageReviews}
+            </span>
+            <RatingStar rate={data?.data?.averageReviews || 0} />
+            <p className="font-semibold">{data?.data?.totalReviews} Reviews</p>
           </div>
         </div>
         <div className="flex flex-col gap-9 mt-8">
-          {reviews.map(({ createdAt, image, name, rating, review }, index) => (
+          {data?.data?.reviews?.map((review: TUniObject, index: number) => (
             <div key={index} className="border-b">
               <div className="flex items-center gap-2">
                 <Image
-                  src={image}
-                  alt={name}
+                  src={
+                    review?.user?.image
+                      ? `${process.env.NEXT_PUBLIC_API_URL}${review?.user.image}`
+                      : "/profile-demo.png"
+                  }
+                  alt={review?.user.name}
                   width={40}
                   height={40}
                   className="w-10 h-10 object-cover rounded-full"
                 />
                 <div>
-                  <p>{name}</p>
+                  <p>{review?.user.name}</p>
                   <div className="flex items-center gap-1">
-                    {[true, true, true, true, false].map((i, index) =>
-                      i ? (
-                        <svg
-                          width="13"
-                          height="12"
-                          viewBox="0 0 13 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          key={index}
-                        >
-                          <path
-                            d="M5.54894 1.42705C5.8483 0.505738 7.1517 0.50574 7.45106 1.42705L8.0716 3.33688C8.20547 3.7489 8.58943 4.02786 9.02265 4.02786H11.0308C11.9995 4.02786 12.4023 5.26748 11.6186 5.83688L9.99395 7.01722C9.64347 7.27187 9.49681 7.72323 9.63068 8.13525L10.2512 10.0451C10.5506 10.9664 9.4961 11.7325 8.71238 11.1631L7.08778 9.98278C6.7373 9.72813 6.2627 9.72814 5.91221 9.98278L4.28761 11.1631C3.5039 11.7325 2.44942 10.9664 2.74878 10.0451L3.36932 8.13526C3.50319 7.72323 3.35653 7.27186 3.00604 7.01722L1.38144 5.83688C0.597731 5.26748 1.00051 4.02786 1.96923 4.02786H3.97735C4.41057 4.02786 4.79453 3.7489 4.9284 3.33688L5.54894 1.42705Z"
-                            fill="#FFD05E"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          width="13"
-                          height="12"
-                          viewBox="0 0 13 12"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          key={index}
-                        >
-                          <path
-                            d="M5.54894 1.42705C5.8483 0.505738 7.1517 0.50574 7.45106 1.42705L8.0716 3.33688C8.20547 3.7489 8.58943 4.02786 9.02265 4.02786H11.0308C11.9995 4.02786 12.4023 5.26748 11.6186 5.83688L9.99395 7.01722C9.64347 7.27187 9.49681 7.72323 9.63068 8.13525L10.2512 10.0451C10.5506 10.9664 9.4961 11.7325 8.71238 11.1631L7.08778 9.98278C6.7373 9.72813 6.2627 9.72814 5.91221 9.98278L4.28761 11.1631C3.5039 11.7325 2.44942 10.9664 2.74878 10.0451L3.36932 8.13526C3.50319 7.72323 3.35653 7.27186 3.00604 7.01722L1.38144 5.83688C0.597731 5.26748 1.00051 4.02786 1.96923 4.02786H3.97735C4.41057 4.02786 4.79453 3.7489 4.9284 3.33688L5.54894 1.42705Z"
-                            fill="#9FA0A2"
-                          />
-                        </svg>
-                      )
-                    )}
+                    <RatingStar rate={review.rating || 0} />
                   </div>
                 </div>
               </div>
-              <p className="my-3 text-sm">{review}</p>
+              <p className="my-3 text-sm">{review?.review}</p>
             </div>
           ))}
         </div>
