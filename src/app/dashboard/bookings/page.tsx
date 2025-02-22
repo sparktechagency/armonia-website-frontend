@@ -1,5 +1,6 @@
 "use client";
 import { context } from "@/app/Context";
+import BookingDetails from "@/components/BookingDetails";
 import BookingReviewForm from "@/components/BookingReviewForm";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { useBookingsQuery } from "@/redux/features/booking/booking.api";
@@ -8,6 +9,7 @@ import { TUniObject } from "@/type/index.type";
 import React, { useContext } from "react";
 
 export default function Page() {
+  const appContext = useContext(context);
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading, isError } = useBookingsQuery([
     {
@@ -41,14 +43,18 @@ export default function Page() {
                 <tr className=" text-left">
                   <th className="p-3 border-r-4">SI NO.</th>
                   <th className="p-3 border-r-4">
-                    {" "}
                     {user?.type === "customer" ? "Beautician" : "User"} Name
                   </th>
-                  <th className="p-3 border-r-4"> {user?.type === "customer" ? "Post Code" : "Email"}</th>
+                  <th className="p-3 border-r-4">
+                    {user?.type === "customer" ? "Post Code" : "Email"}
+                  </th>
                   <th className="p-3 border-r-4">Price</th>
                   <th className="p-3 border-r-4 text-right">
                     Appointment Date & Time
                   </th>
+                  {user?.type === "beautician" && (
+                    <th className="p-3 border-r-4 text-center">Service</th>
+                  )}
                   <th className="p-3">Action</th>
                 </tr>
               </thead>
@@ -70,10 +76,40 @@ export default function Page() {
                     <td className="p-3 border-r-4 text-right">
                       {new Date(item.createdAt).toLocaleString()}
                     </td>
+                    {user?.type === "beautician" && (
+                      <td className="p-3 border-r-4 text-center">
+                        <button
+                          onClick={() =>
+                            appContext?.setModal(
+                              <BookingDetails bookingId={item.id} />
+                            )
+                          }
+                          className="rounded-md px-3 py-1 hover:text-sky-600"
+                        >
+                          View
+                        </button>
+                      </td>
+                    )}
                     <td className="p-3">
-                      <button className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200">
-                        Review
-                      </button>
+                      {user?.type === "beautician" ? (
+                        <button className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200">
+                          Done
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            appContext?.setModal(
+                              <BookingReviewForm
+                                profileId={item.profile?.id}
+                                bookingId={item.id}
+                              />
+                            )
+                          }
+                          className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200"
+                        >
+                          Review
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

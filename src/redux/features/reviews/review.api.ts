@@ -2,18 +2,17 @@ import { TArgs } from "@/type/index.type";
 import { baseApi } from "../../api/baseApi";
 
 const reviewApi = baseApi.injectEndpoints({
-
     endpoints: (builder) => ({
-        // createBooking: builder.mutation({
-        //     query: (data) => {
-        //         return {
-        //             url: `bookings`,
-        //             method: "POST",
-        //             body: data,
-        //         };
-        //     },
-        //     invalidatesTags: ["booking", "slot"],
-        // }),
+        addReview: builder.mutation({
+            query: (data) => {
+                return {
+                    url: `reviews`,
+                    method: "POST",
+                    body: data,
+                };
+            },
+            invalidatesTags: ["reviews",],
+        }),
         reviews: builder.query({
             query: (args: TArgs) => {
                 const params = new URLSearchParams();
@@ -35,5 +34,6 @@ const reviewApi = baseApi.injectEndpoints({
 });
 
 export const {
-   useReviewsQuery
+    useAddReviewMutation,
+    useReviewsQuery
 } = reviewApi;

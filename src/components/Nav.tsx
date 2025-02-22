@@ -129,7 +129,7 @@ export default function Nav() {
               />
             </svg>
             <div
-              className={`absolute w-full bg-white top-16 text-base font-normal overflow-hidden transition-all ${
+              className={`absolute w-full bg-white shadow-md top-16 text-base font-normal overflow-hidden transition-all ${
                 dashboardMenuOpen ? "h-auto" : "h-0"
               }`}
             >
