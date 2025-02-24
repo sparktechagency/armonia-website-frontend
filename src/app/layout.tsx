@@ -3,6 +3,7 @@ import { Playfair_Display, Lato } from "next/font/google";
 import "./globals.css";
 import { Context } from "./Context";
 import StoreProvider from "./StoreProvider";
+import Script from "next/script";
 // import MultiLangProvider from "@/lib/Providers/MultiLangProvider";
 // import TranslationButton from "@/components/TranslationButton";
 
@@ -30,12 +31,39 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${playfairDisplay.variable} ${lato.variable}`}>
+      <head>
+        {/* <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" /> */}
+
+        <Script src="/scripts/lang-config.js" strategy="beforeInteractive" />
+        <Script src="/scripts/translation.js" strategy="beforeInteractive" />
+        <Script
+          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="font-lato max-w-[1920px] mx-auto">
         {/* <MultiLangProvider> */}
-          {/* <TranslationButton /> */}
-          <StoreProvider>
-            <Context>{children}</Context>
-          </StoreProvider>
+        {/* <TranslationButton /> */}
+        <StoreProvider>
+          <Context>{children}</Context>
+        </StoreProvider>
         {/* </MultiLangProvider> */}
       </body>
     </html>

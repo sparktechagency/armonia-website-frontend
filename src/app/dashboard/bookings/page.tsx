@@ -3,10 +3,14 @@ import { context } from "@/app/Context";
 import BookingDetails from "@/components/BookingDetails";
 import BookingReviewForm from "@/components/BookingReviewForm";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
+import { sweetAlertConfirmation } from "@/lib/alert";
 import { useBookingsQuery } from "@/redux/features/booking/booking.api";
+import { useCreatePaymentMutation } from "@/redux/features/earnings/earnings.api";
 import { useAppSelector } from "@/redux/hook";
 import { TUniObject } from "@/type/index.type";
 import React, { useContext } from "react";
+import { BsArrowRight } from "react-icons/bs";
+import Swal from "sweetalert2";
 
 export default function Page() {
   const appContext = useContext(context);
@@ -17,7 +21,43 @@ export default function Page() {
       value: "accepted",
     },
   ]);
-
+  const [payment, { isLoading: muLoading }] = useCreatePaymentMutation();
+  const handleEarlyPayment = async (service: TUniObject) => {
+    Swal.fire({
+      text: `Would you like to proceed with an early payment of 30% of the total service amount €${service.totalAmount}?`,
+      title: `Amount: €${service.totalAmount * 0.3}`,
+      showCancelButton: true,
+      confirmButtonText: "Pay Now",
+      cancelButtonText: "Cancel",
+      showConfirmButton: true,
+      confirmButtonColor: "green",
+      reverseButtons: true,
+      customClass: {
+        confirmButton:
+          "text-white font-normal py-2 px-4 rounded-full w-40 outline-none",
+        cancelButton: "py-2 px-4 font-normal rounded-full w-40",
+      },
+    }).then(async (res) => {
+      if (res.isConfirmed) {
+        try {
+          const res = await payment({
+            bookingId: service.id,
+          }).unwrap();
+          console.log(res);
+          window.location = res.data.paymentIntent;
+        } catch (error: any) {
+          Swal.fire({
+            icon: "error",
+            title: "Failed!!",
+            text:
+              error.message ||
+              error?.data?.message ||
+              "Something went wrong. Please try again later.",
+          });
+        }
+      }
+    });
+  };
   return (
     <section className="bg-yellow-50 w-full">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
@@ -96,19 +136,39 @@ export default function Page() {
                           Done
                         </button>
                       ) : (
-                        <button
-                          onClick={() =>
-                            appContext?.setModal(
-                              <BookingReviewForm
-                                profileId={item.profile?.id}
-                                bookingId={item.id}
-                              />
-                            )
-                          }
-                          className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200"
-                        >
-                          Review
-                        </button>
+                        <>
+                          {item.status === "accepted" ? (
+                            <button
+                              onClick={() => handleEarlyPayment(item)}
+                              className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200 whitespace-pre"
+                            >
+                              Early Pay
+                            </button>
+                          ) : item.status === "paid" ? (
+                            <button
+                              // onClick={() =>
+
+                              // }
+                              className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200 flex justify-center items-center gap-1"
+                            >
+                              Track 
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                appContext?.setModal(
+                                  <BookingReviewForm
+                                    profileId={item.profile?.id}
+                                    bookingId={item.id}
+                                  />
+                                )
+                              }
+                              className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200"
+                            >
+                              Review
+                            </button>
+                          )}
+                        </>
                       )}
                     </td>
                   </tr>
