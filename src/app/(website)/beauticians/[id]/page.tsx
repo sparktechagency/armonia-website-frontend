@@ -207,7 +207,8 @@ export default function Page(props: TPageProps) {
               </div>
               <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300">
                 <IoLocationOutline className="size-6 lg:size-8" />
-                EC3P
+                <span>{data?.data?.postalCode}</span>
+                {/* Post Code - */}
               </p>
               <p className="text-xl lg:text-3xl">
                 Available Time: {data?.data?.availableSlots?.[0].slot.start} AM

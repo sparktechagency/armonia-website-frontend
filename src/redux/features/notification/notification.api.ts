@@ -30,10 +30,27 @@ const notificationApi = baseApi.injectEndpoints({
             },
             providesTags: ["notice"],
         }),
+        allNotification: builder.query({
+            query: (args: TArgs) => {
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item) => {
+                        params.append(item.name, item.value);
+                    });
+                }
+                return {
+                    url: `notifications`,
+                    method: "GET",
+                    params,
+                };
+            },
+            providesTags: ["notice"],
+        }),
 
     }),
 });
 
 export const {
-    useUnreadNoticeQuery
+    useUnreadNoticeQuery,
+    useAllNotificationQuery
 } = notificationApi;

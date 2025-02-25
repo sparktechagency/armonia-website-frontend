@@ -47,6 +47,7 @@ const dashboardLinks: {
       ],
     },
     { name: "Messages", href: "/dashboard/messages", menu: [] },
+    { name: "Notifications", href: "/notification", menu: [] },
   ],
   beautician: [
     { name: "Profile", href: "/dashboard/profile", menu: [] },
@@ -68,6 +69,7 @@ const dashboardLinks: {
     { name: "Reviews", href: "/dashboard/reviews", menu: [] },
     { name: "My Services", href: "/dashboard/services", menu: [] },
     { name: "Earning", href: "/dashboard/earning", menu: [] },
+    { name: "Notifications", href: "/notification", menu: [] },
   ],
   admin: [
     { name: "Dashboard", href: "/dashboard", menu: [] },

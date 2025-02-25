@@ -8,12 +8,13 @@ import { useBookingsQuery } from "@/redux/features/booking/booking.api";
 import { useCreatePaymentMutation } from "@/redux/features/earnings/earnings.api";
 import { useAppSelector } from "@/redux/hook";
 import { TUniObject } from "@/type/index.type";
+import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import { BsArrowRight } from "react-icons/bs";
 import Swal from "sweetalert2";
 
 export default function Page() {
   const appContext = useContext(context);
+  const router = useRouter();
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading, isError } = useBookingsQuery([
     {
@@ -132,7 +133,7 @@ export default function Page() {
                     )}
                     <td className="p-3">
                       {user?.type === "beautician" ? (
-                        <button className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200">
+                        <button className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200">
                           Done
                         </button>
                       ) : (
@@ -140,18 +141,20 @@ export default function Page() {
                           {item.status === "accepted" ? (
                             <button
                               onClick={() => handleEarlyPayment(item)}
-                              className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200 whitespace-pre"
+                              className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200 whitespace-pre"
                             >
                               Early Pay
                             </button>
                           ) : item.status === "paid" ? (
                             <button
-                              // onClick={() =>
-
-                              // }
-                              className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200 flex justify-center items-center gap-1"
+                              onClick={() =>
+                                router.push(
+                                  `/dashboard/bookings/beautician-tracking?id=${item.id}`
+                                )
+                              }
+                              className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200 flex justify-center items-center gap-1"
                             >
-                              Track 
+                              Tracking
                             </button>
                           ) : (
                             <button
@@ -163,7 +166,7 @@ export default function Page() {
                                   />
                                 )
                               }
-                              className="bg-blue-500 text-white px-2 py-1 rounded-md disabled:bg-blue-200"
+                              className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200"
                             >
                               Review
                             </button>

@@ -57,7 +57,7 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
   // console.log("bongoBoltu", bongoBoltu ? Object.values(bongoBoltu)[0] : "");
   // console.log(selectedSlot.find((item) => item[`slot-${2}`]) ? selectedSlot.find((item) => item[`slot-${2}`])[`slot-${2}`] : "");
   return (
-    <form className="bg-white max-w-[1440px] w-full py-16 px-10 lg:px-56 relative">
+    <form className="bg-white max-w-[1440px] w-full py-16 px-5 md:px-10 lg:px-56 relative">
       <div className="text-black lg:flex justify-center items-start gap-8">
         <Image
           src={"/checkout.png"}
@@ -75,7 +75,7 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
             <p className="text-xl font-semibold font-Playfair_Display">
               Customer
             </p>
-            <h1 className="lg:text-4xl text-4xl font-bold text-blue-500 font-Playfair_Display">
+            <h1 className="text-3xl lg:text-4xl font-bold text-blue-500 font-Playfair_Display">
               Appointment Details
             </h1>
             <div className="space-y-4">
@@ -133,13 +133,13 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
                         className="flex justify-between items-center border-b border-dotted gap-3 pb-3 text-gray-700"
                       >
                         <p>
-                          <span className="font-semibold">{service?.name}</span>
+                          <span className="font-semibold text-ellipsis truncate">{service?.name}</span>
                         </p>
                         <span className="text-blue-500 text-right">
                           from €{service?.price}
                         </span>
                         <p>
-                          {service?.bookedSlots?.start} -{" "}
+                          {service?.bookedSlots?.start}-
                           {service?.bookedSlots?.end}
                         </p>
                       </li>

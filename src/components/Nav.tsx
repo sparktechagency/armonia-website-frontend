@@ -14,6 +14,8 @@ import { logout } from "@/redux/features/auth/authSlice";
 import { sweetAlertConfirmation } from "@/lib/alert";
 import { LanguageSwitcher } from "./LangSwitcher/lang-switcher";
 import { FaChevronDown } from "react-icons/fa";
+import { useUnreadNoticeQuery } from "@/redux/features/notification/notification.api";
+import { cn } from "@/lib/utils";
 
 export default function Nav() {
   const path = usePathname();
@@ -23,7 +25,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
   const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
-
+  const { data: unreadNotification } = useUnreadNoticeQuery([]);
   const links = [
     { name: "Home", href: "/" },
     { name: "Beauticians", href: "/beauticians" },
@@ -81,7 +83,7 @@ export default function Nav() {
             //   maxWidth: "100%",
             //   height: "auto",
             // }}
-             className="w-[97%] lg:w-[100%]"
+            className="w-[97%] lg:w-[100%]"
           />
         </Link>
         <LanguageSwitcher />
@@ -94,7 +96,7 @@ export default function Nav() {
         </button>
         <div
           className={`flex flex-col lg:flex-row-reverse lg:items-center gap-2.5 lg:gap-24 text-lg fixed lg:static bg-white lg:bg-none px-3 lg:px-0 pt-20 md:pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen lg:h-auto top-0 -z-10  ${
-            open ? "right-0" : "-right-full"
+          open ? "right-0" : "-right-full"
           } transition-all duration-500`}
         >
           {user?.email ? (
@@ -123,6 +125,17 @@ export default function Nav() {
                       : "size-3 lg:size-3.5 mt-1.5"
                   }
                 />
+                <div
+                  className={cn(
+                    "absolute bg-lime-500 h-3.5 w-3.5 rounded-full top-0 left-0 overflow-hidden flex items-center justify-center text-[8px] font-semibold text-white",
+                    {
+                      "h-0 w-0":
+                        !unreadNotification?.data?.totalUnreadNotification,
+                    }
+                  )}
+                >
+                  {unreadNotification?.data?.totalUnreadNotification}
+                </div>
               </div>
               <div
                 className={`lg:absolute w-full bg-white top-16 text-base font-normal overflow-hidden ${
