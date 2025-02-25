@@ -1,3 +1,4 @@
+import { FiInbox } from "react-icons/fi";
 import { cn } from "../lib/utils";
 import { ColorRing, Discuss, RotatingLines } from "react-loader-spinner";
 
@@ -43,7 +44,8 @@ const LoaderWraperComp = ({
         ) : isError ? (
           <h1 className="text-red-400">Something want wrong!</h1>
         ) : (
-          <h1 className="text-green-400">
+          <h1 className="text-green-400 flex flex-col items-center gap-2">
+            <FiInbox size={30} />
             {isError ? isError : <div className="text-green-500">Empty data!</div>}
           </h1>
         )}
