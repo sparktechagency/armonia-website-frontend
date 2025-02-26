@@ -1,26 +1,18 @@
 "use client";
-import { createContext, useState } from "react";
+import { useAppSelector } from "@/redux/hook";
+import { createContext, useEffect, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
-import { redirect } from "next/navigation";
-
-type User = {
-  name: string;
-  email: string;
-  image: string;
-  role: "user" | "beautician" | "admin";
-};
-
+import { io, Socket } from "socket.io-client";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 type ContextProps = {
+  socket: null | Socket;
   modal: null | ReactNode;
   setModal: Dispatch<SetStateAction<null | ReactNode>>;
-  user: null | User;
-  setUser: Dispatch<SetStateAction<null | User>>;
   dashboardRoutes: (role: "customer" | "beautician" | "admin") => {
     name: string;
     href: string;
     menu: { name: string; href: string }[];
   }[];
-  logout: () => void;
 };
 
 const dashboardLinks: {
@@ -84,32 +76,36 @@ const dashboardLinks: {
 export const context = createContext<ContextProps | null>(null);
 
 export function Context({ children }: { children: React.ReactNode }) {
+  const { token } = useAppSelector((state) => state.auth);
+  const [socketData, setSocketData] = useState<null | Socket>(null);
   const [modal, setModal] = useState<null | ReactNode>(null);
-  const [user, setUser] = useState<null | User>({
-    name: "Linda",
-    email: "adsf@gmail.com",
-    image: "/beautician.jpg",
-    role: "beautician",
-  });
-
   function dashboardRoutes(role: "customer" | "beautician" | "admin") {
     return dashboardLinks[role];
   }
-
-  function logout() {
-    setUser(null);
-    redirect("/");
-  }
-
+  useEffect(() => {
+    if (token) {
+      const connectedSocket = io(`${apiUrl}`, {
+        transports: ["websocket"],
+        // extraHeaders: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        query: {
+          token,
+        },
+      });
+      if (connectedSocket) setSocketData(connectedSocket);
+      return () => {
+        connectedSocket.disconnect();
+      };
+    }
+  }, [token]);
   return (
     <context.Provider
       value={{
+        socket: socketData,
         modal,
         setModal,
-        user,
-        setUser,
         dashboardRoutes,
-        logout,
       }}
     >
       {children}

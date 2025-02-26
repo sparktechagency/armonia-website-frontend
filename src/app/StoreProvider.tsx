@@ -34,12 +34,17 @@ const AuthProvider = ({ children }: ProvidersProps) => {
     delete userinfo?.profile;
     dispatch(
       setUser({
-        user: { ...userinfo, ...profile }, // ✅ Merge userinfo and profile
+        user: {
+          ...userinfo,
+          ...profile,
+          id: userinfo?.id,
+          profileId: profile?.id,
+        },
       })
     );
   }, [data]);
   if (isLoading) {
-    return <RootSpinner/>;
+    return <RootSpinner />;
   }
   return children;
 };

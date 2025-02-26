@@ -20,7 +20,7 @@ export default function page() {
     data: services,
     isLoading,
     isError,
-  } = useServicesQuery([{ name: "profileId", value: user?.id }], {
+  } = useServicesQuery([{ name: "profileId", value: user?.profileId }], {
     skip: !user?.id,
   });
   // , {name: "name", value: query.category}
