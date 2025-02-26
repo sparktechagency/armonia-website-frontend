@@ -4,6 +4,7 @@ import Testimonials from "@/components/Testimonials";
 import Contact from "@/app/(website)/contact/page";
 import SearchForm from "@/components/Home/SearchForm";
 import Beauticians from "@/components/Home/Beauticians";
+import { RootSpinner } from "@/components/Spinner";
 // import moduleName from '/profile/img-1';
 
 const page = () => {

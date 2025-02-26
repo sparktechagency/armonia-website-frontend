@@ -9,13 +9,16 @@ const Page = () => {
   const { data, isLoading, isError } = useAllNotificationQuery([]);
   console.log(data);
   return (
-    <div className="space-y-5 lg:space-y-8 px-2 sm:px-6 2xl:px-36">
+    <div className="w-full space-y-5 lg:space-y-8 bg-yellow-50">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
         Notifications
       </h1>
-      <div className="max-w-full w-full flex flex-col gap-6 md:gap-10 mx-auto py-3 pb-16">
+      <div className="max-w-full w-full flex flex-col gap-4 lg:gap-6 mx-auto py-3 pb-16">
         {data?.data?.map((notification: TUniObject, index: number) => (
-          <div key={index} className="flex items-center gap-3 lg:gap-5">
+          <div
+            key={index}
+            className="flex items-center gap-3 lg:gap-5 hover:bg-white/50 py-4 px-3 sm:px-6 transition-all"
+          >
             <div className="rounded-full">
               {createElement(IoIosNotificationsOutline, {
                 className: "size-8 text-slate-600",

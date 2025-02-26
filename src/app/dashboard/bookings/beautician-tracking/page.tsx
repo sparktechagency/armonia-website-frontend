@@ -1,21 +1,46 @@
 "use client";
 
 import LoaderWraperComp from "@/components/LoaderWraperComp";
+import { BtnSpenner } from "@/components/Spinner";
 import { useBookingDetailsByIdQuery } from "@/redux/features/booking/booking.api";
+import { useCreateConversationMutation } from "@/redux/features/messages/message.api";
 import { TPageProps, TUniObject } from "@/type/index.type";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { use } from "react";
+import { BiMessageRoundedDots } from "react-icons/bi";
+import Swal from "sweetalert2";
 
 // import { useRouter } from "next/router";
 
 export default function Page(props: TPageProps) {
   const { id } = use(props.searchParams);
+  const router = useRouter();
   const lat = 39.01374;
   const lng = -95.688979;
   const { data, isLoading, isError } = useBookingDetailsByIdQuery(id, {
     skip: !id,
   });
-  console.log({ data, isLoading, isError });
+  const [createConversation, { isLoading: conLoading }] =
+    useCreateConversationMutation();
+  // console.log({ data, isLoading, isError });
+  const handleCreateConversation = async () => {
+    try {
+      const res = await createConversation({
+        participant: data?.data?.profile?.user?.id,
+      }).unwrap();
+      router.push(`/dashboard/messages/${res.data.id}`);
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!!",
+        text:
+          error.message ||
+          error?.data?.message ||
+          "Something went wrong. Please try again later.",
+      });
+    }
+  };
   return (
     <LoaderWraperComp
       isError={isError}
@@ -37,20 +62,31 @@ export default function Page(props: TPageProps) {
               height={1000}
             />
           </div>
-          <div className="">
+          <div className="space-y-1">
             <p className="text-xs sm:text-sm text-slate-500">Beautician info</p>
             <h3 className="font-medium text-base lg:text-lg text-blue-500">
               Name: {data?.data?.profile?.user.name}
             </h3>
-            <h3 className="font-medium text-base lg:text-lg notranslate text-blue-500">
+            <h3 className="font-medium text-base lg:text-lg notranslate text-blue-500 pb-2">
               E-mail: {data?.data?.profile?.user.email}
             </h3>
-            {/* <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300">
+            <button
+              disabled={conLoading}
+              onClick={handleCreateConversation}
+              className="px-5 py-1 w-full h-fit border border-blue-600 text-blue-600 hover:text-white disabled:bg-blue-200 disabled:text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none transition-all flex justify-center items-center gap-2"
+            >
+              Message{" "}
+              {conLoading ? (
+                <BtnSpenner />
+              ) : (
+                <BiMessageRoundedDots className="size-4 mt-1" />
+              )}
+            </button>
+          </div>
+          {/* <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300">
               <IoLocationOutline className="size-6 lg:size-8" />
               EC3P
             </p> */}
-            <button className="border p-2">Contact</button>
-          </div>
         </div>
         <ul className="space-y-2 w-full max-w-3xl px-2 lg:px-4">
           <li className="flex gap-2">
@@ -59,7 +95,7 @@ export default function Page(props: TPageProps) {
           </li>
           <li className="flex  gap-2">
             <label className="block text-gray-700 mb-2">Payment Status:</label>
-            <p>{data?.data?.status === "paid" ? "30% Paid" : ""}</p>
+            <p>{data?.data?.status === "paid" ? "30% Early Paid" : ""}</p>
           </li>
           <li className="flex  gap-2">
             <label className="block text-gray-700 mb-2">

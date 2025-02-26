@@ -1,4 +1,5 @@
 "use client";
+import { RootSpinner } from "@/components/Spinner";
 import { useGetProfileQuery } from "@/redux/features/auth/authApi";
 import { setLogin, setUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hook";
@@ -38,7 +39,7 @@ const AuthProvider = ({ children }: ProvidersProps) => {
     );
   }, [data]);
   if (isLoading) {
-    return <h3>Loading.....</h3>;
+    return <RootSpinner/>;
   }
   return children;
 };

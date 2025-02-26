@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { context } from "../Context";
+import { context } from "../app/Context";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout } from "@/redux/features/auth/authSlice";
 import { sweetAlertConfirmation } from "@/lib/alert";
@@ -25,7 +25,7 @@ export default function Sidebar() {
   if (!user) return null;
   // console.log(appContext.user);
   return (
-    <div className="w-1/4 hidden lg:flex flex-col justify-between py-16 xl:text-xl">
+    <div className="w-1/4 hidden lg:flex flex-col justify-between py-16 xl:text-xl gap-3">
       <div className="flex flex-col gap-3">
         {appContext
           ?.dashboardRoutes(user?.type)

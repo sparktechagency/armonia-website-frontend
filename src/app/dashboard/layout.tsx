@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "../../components/Sidebar";
 import Nav from "@/components/Nav";
 import Modal from "@/components/Modal";
 import { ToastContainer } from "react-toastify";
