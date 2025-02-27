@@ -18,3 +18,10 @@ export type TMessage = {
     createdAt: Date;
     updatedAt?: Date;
 };
+
+export type TParticipant = {
+    id?: string;
+    name: string;
+    image?: string;
+    
+  };

@@ -19,6 +19,7 @@ const ConversationList = () => {
   const debounceSearch = debounce((value: string) => {
     setQuery((c) => ({ ...c, search: value }));
   }, 700);
+ 
   return (
     <div className="w-1/3">
       {/* Search Input */}

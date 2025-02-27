@@ -76,6 +76,7 @@ const dashboardLinks: {
 export const context = createContext<ContextProps | null>(null);
 
 export function Context({ children }: { children: React.ReactNode }) {
+  const [participant, setParticipant] = useState(null)
   const { token } = useAppSelector((state) => state.auth);
   const [socketData, setSocketData] = useState<null | Socket>(null);
   const [modal, setModal] = useState<null | ReactNode>(null);
