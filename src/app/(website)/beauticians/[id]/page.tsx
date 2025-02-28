@@ -211,14 +211,33 @@ export default function Page(props: TPageProps) {
                 {/* Post Code - */}
               </p>
               <p className="text-xl lg:text-3xl">
-                Available Time: {data?.data?.availableSlots?.[0].slot.start} AM
-                to {data?.data?.availableSlots?.[0].slot.end} PM
+                Available Time: {data?.data?.availableSlots?.[0].slot.start} To{" "}
+                {
+                  data?.data?.availableSlots?.[
+                    data?.data?.availableSlots?.length - 1
+                  ].slot.end
+                }
               </p>
+              <div className="flex items-center gap-2">
+                <p className="text-xl lg:text-3xl">Working Days :</p>{" "}
+                <div className="flex items-center flex-wrap gap-2">
+                  {data?.data?.weeklySchedules?.weekDays.map(
+                    (item: TUniObject, index: number) => (
+                      <span
+                        key={index}
+                        className="text-sm lg:text-base px-2 border h-fit bg-yellow-50"
+                      >
+                        {item.dayName}
+                      </span>
+                    )
+                  )}
+                </div>
+              </div>
               <p className="text-lg lg:text-2xl font-medium text-blue-500 text-justify">
                 {data?.data?.bio}
               </p>
             </div>
-            <div className="w-full flex items-center justify-center overflow-hidden h-[600px] relative">
+            <div className="w-full flex items-center justify-center overflow-hidden lg:h-[600px] relative">
               <Image
                 src={
                   data?.data?.user?.image
@@ -267,11 +286,13 @@ export default function Page(props: TPageProps) {
                       }
                       alt={categoryName}
                       className="w-full h-full object-cover"
-                      fill
-                      sizes="100vw"
-                      style={{
-                        objectFit: "cover",
-                      }}
+                      width={1000}
+                      height={1000}
+                      // fill
+                      // sizes="100vw"
+                      // style={{
+                      //   objectFit: "cover",
+                      // }}
                     />
                   </div>
                   <div className="w-full lg:w-1/2">

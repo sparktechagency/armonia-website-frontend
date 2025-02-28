@@ -77,7 +77,7 @@ const LanguageSwitcher: React.FC = () => {
       {/* Toggle Dropdown */}
       <button
         onClick={() => setDropdownOpen(!dropdownOpen)}
-        className="p-1 lg:p-2"
+        className="p-0.5 lg:p-1.5 lg:border"
       >
         <IoLanguage className="size-4 lg:size-5" />
       </button>
@@ -86,13 +86,13 @@ const LanguageSwitcher: React.FC = () => {
       {dropdownOpen && (
         <div
           ref={menuRef}
-          className="absolute right-0 top-full mt-2 w-48 bg-white border rounded shadow-lg z-10"
+          className="absolute right-0 top-full mt-2 min-w-44 bg-white rounded-sm shadow-md z-10"
         >
           {supportedLanguages.map((ld) => (
             <button
               key={ld.name}
               onClick={() => switchLanguage(ld.name)}
-              className="flex items-center gap-x-2 p-2 w-full text-left hover:bg-gray-200 transition"
+              className="flex items-center gap-x-2 py-2 px-4 w-full text-left hover:bg-gray-200 transition"
             >
               {/* <Image src={ld.icon} alt={ld.title} height={22} width={22} className="rounded-lg" /> */}
               {ld.title}

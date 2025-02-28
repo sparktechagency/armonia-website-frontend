@@ -10,7 +10,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 export default function BeauticianCart({ data }: { data: User }) {
   const [sliceQty, setSliceQty] = useState(0);
 
-  // console.log(data);
+  console.log(data);
 
   const next = (length: number) => {
     console.log({ sliceQty, length });

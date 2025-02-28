@@ -86,7 +86,7 @@ export default function Nav() {
             className="w-[98%] lg:w-[100%]"
           />
         </Link>
-        <div className="flex items-center justify-end gap-1.5 lg:gap-0 relative">
+        <div className="flex items-center justify-end gap-2.5 lg:gap-0 relative">
           <div
             className={`fixed lg:static lg:h-auto top-0 -z-10 lg:z-0 bg-white lg:bg-none pt-20 md:pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen  ${
               open ? "right-0" : "-right-full"
@@ -110,10 +110,7 @@ export default function Nav() {
               ))}
               {user?.email ? (
                 <div
-                  onClick={() => {
-                    console.log("hello");
-                    setDashboardMenuOpen(!dashboardMenuOpen);
-                  }}
+                  onClick={() => setDashboardMenuOpen(!dashboardMenuOpen)}
                   className="flex items-center gap-2.5 relative cursor-pointer select-none order-first lg:order-none"
                 >
                   <Image
@@ -125,7 +122,7 @@ export default function Nav() {
                     alt={user?.name}
                     width={50}
                     height={50}
-                    className="rounded-full overflow-hidden min-w-[50px] w-[50px] h-[50px] object-cover"
+                    className="rounded-full overflow-hidden min-w-[50px] w-[50px] h-[50px] object-cover border"
                   />
                   <p className="font-semibold">{user?.name}</p>
                   <FaChevronDown
@@ -169,7 +166,7 @@ export default function Nav() {
               {user?.email && (
                 <div
                   ref={profileMenuRef}
-                  className={`lg:absolute w-fit right-0 bg-white top-16 text-base font-normal overflow-hidden ${
+                  className={`min-w-44 w-fit lg:absolute right-0 top-16 lg:shadow-md bg-white text-base font-normal overflow-hidden ${
                     dashboardMenuOpen
                       ? "h-auto lg:shadow-md lg:border lg:border-t-0 border-yellow-50"
                       : "h-auto lg:h-0"
@@ -200,6 +197,7 @@ export default function Nav() {
               )}
             </div>
           </div>
+          <LanguageSwitcher />
           <button
             onClick={() => setOpen((c) => !c)}
             className="lg:hidden outline-none"
@@ -208,7 +206,6 @@ export default function Nav() {
               size: 22,
             })}
           </button>
-          <LanguageSwitcher />
         </div>
       </nav>
     </>
