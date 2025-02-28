@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/redux/hook";
 import { setLogin } from "@/redux/features/auth/authSlice";
 import { BtnSpenner } from "./Spinner";
 import Verify from "./Verify";
+import { TUniObject } from "@/type/index.type";
 
 export default function Login() {
   const appContext = useContext(context);
@@ -27,9 +28,13 @@ export default function Login() {
     });
     try {
       const res = await mutation(formValues).unwrap();
-      const profile = res.data.user.profile;
+      const profile = { ...res?.data?.user?.profile };
+      const weekDays = profile?.weeklySchedules?.weekDays.map(
+        (item: TUniObject) => item.dayName
+      );
       let userinfo = { ...res.data.user };
       delete userinfo.profile;
+      delete profile.weeklySchedules;
       dispatch(
         setLogin({
           token: res.data.token,
@@ -38,6 +43,7 @@ export default function Login() {
             ...profile,
             id: userinfo?.id,
             profileId: profile?.id,
+            weekDays,
           }, // ✅ Merge userinfo and profile
         })
       );

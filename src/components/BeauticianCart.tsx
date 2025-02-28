@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import ProfileCategory from "./ProfileCategory";
 import Link from "next/link";
-import { Category, User } from "@/redux/features/auth/authSlice";
+import { User } from "@/redux/features/auth/authSlice";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 export default function BeauticianCart({ data }: { data: User }) {
@@ -95,9 +95,9 @@ export default function BeauticianCart({ data }: { data: User }) {
               EC3P
             </p>
             <div className="flex items-center gap-2 overflow-hidden">
-              {data?.services?.slice(0, 3).map((item) => (
+              {data?.services?.slice(0, 3).map((item, index) => (
                 <span
-                  key={item.id}
+                  key={index}
                   className="bg-blue-400 w-full block text-white text-center px-2 pt-0.5 pb-1 rounded text-base text-nowrap"
                 >
                   {item.name}

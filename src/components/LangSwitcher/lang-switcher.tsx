@@ -9,19 +9,21 @@ declare global {
   }
 }
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { parseCookies, setCookie } from "nookies";
 import { supportedLanguages } from "@/constants/language.contants";
+import { IoLanguage } from "react-icons/io5";
 
 // Google Translation Cookie Name
 const COOKIE_NAME = "googtrans";
 
-
-
-
 const LanguageSwitcher: React.FC = () => {
+  const menuRef = useRef<HTMLDivElement>(null);
   const [currentLanguage, setCurrentLanguage] = useState<string | null>(null);
-  const [languageConfig, setLanguageConfig] = useState<Record<string, any> | null>(null);
+  const [languageConfig, setLanguageConfig] = useState<Record<
+    string,
+    any
+  > | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -49,6 +51,17 @@ const LanguageSwitcher: React.FC = () => {
       setLanguageConfig(window.__GOOGLE_TRANSLATION_CONFIG__);
     }
   }, []);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (!currentLanguage || !languageConfig) {
     return null;
@@ -64,22 +77,17 @@ const LanguageSwitcher: React.FC = () => {
       {/* Toggle Dropdown */}
       <button
         onClick={() => setDropdownOpen(!dropdownOpen)}
-        className="flex items-center gap-x-2 p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        className="p-1 lg:p-2"
       >
-        {/* <Image
-          src={flags[currentLanguage]?.flag || usaFlag}
-          alt={flags[currentLanguage]?.title || "Language"}
-          height={32}
-          width={32}
-          className="rounded-lg"
-        /> */}
-        Dropdown
-        {/* <Icon icon="icon-park-solid:down-one" width="18px" height="18px" /> */}
+        <IoLanguage className="size-4 lg:size-5" />
       </button>
 
       {/* Dropdown Menu */}
       {dropdownOpen && (
-        <div className="absolute left-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+        <div
+          ref={menuRef}
+          className="absolute right-0 top-full mt-2 w-48 bg-white border rounded shadow-lg z-10"
+        >
           {supportedLanguages.map((ld) => (
             <button
               key={ld.name}

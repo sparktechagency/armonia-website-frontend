@@ -12,7 +12,6 @@ const Beauticians = async () => {
     }
   );
   const data = await response.json();
-  // console.log(data);
   return (
     <section className="py-16 text-center">
       <p className="text-yellow-500">Popular Beautician</p>
@@ -20,13 +19,14 @@ const Beauticians = async () => {
         Recommended
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-2  sm:px-6 2xl:px-36 mt-8 md:mt-14">
-        {data.data?.map((item: any) => {
-          const profile = item.profile;
+        {data?.data?.map((item: any, index: number) => {
+          const profile = { ...item.profile };
           let userinfo = { ...item };
           delete userinfo.profile;
+          // delete profile.weeklySchedules;
           return (
             <BeauticianCart
-              key={item.id}
+              key={index}
               data={{ ...userinfo, ...profile, profileId: profile.id }}
             />
           );

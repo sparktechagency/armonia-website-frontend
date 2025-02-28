@@ -1,5 +1,6 @@
 import { TUniObject } from "@/type/index.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 // Define the type for the state
 interface AuthState {
@@ -54,12 +55,13 @@ export interface User {
   category?: Category;
   image?: string;
   profileId?: string;
+  weekDays?: string[];
 }
 
 // Define the initial state with the type
 const initialState: AuthState = {
   user: null,
-  token: null,
+  token: Cookies.get("token") || null,
   isLoading: true,
 };
 
@@ -76,11 +78,13 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoading = false;
+      Cookies.set("token", action.payload.token, { expires: 7, secure: true, sameSite: "strict" });
     },
     logout(state) {
       state.user = null;
       state.token = null;
       state.isLoading = false;
+      Cookies.remove("token");
     },
   },
 });

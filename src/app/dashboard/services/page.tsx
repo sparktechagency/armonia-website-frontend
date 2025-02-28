@@ -48,7 +48,7 @@ export default function page() {
               setQuery((c) => ({ ...c, category: e.target.value }))
             }
             defaultValue={""}
-            className="bg-white border border-gray-300 text-gray-700 text-sm rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="bg-white border border-gray-300 text-gray-700 text-sm rounded px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">
               {cateLoading ? "loading..." : "All Category"}
@@ -63,7 +63,7 @@ export default function page() {
             type="text"
             onChange={(e) => debounceSearch(e.target.value)}
             placeholder="Search by service name..."
-            className="flex-grow ml-2 max-w-xs bg-white border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="flex-grow ml-2 max-w-xs bg-white border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <LoaderWraperComp
@@ -72,34 +72,41 @@ export default function page() {
           dataEmpty={services?.data?.length < 1}
           className="min-h-[70vh]"
         >
-          <table className="table-auto w-full text-left border-collapse border border-gray-200">
-            <thead className="bg-[#FFFBEF] text-[#142F62]">
-              <tr>
-                <th className="p-3 border border-gray-300">ID.NO.</th>
-                <th className="p-3 border border-gray-300">Service Name</th>
-                <th className="p-3 border border-gray-300">Category</th>
-                <th className="p-3 border border-gray-300">Price</th>
-                <th className="p-3 border border-gray-300">Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {services?.data?.map((item: TUniObject, index: number) => (
-                <tr key={index} className="hover:bg-[#E7F8FF] even:bg-gray-50">
-                  <td className="p-3 border border-gray-300">{item.id}</td>
-                  <td className="p-3 border border-gray-300">{item.name}</td>
-                  <td className="p-3 border border-gray-300">
-                    {item.categoryName}
-                  </td>
-                  <td className="p-3 border border-gray-300">${item.price}</td>
-                  <td className="p-3 border border-gray-300 space-x-2 md:space-x-4 whitespace-pre">
-                    <FiEdit3 size={18} className="inline-block" />
-                    <MdDeleteOutline size={18} className="inline-block" />
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full text-left border-collapse border border-gray-200">
+              <thead className="bg-[#FFFBEF] text-[#142F62]">
+                <tr>
+                  <th className="p-3 border border-gray-300">ID.NO.</th>
+                  <th className="p-3 border border-gray-300">Service Name</th>
+                  <th className="p-3 border border-gray-300">Category</th>
+                  <th className="p-3 border border-gray-300">Price</th>
+                  <th className="p-3 border border-gray-300">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {services?.data?.map((item: TUniObject, index: number) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-[#E7F8FF] even:bg-gray-50"
+                  >
+                    <td className="p-3 border border-gray-300">{item.id}</td>
+                    <td className="p-3 border border-gray-300">{item.name}</td>
+                    <td className="p-3 border border-gray-300">
+                      {item.categoryName}
+                    </td>
+                    <td className="p-3 border border-gray-300 whitespace-pre notranslate">
+                    ${item.price}
+                    </td>
+                    <td className="p-3 border border-gray-300 space-x-2 md:space-x-4 whitespace-pre">
+                      <FiEdit3 size={18} className="inline-block" />
+                      <MdDeleteOutline size={18} className="inline-block" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </LoaderWraperComp>
       </div>
     </section>

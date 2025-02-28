@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { context } from "../app/Context";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout } from "@/redux/features/auth/authSlice";
@@ -15,7 +15,7 @@ export default function Sidebar() {
   const [active, setActive] = useState("");
   const handleLogout = () => {
     dicpatch(logout());
-    // dispath(.util.invalidateTags(["Profile"]));
+    redirect("/");
   };
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
 import { toast } from "react-toastify";
 
-export default function SetPassword() {
+export default function SetPassword({ method }: { method?: string }) {
   const appContext = useContext(context);
   const [matchingPass, setMatchingPass] = useState({ pass: "", confirm: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -24,12 +24,12 @@ export default function SetPassword() {
 
     try {
       if (formValues.password !== formValues.confirmPassword) {
-        throw new Error("Password and confirm password don't match!")
+        throw new Error("Password and confirm password don't match!");
         return;
       }
       await mutation({ body: formValues, endpoint: "forget" }).unwrap();
       sessionStorage.removeItem("verify-token");
-      appContext?.setModal(<Login />);
+      appContext?.setModal(method === "change" ? null : <Login />);
       toast.success(
         "Password has been set successfully. Please login to continue."
       );
@@ -57,8 +57,8 @@ export default function SetPassword() {
             type={showPassword ? "text" : "password"}
             name="password"
             id="password"
-            placeholder="Password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="New Password"
+            className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:outline-none focus:ring focus:ring-[#142f62] shadow-sm"
             required
             onChange={(e) =>
               setMatchingPass((c) => ({ ...c, pass: e.target.value }))
@@ -130,7 +130,7 @@ export default function SetPassword() {
             name="confirmPassword"
             id="password"
             placeholder="Confirm Password"
-            className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:outline-none focus:ring focus:ring-[#142f62]"
+            className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:outline-none focus:ring focus:ring-[#142f62] shadow-sm"
             required
             onChange={(e) =>
               setMatchingPass((c) => ({ ...c, confirm: e.target.value }))

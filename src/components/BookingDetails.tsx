@@ -136,7 +136,7 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
                           <span className="font-semibold text-ellipsis truncate">{service?.name}</span>
                         </p>
                         <span className="text-blue-500 text-right">
-                          from €{service?.price}
+                          from ${service?.price}
                         </span>
                         <p>
                           {service?.bookedSlots?.start}-
@@ -148,7 +148,7 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
                 </ul>
                 <div className="flex justify-between items-center mt-8 font-bold lg:text-xl text-lg">
                   <span>Total</span>
-                  <span className="text-green-600">€{total}</span>
+                  <span className="text-green-600">${total}</span>
                 </div>
               </div>
             </div>

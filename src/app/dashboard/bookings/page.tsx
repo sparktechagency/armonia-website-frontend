@@ -25,8 +25,8 @@ export default function Page() {
   const [payment, { isLoading: muLoading }] = useCreatePaymentMutation();
   const handleEarlyPayment = async (service: TUniObject) => {
     Swal.fire({
-      text: `Would you like to proceed with an early payment of 30% of the total service amount €${service.totalAmount}?`,
-      title: `Amount: €${service.totalAmount * 0.3}`,
+      text: `Would you like to proceed with an early payment of 30% of the total service amount $${service.totalAmount}?`,
+      title: `Amount: $${service.totalAmount * 0.3}`,
       showCancelButton: true,
       confirmButtonText: "Pay Now",
       cancelButtonText: "Cancel",
@@ -113,7 +113,7 @@ export default function Page() {
                         ? item.profile?.postalCode
                         : item.user?.email}
                     </td>
-                    <td className="p-3 border-r-4">€ {item.totalAmount}</td>
+                    <td className="p-3 border-r-4">$ {item.totalAmount}</td>
                     <td className="p-3 border-r-4 text-right">
                       {new Date(item.createdAt).toLocaleString()}
                     </td>

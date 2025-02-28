@@ -4,6 +4,7 @@ import { useGetProfileQuery } from "@/redux/features/auth/authApi";
 import { setLogin, setUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { persistor, store } from "@/redux/store";
+import { TUniObject } from "@/type/index.type";
 import { ReactNode, useEffect } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -29,9 +30,13 @@ const AuthProvider = ({ children }: ProvidersProps) => {
   const { data, isLoading, isError } = useGetProfileQuery(undefined);
   // console.log({ data, isLoading, isError })
   useEffect(() => {
-    const profile = data?.data?.profile;
+    const profile = { ...data?.data?.profile };
+    const weekDays = profile?.weeklySchedules?.weekDays.map(
+      (item: TUniObject) => item.dayName
+    );
     let userinfo = { ...data?.data };
     delete userinfo?.profile;
+    delete profile.weeklySchedules;
     dispatch(
       setUser({
         user: {
@@ -39,6 +44,7 @@ const AuthProvider = ({ children }: ProvidersProps) => {
           ...profile,
           id: userinfo?.id,
           profileId: profile?.id,
+          weekDays,
         },
       })
     );

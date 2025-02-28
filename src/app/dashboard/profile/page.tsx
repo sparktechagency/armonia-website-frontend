@@ -1,8 +1,11 @@
 "use client";
 
+import { context } from "@/app/Context";
 import TimePicker from "@/components/Profile/TimePicker";
 import ProfileCategory from "@/components/ProfileCategory";
+import SetPassword from "@/components/SetPassword";
 import { BtnSpenner } from "@/components/Spinner";
+import Dayselector from "@/components/ui/Dayselector";
 import { validateionTime } from "@/lib/helpers";
 import {
   useUpdateImageNameMutation,
@@ -11,7 +14,7 @@ import {
 import { useTimeSlotsQuery } from "@/redux/features/slots/slots.api";
 import { useAppSelector } from "@/redux/hook";
 import Image from "next/image";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import { MdOutlineUpload } from "react-icons/md";
 import { TbCloudUpload, TbEdit } from "react-icons/tb";
 import { toast } from "react-toastify";
@@ -22,9 +25,11 @@ type FormValues = {
 };
 
 export default function page() {
-  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
-  const [editable, setEditable] = useState(false);
+  const appContext = useContext(context);
   const { user } = useAppSelector((state) => state.auth);
+  const [editable, setEditable] = useState(false);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
   const { data } = useTimeSlotsQuery(undefined);
   const [dispatch, { isLoading }] = useUpdateProfileMutation();
   const [imageDispatch, { isLoading: imageLoading }] =
@@ -46,6 +51,7 @@ export default function page() {
         user?.type === "beautician"
           ? {
               timeSlotIds,
+              weekdays: selectedDays,
               postalCode: formValues.postalCode,
               bio: formValues.bio,
               category: formValues.category,
@@ -73,7 +79,9 @@ export default function page() {
       });
     }
   };
-
+  useEffect(() => {
+    setSelectedDays(user?.weekDays || []);
+  }, [user]);
   return (
     <form
       onSubmit={handleSubmit}
@@ -89,29 +97,10 @@ export default function page() {
           )}
         </div>
         {editable ? null : (
-          // (
-          //   <div className="w-full relative max-w-44">
-          //     <select
-          //       className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1"
-          //       defaultValue={""}
-          //       name={"category"}
-          //     >
-          //       <option disabled value="">
-          //         Select Category
-          //       </option>
-          //       {["classic", "elite", "celebrity"].map((item) => (
-          //         <option key={item} value={item}>
-          //           {item.slice(0, 1).toUpperCase() + item.slice(1)}
-          //         </option>
-          //       ))}
-          //     </select>
-          //     <FaCaretDown
-          //       size={19}
-          //       className="text-gray-700 hover:text-gray-800 absolute top-[16.5px] right-2.5 pointer-events-none"
-          //     />
-          //   </div>
-          // )
           <button
+            onClick={() =>
+              appContext?.setModal(<SetPassword method={"change"} />)
+            }
             type="button"
             className="bg-[#f1f3f7] text-black px-4 py-2.5 border font-bold rounded-md hover:bg-[#1F4B99] hover:text-white transition duration-300 text-sm md:text-base "
           >
@@ -120,7 +109,7 @@ export default function page() {
         )}
         {/* </Link> */}
       </div>
-      <div className="p-5 rounded-lg shadow-sm lg:flex gap-6 items-center md:mx-auto mt-2 mb-2">
+      <div className="p-5 rounded-lg shadow-sm lg:flex gap-6 md:mx-auto mt-2 mb-2">
         <div className="mb-4 relative overflow-hidden w-full max-w-80 lg:max-w-60 h-full lg:max-h-80">
           <Image
             height={300}
@@ -196,9 +185,17 @@ export default function page() {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
                 />
               </label>
+              <div>
+                Available Days
+                <Dayselector
+                  selectedDays={selectedDays}
+                  setSelectedDays={setSelectedDays}
+                  editAble={!editable}
+                />
+              </div>
               <div className="grid lg:grid-cols-8 gap-5 mb-4">
                 <div className="col-span-5">
-                  Available for service
+                  Available for Slots
                   <div className="flex items-center gap-3">
                     {/* <input
                   onChange={(e) => console.log(e.target.value)}
@@ -209,7 +206,7 @@ export default function page() {
                 /> */}
                     <TimePicker
                       disabled={!editable}
-                      defaultValue={user?.availableSlots?.[0].slot.start}
+                      defaultValue={user?.availableSlots?.[0]?.slot.start}
                       name="start"
                     />
                     <span>to</span>

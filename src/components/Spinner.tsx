@@ -14,7 +14,7 @@ export const BtnSpenner = ({ className }: { className?: string }) => {
 export const RootSpinner = () => {
   return (
     <div className="h-screen w-full flex justify-center items-center relative">
-      <div className="animate-spin transition-all h-48 w-48 lg:h-64 lg:w-64">
+      <div className="animate-spin transition-all h-40 md:h-48 w-40 md:w-48 lg:h-64 lg:w-64">
         <Image
           src={"/loading.png"}
           alt={"Loader"}
@@ -29,7 +29,7 @@ export const RootSpinner = () => {
           alt={"Loader"}
           width={1000}
           height={1000}
-          className="w-24 lg:w-36"
+          className="w-16 md:w-24 lg:w-36"
         />
       </div>
     </div>

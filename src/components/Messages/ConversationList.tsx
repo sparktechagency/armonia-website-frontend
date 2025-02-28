@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { BiSearch } from "react-icons/bi";
 import { useConversationsQuery } from "@/redux/features/messages/message.api";
@@ -7,6 +7,7 @@ import { debounce } from "@/lib/debounce";
 import { TUniObject } from "@/type/index.type";
 import { useParams, useRouter } from "next/navigation";
 import LoaderWraperComp from "../LoaderWraperComp";
+import { context } from "@/app/Context";
 
 const ConversationList = () => {
   const router = useRouter();
@@ -16,10 +17,49 @@ const ConversationList = () => {
   const { data, isLoading } = useConversationsQuery([
     { name: "term", value: query.search },
   ]);
+  const [online, setOnline] = useState<{ userId?: string; isActive?: false }[]>([{
+    userId: "",
+    isActive: false,
+  }]);
+  const appContext = useContext(context);
   const debounceSearch = debounce((value: string) => {
     setQuery((c) => ({ ...c, search: value }));
   }, 700);
- 
+
+  useEffect(() => {
+    if (appContext?.socket) {
+      appContext.socket.on(`active-users`, (message) => {
+        console.log(message);
+        setOnline((prevOnline) => {
+          const existingUser = prevOnline.find((item) => item.userId === message.userId);
+  
+          if (existingUser) {
+            // Update the existing user's isActive status
+            return prevOnline.map((user) =>
+              user.userId === message.userId ? { ...user, isActive: message.isActive } : user
+            );
+          } else {
+            // Add new active user
+            return [...prevOnline, message];
+          }
+        });
+        // console.log(message);
+      });
+      return () => {
+        appContext?.socket?.off(`active-users`);
+      };
+    } else return;
+  }, [appContext?.socket]);
+
+  console.log(online);
+  // const myData = data?.data || [];
+// Updating `myData` based on `online` status
+const myData = (data?.data || []).map((element: any) => {
+  const activeUser = online.find((user) => user.userId === element.id);
+  return { ...element, isActive: activeUser ? activeUser.isActive : false };
+});
+
+  // console.log(myData);
   return (
     <div className="w-1/3">
       {/* Search Input */}
@@ -41,7 +81,7 @@ const ConversationList = () => {
         dataEmpty={!data?.data?.length}
       >
         <>
-          {data?.data.map((conversation: TUniObject, index: number) => (
+          {myData.map((conversation: TUniObject, index: number) => (
             <div
               key={index}
               className={`text-black px-4 py-2.5 border-b cursor-pointer ${
@@ -56,20 +96,18 @@ const ConversationList = () => {
               <div className="flex items-center gap-4 w-full">
                 <Image
                   src={
-                    conversation.participants[0].image
-                      ? `${process.env.NEXT_PUBLIC_API_URL}${conversation.participants[0].image}`
+                    conversation.image
+                      ? `${process.env.NEXT_PUBLIC_API_URL}${conversation.image}`
                       : "/profile-demo.png"
                   }
-                  alt={conversation.participants[0].name}
+                  alt={conversation.name}
                   width={50}
                   height={50}
                   className="rounded-full overflow-hidden w-[50px] h-[50px] object-cover"
                 />
                 <div className="flex justify-between items-center w-full gap-3">
                   <div>
-                    <h1 className="font-medium text-lg">
-                      {conversation.participants[0].name}
-                    </h1>
+                    <h1 className="font-medium text-lg">{conversation.name}</h1>
                     <p className="text-sm text-gray-500">
                       {conversation.lastMsg || "No messages yet!"}
                     </p>
@@ -78,7 +116,7 @@ const ConversationList = () => {
                     id={`messageCheckbox-${index}`}
                     type="radio"
                     className=" size-4 accent-lime-400 "
-                    checked={selectedUser === index}
+                    checked={conversation.isActive}
                     readOnly
                   />
                 </div>

@@ -106,7 +106,7 @@ export default function AddService() {
               name="amount"
               type="text"
               className="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="€ 10"
+              placeholder="$ 10"
             />
           </div>
           <div className="flex-1">
@@ -130,7 +130,7 @@ export default function AddService() {
         {/* Save Changes Button */}
         <button
           type="submit"
-          className="w-full bg-blue-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex justify-center items-center"
+          className="w-full bg-blue-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex justify-center items-center gap-1.5"
         >
           {muLoading && <BtnSpenner />} Save Change
         </button>

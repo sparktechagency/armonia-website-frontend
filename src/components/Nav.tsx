@@ -83,124 +83,132 @@ export default function Nav() {
             //   maxWidth: "100%",
             //   height: "auto",
             // }}
-            className="w-[97%] lg:w-[100%]"
+            className="w-[98%] lg:w-[100%]"
           />
         </Link>
-        <LanguageSwitcher />
-        <button
-          onClick={() => setOpen((c) => !c)}
-          className="lg:hidden outline-none"
-        >
-          {createElement(open ? MdOutlineClose : GiHamburgerMenu, { size: 22 })}
-          {/* {open ?  <MdOutlineClose size={22} /> : <GiHamburgerMenu size={22} />} */}
-        </button>
-        <div
-          className={`flex flex-col lg:flex-row-reverse lg:items-center gap-2.5 lg:gap-24 text-lg fixed lg:static bg-white lg:bg-none px-3 lg:px-0 pt-20 md:pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen lg:h-auto top-0 -z-10  ${
-          open ? "right-0" : "-right-full"
-          } transition-all duration-500`}
-        >
-          {user?.email ? (
-            <div
-              ref={profileMenuRef}
-              onClick={() => setDashboardMenuOpen(!dashboardMenuOpen)}
-              className="relative"
-            >
-              <div className="flex items-center gap-2.5 relative cursor-pointer">
-                <Image
-                  src={
-                    user?.image
-                      ? `${process.env.NEXT_PUBLIC_API_URL}${user.image}`
-                      : "/profile-demo.png"
-                  }
-                  alt={user?.name}
-                  width={50}
-                  height={50}
-                  className="rounded-full overflow-hidden min-w-[50px] w-[50px] h-[50px] object-cover"
-                />
-                <p className="font-semibold">{user?.name}</p>
-                <FaChevronDown
-                  className={
-                    dashboardMenuOpen
-                      ? "rotate-180 size-3 lg:size-3.5 mt-1"
-                      : "size-3 lg:size-3.5 mt-1.5"
-                  }
-                />
+        <div className="flex items-center justify-end gap-1.5 lg:gap-0 relative">
+          <div
+            className={`fixed lg:static lg:h-auto top-0 -z-10 lg:z-0 bg-white lg:bg-none pt-20 md:pt-28 lg:pt-0 w-4/5 lg:w-auto h-screen  ${
+              open ? "right-0" : "-right-full"
+            } transition-all duration-500`}
+          >
+            <div className="flex flex-col lg:flex-row lg:items-center gap-2.5 lg:gap-24 text-lg relative px-3">
+              {links.map(({ href, name }, index) => (
+                <Link
+                  key={index}
+                  href={href}
+                  onClick={() => {
+                    setOpen(false);
+                    setActive(name);
+                  }}
+                  className={` bg-white text-base lg:text-lg w-full rounded-lg lg:w-auto lg:bg-transparent pl-4 lg:p-0 lg:hover:text-yellow-300 lg:transition-all ${
+                    active === name ? "text-yellow-500" : "text-blue-500"
+                  }`}
+                >
+                  {name}
+                </Link>
+              ))}
+              {user?.email ? (
                 <div
-                  className={cn(
-                    "absolute bg-lime-500 h-3.5 w-3.5 rounded-full top-0 left-0 overflow-hidden flex items-center justify-center text-[8px] font-semibold text-white",
-                    {
-                      "h-0 w-0":
-                        !unreadNotification?.data?.totalUnreadNotification,
+                  onClick={() => {
+                    console.log("hello");
+                    setDashboardMenuOpen(!dashboardMenuOpen);
+                  }}
+                  className="flex items-center gap-2.5 relative cursor-pointer select-none order-first lg:order-none"
+                >
+                  <Image
+                    src={
+                      user?.image
+                        ? `${process.env.NEXT_PUBLIC_API_URL}${user.image}`
+                        : "/profile-demo.png"
                     }
-                  )}
-                >
-                  {unreadNotification?.data?.totalUnreadNotification}
+                    alt={user?.name}
+                    width={50}
+                    height={50}
+                    className="rounded-full overflow-hidden min-w-[50px] w-[50px] h-[50px] object-cover"
+                  />
+                  <p className="font-semibold">{user?.name}</p>
+                  <FaChevronDown
+                    className={
+                      dashboardMenuOpen
+                        ? "rotate-180 size-3 lg:size-3.5 mt-1"
+                        : "size-3 hidden lg:block lg:size-3.5 mt-1.5"
+                    }
+                  />
+                  <div
+                    className={cn(
+                      "absolute bg-lime-500 h-3.5 w-3.5 rounded-full top-0 left-0 overflow-hidden flex items-center justify-center text-[8px] font-semibold text-white",
+                      {
+                        "h-0 w-0":
+                          !unreadNotification?.data?.totalUnreadNotification,
+                      }
+                    )}
+                  >
+                    {unreadNotification?.data?.totalUnreadNotification}
+                  </div>
                 </div>
-              </div>
-              <div
-                className={`lg:absolute w-full bg-white top-16 text-base font-normal overflow-hidden ${
-                  dashboardMenuOpen
-                    ? "h-0 lg:h-auto lg:shadow-md lg:border lg:border-t-0 border-yellow-50"
-                    : "h-auto lg:h-0"
-                }`}
-              >
-                {appContext
-                  ?.dashboardRoutes(user?.type)
-                  .map(({ name, href }, index) => (
-                    <Link key={index} href={href}>
-                      <p className="p-2 pl-4 lg:text-lg hover:bg-slate-200">
-                        {name}
-                      </p>
-                    </Link>
-                  ))}
+              ) : (
+                <div className="w-fit h-fit flex flex-col lg:flex-row justify-center lg:items-center gap-3 lg:gap-5 px-3 lg:px-0">
+                  <Button
+                    className="px-3 rounded"
+                    paddingY={0}
+                    gradientBorder
+                    openModalOnClick={<Login />}
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    className="px-3 rounded"
+                    paddingY={0}
+                    openModalOnClick={<Register />}
+                  >
+                    Signup
+                  </Button>
+                </div>
+              )}
+              {user?.email && (
                 <div
-                  className="p-2 pl-4 lg:text-lg  hover:bg-slate-200 cursor-pointer"
-                  onClick={() =>
-                    sweetAlertConfirmation({
-                      func: handleLogout,
-                      object: "Logout",
-                      okay: "Logout",
-                    })
-                  }
+                  ref={profileMenuRef}
+                  className={`lg:absolute w-fit right-0 bg-white top-16 text-base font-normal overflow-hidden ${
+                    dashboardMenuOpen
+                      ? "h-auto lg:shadow-md lg:border lg:border-t-0 border-yellow-50"
+                      : "h-auto lg:h-0"
+                  }`}
                 >
-                  Logout
+                  {appContext
+                    ?.dashboardRoutes(user?.type)
+                    .map(({ name, href }, index) => (
+                      <Link key={index} href={href}>
+                        <p className="p-2 pl-4 pr-4 lg:text-lg hover:bg-slate-200">
+                          {name}
+                        </p>
+                      </Link>
+                    ))}
+                  <div
+                    className="p-2 pl-4 lg:text-lg hover:bg-slate-200 cursor-pointer pb-4"
+                    onClick={() =>
+                      sweetAlertConfirmation({
+                        func: handleLogout,
+                        object: "Logout",
+                        okay: "Logout",
+                      })
+                    }
+                  >
+                    Logout
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
-          ) : (
-            <div className="flex items-center gap-5">
-              <Button
-                className="px-3 rounded"
-                paddingY={2}
-                gradientBorder
-                openModalOnClick={<Login />}
-              >
-                Login
-              </Button>
-              <Button
-                className="px-3 rounded"
-                paddingY={2}
-                openModalOnClick={<Register />}
-              >
-                Signup
-              </Button>
-            </div>
-          )}
-          {links.map(({ href, name }, index) => (
-            <Link
-              key={index}
-              href={href}
-              onClick={() => {
-                setOpen(false);
-                setActive(name);
-              }}
-              className={` bg-white text-base lg:text-lg w-full rounded-lg lg:w-auto lg:bg-transparent pl-4 lg:p-0 lg:hover:text-yellow-300 lg:transition-all ${
-                active === name ? "text-yellow-500" : "text-blue-500"
-              }`}
-            >
-              {name}
-            </Link>
-          ))}
+          </div>
+          <button
+            onClick={() => setOpen((c) => !c)}
+            className="lg:hidden outline-none"
+          >
+            {createElement(open ? MdOutlineClose : GiHamburgerMenu, {
+              size: 22,
+            })}
+          </button>
+          <LanguageSwitcher />
         </div>
       </nav>
     </>

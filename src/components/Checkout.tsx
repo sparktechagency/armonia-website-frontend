@@ -11,6 +11,7 @@ import { useCreateBookingMutation } from "@/redux/features/booking/booking.api";
 import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
 import { context } from "@/app/Context";
+import { useRouter } from "next/navigation";
 
 // type FormValues = {
 //   [key: string]: FormDataEntryValue | undefined;
@@ -23,6 +24,7 @@ export default function Checkout({
   selectedServices: Service[];
   profileId: string;
 }) {
+  const router = useRouter();
   const appContext = useContext(context);
   const [selectedSlot, setSelectedSlot] = useState<TUniObject[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date>();
@@ -54,6 +56,7 @@ export default function Checkout({
         title: "Booking success!!",
         text: "Your booking request has been sent successfully! 🎉",
       });
+      router.push("/dashboard/bookings/pending");
     } catch (error: any) {
       Swal.fire({
         icon: "error",
@@ -164,7 +167,7 @@ export default function Checkout({
                         </span>
                       </p>
                       <span className="text-blue-500 text-right">
-                        from €{service.price}
+                        from ${service.price}
                       </span>
                     </div>
                     <div className="w-full relative max-w-[118px] sm:max-w-32">
@@ -239,7 +242,7 @@ export default function Checkout({
               </ul>
               <div className="flex justify-between items-center mt-8 font-bold lg:text-xl text-lg">
                 <span>Total</span>
-                <span className="text-green-600">€{total}</span>
+                <span className="text-green-600">${total}</span>
               </div>
             </div>
           </div>

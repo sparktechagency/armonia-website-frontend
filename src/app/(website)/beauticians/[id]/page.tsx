@@ -27,17 +27,17 @@ export default function Page(props: TPageProps) {
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //     ],
   //   },
@@ -48,17 +48,17 @@ export default function Page(props: TPageProps) {
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //     ],
   //   },
@@ -69,17 +69,17 @@ export default function Page(props: TPageProps) {
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //     ],
   //   },
@@ -90,17 +90,17 @@ export default function Page(props: TPageProps) {
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //     ],
   //   },
@@ -111,17 +111,17 @@ export default function Page(props: TPageProps) {
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //       {
   //         name: "Hair Cut",
   //         duration: "30min",
-  //         price: "€50",
+  //         price: "$50",
   //       },
   //     ],
   //   },
@@ -287,7 +287,7 @@ export default function Page(props: TPageProps) {
                             <p className="z-10 bg-white">{service.time}min</p>
                           </div>
                           <div className="flex items-center justify-center gap-3">
-                            <p>€{service.price}</p>
+                            <p>${service.price}</p>
                             <input
                               checked={
                                 selectedService.find(
@@ -304,6 +304,7 @@ export default function Page(props: TPageProps) {
                                 )
                               }
                               type="checkbox"
+                              className="size-4 lg:size-5 accent-blue-500 rounded-md"
                             />
                           </div>
                         </li>

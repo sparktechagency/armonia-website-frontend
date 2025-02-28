@@ -2,6 +2,7 @@
 import { context } from "@/app/Context";
 import Participant from "@/components/Messages/Participant";
 import SendMessageIput from "@/components/Messages/SendMessageIput";
+import { compareByCTime } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hook";
 import { TMessage, TPageProps, TUniObject } from "@/type/index.type";
@@ -96,10 +97,13 @@ const Page = (props: TPageProps) => {
         className="max-h-[63vh] overflow-y-auto mx-auto mt-8 px-4 space-y-4 custom-scrollbar"
       >
         {Object.keys(groupedMessages).map((date, index) => (
-          <div key={index} className="my-1">
-            <div className="text-center">
-              {dayjs(date).format("MMMM D, YYYY")}
-            </div>
+          <div key={index} className="my-1 relative">
+            <p className="bg-white rounded-md shadow-md px-2 py-1 w-fit mx-auto sticky top-0">
+              {dayjs(date).format("MMMM D, YYYY") ===
+              dayjs(new Date()).format("MMMM D, YYYY")
+                ? "Today" + " " + dayjs(date).format("h:mm A")
+                : dayjs(date).format("MMMM D, YYYY")}
+            </p>
             {groupedMessages[date].map(
               (message: TMessage, msgIndex: number) => (
                 <div key={msgIndex} className="w-full">
@@ -114,7 +118,7 @@ const Page = (props: TPageProps) => {
                         {message.message}
                       </div>
                       <div className="text-[10px] text-gray-400">
-                        {dayjs(message.createdAt).format("h:mm A")}
+                        {compareByCTime(message.createdAt)}
                       </div>
                     </div>
                   ) : (
@@ -131,7 +135,7 @@ const Page = (props: TPageProps) => {
                         {message.message}
                       </div>
                       <div className="text-[10px] text-gray-400">
-                        {dayjs(message.createdAt).format("h:mm A")}
+                        {compareByCTime(message.createdAt)}
                       </div>
                     </div>
                   )}
