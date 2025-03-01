@@ -345,6 +345,11 @@ export default function Page(props: TPageProps) {
                 <Checkout
                   selectedServices={selectedService}
                   profileId={data?.data?.id}
+                  allowedWeekdays={[
+                    ...data?.data?.weeklySchedules?.weekDays.map(
+                      (item: TUniObject) => item.dayName
+                    ),
+                  ]}
                 />
               }
             >

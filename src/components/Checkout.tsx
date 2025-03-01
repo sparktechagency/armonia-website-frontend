@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
 import { context } from "@/app/Context";
 import { useRouter } from "next/navigation";
+import { BusinessDayPicker, TWeekday } from "./ui/DatePicker";
 
 // type FormValues = {
 //   [key: string]: FormDataEntryValue | undefined;
@@ -20,14 +21,16 @@ import { useRouter } from "next/navigation";
 export default function Checkout({
   selectedServices,
   profileId,
+  allowedWeekdays,
 }: {
   selectedServices: Service[];
   profileId: string;
+  allowedWeekdays: TWeekday[];
 }) {
   const router = useRouter();
   const appContext = useContext(context);
   const [selectedSlot, setSelectedSlot] = useState<TUniObject[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading, isError } = useRemaningSlotsQuery(
     {
@@ -141,11 +144,16 @@ export default function Checkout({
               >
                 Appointment Date
               </label>
-              <input
+              {/* <input
                 required
                 type="date"
                 onChange={(e) => setSelectedDate(new Date(e.target.value))}
                 min={new Date().toISOString().split("T")[0]}
+              /> */}
+              <BusinessDayPicker
+                allowedWeekdays={allowedWeekdays}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
               />
             </div>
             <div className="lg:py-8 mt-20  mx-auto">
