@@ -5,14 +5,13 @@ import { VscSend } from "react-icons/vsc";
 import Swal from "sweetalert2";
 import { BtnSpenner } from "../Spinner";
 import { useParams } from "next/navigation";
-type FormValues = {
-  [key: string]: FormDataEntryValue | undefined;
-};
+// type FormValues = {
+//   [key: string]: FormDataEntryValue | undefined;
+// };
 
 const SendMessageIput = () => {
   const appContext = useContext(context);
   const params = useParams<{ id: string }>();
-  //   const {user} =
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

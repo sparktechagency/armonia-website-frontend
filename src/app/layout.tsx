@@ -4,8 +4,6 @@ import "./globals.css";
 import { Context } from "./Context";
 import StoreProvider from "./StoreProvider";
 import Script from "next/script";
-// import MultiLangProvider from "@/lib/Providers/MultiLangProvider";
-// import TranslationButton from "@/components/TranslationButton";
 
 const playfairDisplay = Playfair_Display({
   weight: ["400", "500", "600", "700", "800", "900"],

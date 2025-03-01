@@ -14,26 +14,26 @@ const earningsApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ["booking", "earning"],
         }),
-        // categories: builder.query({
-        //     query: (args: TArgs) => {
-        //         const params = new URLSearchParams();
-        //         if (args) {
-        //             args.forEach((item) => {
-        //                 params.append(item.name, item.value);
-        //             });
-        //         }
-        //         return {
-        //             url: `categories`,
-        //             method: "GET",
-        //             params,
-        //         };
-        //     },
-        //     providesTags: ["category"],
-        // }),
-
+        payments: builder.query({
+            query: (args: TArgs) => {
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item) => {
+                        params.append(item.name, item.value);
+                    });
+                }
+                return {
+                    url: `payments`,
+                    method: "GET",
+                    params,
+                };
+            },
+            providesTags: ["earning", "booking"],
+        }),
     }),
 });
 
 export const {
     useCreatePaymentMutation,
+    usePaymentsQuery
 } = earningsApi;

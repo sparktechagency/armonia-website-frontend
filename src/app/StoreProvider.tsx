@@ -1,7 +1,7 @@
 "use client";
 import { RootSpinner } from "@/components/Spinner";
 import { useGetProfileQuery } from "@/redux/features/auth/authApi";
-import { setLogin, setUser } from "@/redux/features/auth/authSlice";
+import { setUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { persistor, store } from "@/redux/store";
 import { TUniObject } from "@/type/index.type";

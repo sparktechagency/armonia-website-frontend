@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector } from "@/redux/hook";
-import { createContext, useEffect, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { io, Socket } from "socket.io-client";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -76,13 +76,44 @@ const dashboardLinks: {
 export const context = createContext<ContextProps | null>(null);
 
 export function Context({ children }: { children: React.ReactNode }) {
-  const [participant, setParticipant] = useState(null)
-  const { token } = useAppSelector((state) => state.auth);
+  const { user, token } = useAppSelector((state) => state.auth);
   const [socketData, setSocketData] = useState<null | Socket>(null);
   const [modal, setModal] = useState<null | ReactNode>(null);
+  const [preLocation, setPreLocation] = useState<{
+    latitude?: number | null;
+    longitude?: number | null;
+  }>({});
   function dashboardRoutes(role: "customer" | "beautician" | "admin") {
     return dashboardLinks[role];
   }
+  const getLocation = (pSocket: Socket) => {
+    try {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const payload = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            };
+            if (
+              payload.latitude !== preLocation.latitude ||
+              payload.longitude !== preLocation.longitude
+            ) {
+              setPreLocation(payload);
+              pSocket?.emit("update-location", payload);
+            }
+          },
+          (err) => {
+            console.log(`Error: ${err.message}`);
+          }
+        );
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     if (token) {
       const connectedSocket = io(`${apiUrl}`, {
@@ -100,6 +131,12 @@ export function Context({ children }: { children: React.ReactNode }) {
       };
     }
   }, [token]);
+  useEffect(() => {
+    if (user?.type === "beautician" && socketData) {
+      const intervalId = setInterval(() => getLocation(socketData), 10000);
+      return () => clearInterval(intervalId);
+    }
+  }, [user]);
   return (
     <context.Provider
       value={{
