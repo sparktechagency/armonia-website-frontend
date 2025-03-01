@@ -3,13 +3,16 @@ import { context } from "@/app/Context";
 import BookingDetails from "@/components/BookingDetails";
 import BookingReviewForm from "@/components/BookingReviewForm";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
-import { sweetAlertConfirmation } from "@/lib/alert";
-import { useBookingsQuery } from "@/redux/features/booking/booking.api";
+import {
+  useBookingsQuery,
+  useUpdateBookingStatusMutation,
+} from "@/redux/features/booking/booking.api";
 import { useCreatePaymentMutation } from "@/redux/features/earnings/earnings.api";
 import { useAppSelector } from "@/redux/hook";
 import { TUniObject } from "@/type/index.type";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 export default function Page() {
@@ -22,11 +25,13 @@ export default function Page() {
       value: "accepted",
     },
   ]);
+  const [updateBookingStatus, { isLoading: upLoading }] =
+    useUpdateBookingStatusMutation();
   const [payment, { isLoading: muLoading }] = useCreatePaymentMutation();
   const handleEarlyPayment = async (service: TUniObject) => {
     Swal.fire({
       text: `Would you like to proceed with an early payment of 30% of the total service amount $${service.totalAmount}?`,
-      title: `Amount: $${service.totalAmount * 0.3}`,
+      title: `Amount: $${(service.totalAmount * 0.3).toFixed(2)}`,
       showCancelButton: true,
       confirmButtonText: "Pay Now",
       cancelButtonText: "Cancel",
@@ -58,6 +63,33 @@ export default function Page() {
         }
       }
     });
+  };
+  const hanleStatus = async ({
+    status,
+    id,
+  }: {
+    status: "accepted" | "rejected" | "cancelled" | "done";
+    id: string;
+  }) => {
+    const toastId = toast.loading("Please wait...");
+    try {
+      await updateBookingStatus({
+        status,
+        id,
+      }).unwrap();
+      toast.success(`Successfully request ${status}!`);
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!!",
+        text:
+          error.message ||
+          error?.data?.message ||
+          "Something went wrong. Please try again later.",
+      });
+    } finally {
+      toast.dismiss(toastId);
+    }
   };
   return (
     <section className="bg-yellow-50 w-full">
@@ -133,9 +165,30 @@ export default function Page() {
                     )}
                     <td className="p-3">
                       {user?.type === "beautician" ? (
-                        <button className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200">
-                          Done
-                        </button>
+                        <>
+                          {item.status === "paid" ? (
+                            <button
+                              onClick={() =>
+                                updateBookingStatus({
+                                  status: "completed",
+                                  id: item.id,
+                                })
+                              }
+                              disabled={upLoading}
+                              className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200"
+                            >
+                              Complete
+                            </button>
+                          ) : item.status === "completed" ? (
+                            <button className="bg-yellow-400 text-white w-full px-2 py-1 rounded-md">
+                              Done
+                            </button>
+                          ) : (
+                            <button className="bg-blue-400 text-white w-full px-2 py-1 rounded-md">
+                              Acepted
+                            </button>
+                          )}
+                        </>
                       ) : (
                         <>
                           {item.status === "accepted" ? (
@@ -152,7 +205,7 @@ export default function Page() {
                                   `/dashboard/bookings/beautician-tracking?id=${item.id}`
                                 )
                               }
-                              className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200 flex justify-center items-center gap-1"
+                              className="bg-blue-400 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200 flex justify-center items-center gap-1"
                             >
                               Tracking
                             </button>
@@ -166,7 +219,7 @@ export default function Page() {
                                   />
                                 )
                               }
-                              className="bg-blue-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200"
+                              className="bg-green-500 text-white w-full px-2 py-1 rounded-md disabled:bg-blue-200"
                             >
                               Review
                             </button>

@@ -52,8 +52,8 @@ export default function Page(props: TPageProps) {
           <div className="w-24 h-24 lg:w-28 lg:h-28 rounded-lg overflow-hidden">
             <Image
               src={
-                data?.data?.user?.image
-                  ? `${process.env.NEXT_PUBLIC_API_URL}${data?.data?.user?.image}`
+                data?.data?.profile?.user?.image
+                  ? `${process.env.NEXT_PUBLIC_API_URL}${data?.data?.profile?.user?.image}`
                   : "/profile-demo.png"
               }
               alt="beautician"
