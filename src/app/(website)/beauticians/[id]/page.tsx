@@ -211,11 +211,12 @@ export default function Page(props: TPageProps) {
                 {/* Post Code - */}
               </p>
               <p className="text-xl lg:text-3xl">
-                Available Time: {data?.data?.availableSlots?.[0].slot.start} To{" "}
+                Available Time: {data?.data?.availableSlots?.[0]?.slot?.start}{" "}
+                To{" "}
                 {
                   data?.data?.availableSlots?.[
                     data?.data?.availableSlots?.length - 1
-                  ].slot.end
+                  ]?.slot?.end
                 }
               </p>
               <div className="flex items-center gap-2">

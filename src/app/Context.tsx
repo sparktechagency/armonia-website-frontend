@@ -24,39 +24,43 @@ const dashboardLinks: {
 } = {
   customer: [
     { name: "Profile", href: "/dashboard/profile", menu: [] },
+    // {
+    //   name: "Bookings",
+    //   href: "/dashboard/bookings",
+    //   menu: [
     {
-      name: "Bookings",
-      href: "/dashboard/bookings",
-      menu: [
-        {
-          name: "Send Request",
-          href: "/dashboard/bookings/pending",
-        },
-        {
-          name: "Booked Services",
-          href: "/dashboard/bookings",
-        },
-      ],
+      name: "Send Request",
+      href: "/dashboard/bookings/pending",
+      menu: [],
     },
+    {
+      name: "Booked Services",
+      href: "/dashboard/bookings",
+      menu: [],
+    },
+    //   ],
+    // },
     { name: "Messages", href: "/dashboard/messages", menu: [] },
     { name: "Notifications", href: "/dashboard/notification", menu: [] },
   ],
   beautician: [
     { name: "Profile", href: "/dashboard/profile", menu: [] },
+    // {
+    //   name: "Bookings",
+    //   href: "/dashboard/bookings",
+    //   menu: [
     {
-      name: "Bookings",
+      name: "Confirmed Service",
       href: "/dashboard/bookings",
-      menu: [
-        {
-          name: "Confirmed Service",
-          href: "/dashboard/bookings",
-        },
-        {
-          name: "Requested service",
-          href: "/dashboard/bookings/pending",
-        },
-      ],
+      menu: [],
     },
+    {
+      name: "Requested service",
+      href: "/dashboard/bookings/pending",
+      menu: [],
+    },
+    //   ],
+    // },
     { name: "Messages", href: "/dashboard/messages", menu: [] },
     { name: "Reviews", href: "/dashboard/reviews", menu: [] },
     { name: "My Services", href: "/dashboard/services", menu: [] },
@@ -73,16 +77,13 @@ const dashboardLinks: {
   ],
 };
 
+const myLocation = new Map<string, { latitude: number; longitude: number }>();
 export const context = createContext<ContextProps | null>(null);
 
 export function Context({ children }: { children: React.ReactNode }) {
   const { user, token } = useAppSelector((state) => state.auth);
   const [socketData, setSocketData] = useState<null | Socket>(null);
   const [modal, setModal] = useState<null | ReactNode>(null);
-  const [preLocation, setPreLocation] = useState<{
-    latitude?: number | null;
-    longitude?: number | null;
-  }>({});
   function dashboardRoutes(role: "customer" | "beautician" | "admin") {
     return dashboardLinks[role];
   }
@@ -91,15 +92,19 @@ export function Context({ children }: { children: React.ReactNode }) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            const payload = {
+            const payload: { latitude: number; longitude: number } = {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             };
+            if (!myLocation.get(user?.id as string)) {
+              myLocation.set(user?.id as string, payload);
+              pSocket?.emit("update-location", payload);
+            }
             if (
-              payload.latitude !== preLocation.latitude ||
-              payload.longitude !== preLocation.longitude
+              myLocation.get(user?.id as string)?.latitude === payload.latitude
             ) {
-              setPreLocation(payload);
+              return;
+            } else {
               pSocket?.emit("update-location", payload);
             }
           },
@@ -133,10 +138,11 @@ export function Context({ children }: { children: React.ReactNode }) {
   }, [token]);
   useEffect(() => {
     if (user?.type === "beautician" && socketData) {
-      const intervalId = setInterval(() => getLocation(socketData), 10000);
+      const intervalId = setInterval(() => getLocation(socketData), 5000);
       return () => clearInterval(intervalId);
     }
   }, [user]);
+
   return (
     <context.Provider
       value={{

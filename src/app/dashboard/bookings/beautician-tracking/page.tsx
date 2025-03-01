@@ -1,13 +1,15 @@
 "use client";
 
+import { context } from "@/app/Context";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { BtnSpenner } from "@/components/Spinner";
+import GoogleMap from "@/components/ui/LiveGoogleMap";
 import { useBookingDetailsByIdQuery } from "@/redux/features/booking/booking.api";
 import { useCreateConversationMutation } from "@/redux/features/messages/message.api";
 import { TPageProps, TUniObject } from "@/type/index.type";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { use } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { BiMessageRoundedDots } from "react-icons/bi";
 import Swal from "sweetalert2";
 
@@ -16,8 +18,11 @@ import Swal from "sweetalert2";
 export default function Page(props: TPageProps) {
   const { id } = use(props.searchParams);
   const router = useRouter();
-  const lat = 39.01374;
-  const lng = -95.688979;
+  const appContext = useContext(context);
+  const [currentLocation, setCurrenLocation] = useState<{
+    latitude?: number;
+    longitude?: number;
+  }>({});
   const { data, isLoading, isError } = useBookingDetailsByIdQuery(id, {
     skip: !id,
   });
@@ -41,6 +46,20 @@ export default function Page(props: TPageProps) {
       });
     }
   };
+  useEffect(() => {
+    setCurrenLocation({
+      latitude: data?.data?.profile?.latitude,
+      longitude: data?.data?.profile?.longitude,
+    });
+    if (appContext?.socket) {
+      appContext.socket.on(`track-${data?.data?.profile?.id}`, (response) => {
+        setCurrenLocation(response);
+      });
+      return () => {
+        appContext?.socket?.off(`track-${data?.data?.profile?.id}`);
+      };
+    }
+  }, [data?.data]);
   return (
     <LoaderWraperComp
       isError={isError}
@@ -127,14 +146,7 @@ export default function Page(props: TPageProps) {
             )
           )}
         </ul>
-        <div className="w-full max-w-3xl h-full max-h-96">
-          <iframe
-            title="Dynamic Google Map"
-            className="w-full min-h-full h-full rounded-lg"
-            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc&q=${lat},${lng}`}
-            allowFullScreen
-          ></iframe>
-        </div>
+        <GoogleMap currentLocation={currentLocation} />
       </div>
     </LoaderWraperComp>
   );

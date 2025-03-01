@@ -180,11 +180,11 @@ export default function Page() {
                               Complete
                             </button>
                           ) : item.status === "completed" ? (
-                            <button className="bg-yellow-400 text-white w-full px-2 py-1 rounded-md">
+                            <button className="bg-yellow-400 text-white w-full px-2 py-1 rounded-md cursor-not-allowed">
                               Done
                             </button>
                           ) : (
-                            <button className="bg-blue-400 text-white w-full px-2 py-1 rounded-md">
+                            <button className="bg-blue-400 text-white w-full px-2 py-1 rounded-md cursor-not-allowed">
                               Acepted
                             </button>
                           )}
