@@ -4,13 +4,12 @@ import React, { useState } from "react";
 import Image from "next/image";
 import ProfileCategory from "./ProfileCategory";
 import Link from "next/link";
-import { User } from "@/redux/features/auth/authSlice";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { TUniObject } from "@/type/index.type";
+import { Service } from "@/redux/features/auth/authSlice";
 
-export default function BeauticianCart({ data }: { data: User }) {
+export default function BeauticianCart({ data }: { data: TUniObject }) {
   const [sliceQty, setSliceQty] = useState(0);
-
-  console.log(data);
 
   const next = (length: number) => {
     console.log({ sliceQty, length });
@@ -24,12 +23,12 @@ export default function BeauticianCart({ data }: { data: User }) {
       {!!data.category && (
         <ProfileCategory
           category={data.category}
-          className="absolute top-4 right-4"
+          className="absolute top-5 lg:top-4 right-4"
         />
       )}
-      <Link href={`/beauticians/${data.profileId}`}>
-        <div className="flex flex-col sm:flex-row px-5 lg:px-8 py-6 gap-4">
-          <div className="w-20 xl:w-32 h-20 xl:h-32 rounded-full overflow-hidden flex items-center justify-center">
+      <Link href={`/beauticians/${data.profile_id}`}>
+        <div className="w-full flex flex-col items-center sm:flex-row px-5 lg:px-8 py-6 gap-4">
+          <div className="w-32 min-w-20 md:w-20 xl:min-w-32 xl:w-32 h-32 md:h-20 xl:h-32 rounded-full overflow-hidden flex items-center justify-center">
             <Image
               src={
                 data?.image
@@ -42,9 +41,9 @@ export default function BeauticianCart({ data }: { data: User }) {
               className="w-full h-full"
             />
           </div>
-          <div className="flex flex-col gap-4 text-start">
+          <div className="w-full overflow-hidden flex flex-col gap-4 text-start">
             <h3 className="font-Playfair_Display text-xl lg:text-2xl font-bold">
-              {data.name}
+              {data.user_name}
             </h3>
             <p className="flex items-center gap-2 text-blue-500">
               <svg
@@ -72,8 +71,8 @@ export default function BeauticianCart({ data }: { data: User }) {
                   </clipPath>
                 </defs>
               </svg>
-              {data.reviewsAvgRating ? data.reviewsAvgRating : "0.0"} (
-              {data.total5StarReviews})
+              {data.average_rating ? data.average_rating : "0.0"} (
+              {data.total_reviews})
             </p>
             <p className="flex items-center gap-2 text-blue-500">
               <svg
@@ -92,17 +91,19 @@ export default function BeauticianCart({ data }: { data: User }) {
                   fill="#141414"
                 />
               </svg>
-              EC3P
+              {data?.postalCode}
             </p>
-            <div className="flex items-center gap-2 overflow-hidden">
-              {data?.services?.slice(0, 3).map((item, index) => (
-                <span
-                  key={index}
-                  className="bg-blue-400 w-full block text-white text-center px-2 pt-0.5 pb-1 rounded text-base text-nowrap"
-                >
-                  {item.name}
-                </span>
-              ))}
+            <div className="max-w-full w-full flex items-center gap-2 overflow-x-scroll scrollbar-none">
+              {data?.services
+                ?.slice(0, 3)
+                .map((item: Service, index: number) => (
+                  <span
+                    key={index}
+                    className="bg-blue-400 w-fit block text-white text-center px-2 pt-0.5 pb-1 rounded text-base text-nowrap"
+                  >
+                    {item.name}
+                  </span>
+                ))}
               {/* {data.services?.length > 3 && <span>etc.</span>} */}
             </div>
           </div>
@@ -117,17 +118,21 @@ export default function BeauticianCart({ data }: { data: User }) {
         >
           <FaArrowLeft className="size-4" />
         </button>
-        {data?.availableSlots?.slice(sliceQty, sliceQty + 4).map((item) => (
-          <span
-            key={item.slot.id}
-            className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded bg-blue-100 text-xs sm:text-sm"
-          >
-            {item.slot.start}
-          </span>
-        ))}
+        {data?.weekly_schedule?.weekDays
+          ?.slice(sliceQty, sliceQty + 4)
+          .map((item: TUniObject) => (
+            <span
+              key={item.id}
+              className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded text-center bg-blue-100 text-xs sm:text-sm w-full"
+            >
+              {item.dayName?.slice(0, 3)}
+            </span>
+          ))}
         <button
-          disabled={data.availableSlots?.length === sliceQty + 4}
-          onClick={() => next(data.availableSlots?.length as number)}
+          disabled={data?.weekly_schedule?.weekDays?.length === sliceQty + 4}
+          onClick={() =>
+            next(data?.weekly_schedule?.weekDays?.length as number)
+          }
           className="outline-none text-slate-600 disabled:text-slate-400 py-1.5"
         >
           <FaArrowRight className="size-4" />

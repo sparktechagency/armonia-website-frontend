@@ -20,16 +20,11 @@ const Beauticians = async () => {
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-2  sm:px-6 2xl:px-36 mt-8 md:mt-14">
         {data?.data?.map((item: any, index: number) => {
-          const profile = { ...item.profile };
-          let userinfo = { ...item };
-          delete userinfo.profile;
+          // const profile = { ...item.profile };
+          // let userinfo = { ...item };
+          // delete userinfo.profile;
           // delete profile.weeklySchedules;
-          return (
-            <BeauticianCart
-              key={index}
-              data={{ ...userinfo, ...profile, profileId: profile.id }}
-            />
-          );
+          return <BeauticianCart key={index} data={item} />;
         })}
       </div>
     </section>
