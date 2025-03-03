@@ -8,19 +8,25 @@ import { TUniObject } from "@/type/index.type";
 import { useParams, useRouter } from "next/navigation";
 import LoaderWraperComp from "../LoaderWraperComp";
 import { context } from "@/app/Context";
+import { cn } from "@/lib/utils";
 
 const ConversationList = () => {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const [query, setQuery] = useState({ search: "" });
-  const [selectedUser, setSelectedUser] = useState<number | null>(null);
+  const [partiId, setPartiId] = useState("");
+  // const [selectedUser, setSelectedUser] = useState<number | null>(null);
   const { data, isLoading } = useConversationsQuery([
     { name: "term", value: query.search },
   ]);
-  const [online, setOnline] = useState<{ userId?: string; isActive?: false }[]>([{
-    userId: "",
-    isActive: false,
-  }]);
+  const [online, setOnline] = useState<{ userId?: string; isActive?: false }[]>(
+    [
+      {
+        userId: "",
+        isActive: false,
+      },
+    ]
+  );
   const appContext = useContext(context);
   const debounceSearch = debounce((value: string) => {
     setQuery((c) => ({ ...c, search: value }));
@@ -29,39 +35,48 @@ const ConversationList = () => {
   useEffect(() => {
     if (appContext?.socket) {
       appContext.socket.on(`active-users`, (message) => {
-        console.log(message);
+        // console.log(message);
         setOnline((prevOnline) => {
-          const existingUser = prevOnline.find((item) => item.userId === message.userId);
-  
+          const existingUser = prevOnline.find(
+            (item) => item.userId === message.userId
+          );
+
           if (existingUser) {
             // Update the existing user's isActive status
             return prevOnline.map((user) =>
-              user.userId === message.userId ? { ...user, isActive: message.isActive } : user
+              user.userId === message.userId
+                ? { ...user, isActive: message.isActive }
+                : user
             );
           } else {
             // Add new active user
             return [...prevOnline, message];
           }
         });
-        // console.log(message);
       });
       return () => {
         appContext?.socket?.off(`active-users`);
       };
     } else return;
   }, [appContext?.socket]);
+  useEffect(() => {
+    const isParti = online.find((cuser) => cuser.userId === partiId);
+    if (isParti) {
+      console.log(isParti);
+      appContext?.setPartiActive(isParti.isActive as boolean);
+    }
+  }, [partiId, online]);
+  const myData = (data?.data || []).map((element: any) => {
+    const activeUser = online.find((user) => user.userId === element.id);
+    return { ...element, isActive: activeUser ? activeUser.isActive : false };
+  });
 
-  console.log(online);
-  // const myData = data?.data || [];
-// Updating `myData` based on `online` status
-const myData = (data?.data || []).map((element: any) => {
-  const activeUser = online.find((user) => user.userId === element.id);
-  return { ...element, isActive: activeUser ? activeUser.isActive : false };
-});
-
-  // console.log(myData);
   return (
-    <div className="w-1/3">
+    <div
+      className={cn("w-1/3", {
+        "hidden lg:block": !!params.id,
+      })}
+    >
       {/* Search Input */}
       <div className="relative w-full max-w-md mx-auto mt-8 mb-2 px-2">
         <input
@@ -84,6 +99,14 @@ const myData = (data?.data || []).map((element: any) => {
           {myData.map((conversation: TUniObject, index: number) => (
             <div
               key={index}
+              onLoad={() =>
+                setTimeout(() => {
+                  if (params?.id === conversation?.conversationId) {
+                    // appContext?.setPartiActive(conversation.isActive);
+                    setPartiId(conversation?.id);
+                  }
+                }, 3000)
+              }
               className={`text-black px-4 py-2.5 border-b cursor-pointer ${
                 params?.id === conversation?.conversationId ? "bg-gray-100" : ""
               }`}

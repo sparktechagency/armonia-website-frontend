@@ -41,7 +41,7 @@ const SendMessageIput = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full flex justify-center items-center gap-2 mx-auto sticky top-[100%] bg-[#fafafa]/90 py-2"
+      className="w-full flex justify-center items-center gap-2 mx-auto sticky top-[100%] bg-[#fafafa]/90 py-2 px-4"
     >
       <input
         required

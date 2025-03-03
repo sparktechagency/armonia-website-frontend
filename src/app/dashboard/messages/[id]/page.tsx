@@ -18,6 +18,7 @@ const Page = (props: TPageProps) => {
   const [addNew, setAddNew] = useState(false);
   const [fetchCount, setFetchCount] = useState(0);
   const [messages, setMessages] = useState<TMessage[]>([]);
+  const [participant, setParticipant] = useState<TUniObject>({});
   const { user, token } = useAppSelector((state) => state.auth);
   const groupedMessages = groupMessagesByDate(messages);
 
@@ -33,6 +34,7 @@ const Page = (props: TPageProps) => {
         if (nextPage > 1) {
           setMessages((c) => [...[...data?.data?.messages].reverse(), ...c]);
         } else {
+          setParticipant(data?.data?.participants[1]?.user);
           setMessages((c) => [...data?.data?.messages].reverse());
         }
         setNextPage(data.pagination?.nextPage);
@@ -89,8 +91,12 @@ const Page = (props: TPageProps) => {
   }, [messages]);
 
   return (
-    <div className="w-full p-6 bg-[#fafafa] h-full">
-      <Participant />
+    <div
+      className={cn("w-full p-2 xl:p-6 bg-[#fafafa] h-full", {
+        "hidden lg:block": !id,
+      })}
+    >
+      <Participant data={participant} />
       <div
         ref={chatRef}
         onScroll={handleScroll}
@@ -98,7 +104,7 @@ const Page = (props: TPageProps) => {
       >
         {Object.keys(groupedMessages).map((date, index) => (
           <div key={index} className="my-1 relative">
-            <p className="bg-white rounded-md shadow-md px-2 py-1 w-fit mx-auto sticky top-0">
+            <p className="bg-white rounded-md shadow-md px-2 py-1 w-fit mx-auto sticky top-0 text-sm lg:text-base">
               {dayjs(date).format("MMMM D, YYYY") ===
               dayjs(new Date()).format("MMMM D, YYYY")
                 ? "Today" + " " + dayjs(date).format("h:mm A")
@@ -112,7 +118,7 @@ const Page = (props: TPageProps) => {
                     <div className={`w-fit ml-auto mb-2 text-right`}>
                       <div
                         className={
-                          "mb-1 p-3 text-white bg-blue-400 rounded-md rounded-ee-none"
+                          "mb-1 p-3 text-white bg-blue-400 rounded-md rounded-ee-none w-fit ml-auto"
                         }
                       >
                         {message.message}
@@ -129,7 +135,7 @@ const Page = (props: TPageProps) => {
                     >
                       <div
                         className={
-                          "mb-1 p-3 text-white bg-yellow-400 rounded-md rounded-ss-none"
+                          "mb-1 p-3 text-white bg-yellow-400 rounded-md rounded-ss-none w-fit"
                         }
                       >
                         {message.message}

@@ -13,6 +13,8 @@ type ContextProps = {
     href: string;
     menu: { name: string; href: string }[];
   }[];
+  partiActive: boolean;
+  setPartiActive: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const dashboardLinks: {
@@ -83,6 +85,7 @@ export const context = createContext<ContextProps | null>(null);
 export function Context({ children }: { children: React.ReactNode }) {
   const { user, token } = useAppSelector((state) => state.auth);
   const [socketData, setSocketData] = useState<null | Socket>(null);
+  const [partiActive, setPartiActive] = useState(false);
   const [modal, setModal] = useState<null | ReactNode>(null);
   function dashboardRoutes(role: "customer" | "beautician" | "admin") {
     return dashboardLinks[role];
@@ -146,6 +149,8 @@ export function Context({ children }: { children: React.ReactNode }) {
   return (
     <context.Provider
       value={{
+        partiActive,
+        setPartiActive,
         socket: socketData,
         modal,
         setModal,
