@@ -17,7 +17,7 @@ const Participant = ({ data }: { data: TUniObject }) => {
       <button onClick={() => router.back()} className="px-1">
         <MdOutlineArrowBackIosNew size={22} />
       </button>
-      <div className="w-full flex items-center gap-4 px-4 ">
+      <div className="w-full flex items-center gap-4 px-0 lg:px-4 ">
         {/* User Image */}
         <Image
           src={

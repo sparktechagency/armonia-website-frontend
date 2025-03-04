@@ -73,7 +73,7 @@ const ConversationList = () => {
 
   return (
     <div
-      className={cn("w-1/3", {
+      className={cn("w-full lg:w-1/3", {
         "hidden lg:block": !!params.id,
       })}
     >

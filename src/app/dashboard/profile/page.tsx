@@ -81,6 +81,13 @@ export default function page() {
   };
   useEffect(() => {
     setSelectedDays(user?.weekDays || []);
+    if (user?.type === "beautician" && !user?.postalCode) {
+      Swal.fire({
+        icon: "success",
+        title: "Successfully Logged In",
+        text: "Please update your profile with the necessary information to proceed.",
+      });
+    }
   }, [user]);
   return (
     <form

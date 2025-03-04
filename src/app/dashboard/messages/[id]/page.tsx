@@ -92,7 +92,7 @@ const Page = (props: TPageProps) => {
 
   return (
     <div
-      className={cn("w-full p-2 xl:p-6 bg-[#fafafa] h-full", {
+      className={cn("w-full p-2 xl:p-6 bg-[#fafafa] min-h-[85vh] h-full", {
         "hidden lg:block": !id,
       })}
     >
