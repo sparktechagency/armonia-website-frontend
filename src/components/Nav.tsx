@@ -6,7 +6,7 @@ import Button from "./Button";
 import Register from "./Register";
 import Login from "./Login";
 import { context } from "@/app/Context";
-import { redirect, usePathname } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { MdOutlineClose } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -19,11 +19,13 @@ import { cn } from "@/lib/utils";
 
 export default function Nav() {
   const path = usePathname();
+  const searchParams = useSearchParams();
   const appContext = useContext(context);
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const { user } = useAppSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+  const loginForword = searchParams.get("redirect");
   const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
   const { data: unreadNotification } = useUnreadNoticeQuery([]);
   const links = [
@@ -63,6 +65,13 @@ export default function Nav() {
       document.body.style.overflow = "auto";
     }
   }, [open]);
+  useEffect(() => {
+    if (loginForword) {
+      return appContext?.setModal(
+        <Login forword={loginForword?.split("_").join("/")} />
+      );
+    }
+  }, []);
   const dispath = useAppDispatch();
   const handleLogout = () => {
     dispath(logout());

@@ -27,7 +27,7 @@ export default Providers;
 
 const AuthProvider = ({ children }: ProvidersProps) => {
   const dispatch = useAppDispatch();
-  const { data, isLoading, isError } = useGetProfileQuery(undefined);
+  const { data, isLoading } = useGetProfileQuery(undefined);
   // console.log({ data, isLoading, isError })
   useEffect(() => {
     const profile = { ...data?.data?.profile };
@@ -52,5 +52,8 @@ const AuthProvider = ({ children }: ProvidersProps) => {
   if (isLoading) {
     return <RootSpinner />;
   }
+  // if (!data?.data?.id) {
+  //   return 
+  // }
   return children;
 };

@@ -12,7 +12,7 @@ import { BtnSpenner } from "./Spinner";
 import Verify from "./Verify";
 import { TUniObject } from "@/type/index.type";
 
-export default function Login() {
+export default function Login({ forword }: { forword?: string }) {
   const appContext = useContext(context);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -48,7 +48,7 @@ export default function Login() {
         })
       );
       appContext?.setModal(null);
-      router.push("/dashboard/profile");
+      router.push(forword || "/dashboard/profile");
     } catch (error: any) {
       if (error?.data?.message === "Please verify your email") {
         return appContext?.setModal(

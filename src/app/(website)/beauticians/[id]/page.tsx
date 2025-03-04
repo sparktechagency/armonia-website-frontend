@@ -11,13 +11,15 @@ import { TPageProps, TUniObject } from "@/type/index.type";
 import { useGetUserQuery } from "@/redux/features/users/users.api";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { Service } from "@/redux/features/auth/authSlice";
-import { sweetAlertConfirmation } from "@/lib/alert";
 import Swal from "sweetalert2";
+import { useAppSelector } from "@/redux/hook";
+import Login from "@/components/Login";
 
 export default function Page(props: TPageProps) {
   const { id } = use(props.params);
   const [selectedService, setSelectedService] = useState<Service[]>([]);
   const { data, isLoading, isError } = useGetUserQuery(id);
+  const { user } = useAppSelector((state) => state.auth);
 
   // const categories = {
   //   "Make up": {
@@ -337,7 +339,17 @@ export default function Page(props: TPageProps) {
               )
             )}
           </div>
-          {selectedService.length ? (
+
+          {!user?.id ? (
+            <Button
+              className="md:w-1/4 mx-auto bg-blue-500 text-white lg:text-2xl font-bold rounded-2xl my-16 px-4"
+              paddingY={12}
+              gradientBorder
+              openModalOnClick={<Login forword={`/beauticians/${id}`}/>}
+            >
+              Login & Checkout
+            </Button>
+          ) : selectedService.length ? (
             <Button
               className="md:w-1/4 mx-auto bg-blue-500 text-white lg:text-2xl font-bold rounded-2xl my-16 px-4"
               paddingY={12}
