@@ -177,7 +177,7 @@ export default function Page(props: TPageProps) {
               </h3>
               <div className="flex justify-between items-center">
                 <ProfileCategory category={data?.data?.category} withName />
-                <p className="flex items-center gap-2 text-blue-500">
+                <p className="flex items-center gap-2 text-blue-500 notranslate">
                   <svg
                     width="25"
                     height="24"
@@ -207,19 +207,25 @@ export default function Page(props: TPageProps) {
                   {data?.data?.reviewStatistics?._count?.rating})
                 </p>
               </div>
-              <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300">
-                <IoLocationOutline className="size-6 lg:size-8" />
+              <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300 notranslate">
+                <IoLocationOutline className="size-6 lg:size-8 " />
                 <span>{data?.data?.postalCode}</span>
                 {/* Post Code - */}
               </p>
               <p className="text-xl lg:text-3xl">
-                Available Time: {data?.data?.availableSlots?.[0]?.slot?.start}{" "}
+                Available Time:{" "}
+                <span className="notranslate">
+                  {data?.data?.availableSlots?.[0]?.slot?.start}{" "}
+                </span>
                 To{" "}
-                {
-                  data?.data?.availableSlots?.[
-                    data?.data?.availableSlots?.length - 1
-                  ]?.slot?.end
-                }
+                <span className="notranslate">
+                  {" "}
+                  {
+                    data?.data?.availableSlots?.[
+                      data?.data?.availableSlots?.length - 1
+                    ]?.slot?.end
+                  }
+                </span>
               </p>
               <div className="flex items-center gap-2">
                 <p className="text-xl lg:text-3xl">Working Days :</p>{" "}
@@ -310,7 +316,7 @@ export default function Page(props: TPageProps) {
                             <p className="z-10 bg-white">{service.name}</p>
                             <p className="z-10 bg-white">{service.time}min</p>
                           </div>
-                          <div className="flex items-center justify-center gap-3">
+                          <div className="flex items-center justify-center gap-3 notranslate">
                             <p>${service.price}</p>
                             <input
                               checked={
@@ -345,7 +351,7 @@ export default function Page(props: TPageProps) {
               className="md:w-1/4 mx-auto bg-blue-500 text-white lg:text-2xl font-bold rounded-2xl my-16 px-4"
               paddingY={12}
               gradientBorder
-              openModalOnClick={<Login forword={`/beauticians/${id}`}/>}
+              openModalOnClick={<Login forword={`/beauticians/${id}`} />}
             >
               Login & Checkout
             </Button>

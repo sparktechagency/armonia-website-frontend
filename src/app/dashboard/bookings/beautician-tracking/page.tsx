@@ -110,11 +110,11 @@ export default function Page(props: TPageProps) {
         <ul className="space-y-2 w-full max-w-3xl px-2 lg:px-4">
           <li className="flex gap-2">
             <label className="block text-gray-700 mb-2">Total Price:</label>
-            <p>${data?.data?.totalAmount}</p>
+            <p className="notranslate">${data?.data?.totalAmount}</p>
           </li>
           <li className="flex  gap-2">
             <label className="block text-gray-700 mb-2">Payment Status:</label>
-            <p>{data?.data?.status === "paid" ? "30% Early Paid" : ""}</p>
+            <p className="notranslate">{data?.data?.status === "paid" ? "30% Early Paid" : ""}</p>
           </li>
           <li className="flex  gap-2">
             <label className="block text-gray-700 mb-2">
@@ -136,8 +136,8 @@ export default function Page(props: TPageProps) {
                     {service?.name}
                   </span>
                 </p>
-                <span className="text-blue-500 text-right">
-                  from ${service?.price}
+                <span className="text-blue-500 text-right notranslate">
+                  ${service?.price}
                 </span>
                 {/* <p>
                 {service?.bookedSlots?.start}-{service?.bookedSlots?.end}

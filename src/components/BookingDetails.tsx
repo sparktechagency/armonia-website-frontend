@@ -136,7 +136,7 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
                           <span className="font-semibold text-ellipsis truncate">{service?.name}</span>
                         </p>
                         <span className="text-blue-500 text-right">
-                          from ${service?.price}
+                          ${service?.price}
                         </span>
                         <p>
                           {service?.bookedSlots?.start}-

@@ -174,8 +174,8 @@ export default function Checkout({
                           (30min)
                         </span>
                       </p>
-                      <span className="text-blue-500 text-right">
-                        from ${service.price}
+                      <span className="text-blue-500 text-right notranslate">
+                        ${service.price}
                       </span>
                     </div>
                     <div className="w-full relative max-w-[118px] sm:max-w-32">
@@ -235,7 +235,7 @@ export default function Checkout({
                           {isLoading ? "Loading..." : "Slot"}
                         </option>
                         {data?.data?.map((item: Slot, slotIindex: number) => (
-                          <option key={slotIindex} value={item.id}>
+                          <option key={slotIindex} value={item.id} className="notranslate">
                             {item.start} - {item.end}
                           </option>
                         ))}
@@ -250,7 +250,7 @@ export default function Checkout({
               </ul>
               <div className="flex justify-between items-center mt-8 font-bold lg:text-xl text-lg">
                 <span>Total</span>
-                <span className="text-green-600">${total}</span>
+                <span className="text-green-600 notranslate">${total}</span>
               </div>
             </div>
           </div>

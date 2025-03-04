@@ -7,8 +7,8 @@
   display: none !important;
 }
 
-html {
-  /* margin-top: -40px !important; ; */
+.translated-ltr {
+  margin-top: -40px !important;
 }
 
 /* Hide scrollbar for Chrome, Safari, and Edge */

@@ -134,19 +134,19 @@ export default function Page() {
               <tbody>
                 {data?.data?.map((item: TUniObject, index: number) => (
                   <tr key={index} className="border-t-2 border-b-2">
-                    <td className="p-3 border-r-4">{++index}</td>
-                    <td className="p-3 border-r-4">
+                    <td className="p-3 border-r-4 notranslate">{++index}</td>
+                    <td className="p-3 border-r-4 ">
                       {user?.type === "customer"
                         ? item.profile?.user?.name
                         : item.user?.name}
                     </td>
-                    <td className="p-3 border-r-4">
+                    <td className="p-3 border-r-4 notranslate">
                       {user?.type === "customer"
                         ? item.profile?.postalCode
                         : item.user?.email}
                     </td>
-                    <td className="p-3 border-r-4">$ {item.totalAmount}</td>
-                    <td className="p-3 border-r-4 text-right">
+                    <td className="p-3 border-r-4 notranslate">$ {item.totalAmount}</td>
+                    <td className="p-3 border-r-4 text-right notranslate">
                       {new Date(item.createdAt).toLocaleString()}
                     </td>
                     {user?.type === "beautician" && (

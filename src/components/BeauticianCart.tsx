@@ -45,7 +45,7 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
             <h3 className="font-Playfair_Display text-xl lg:text-2xl font-bold">
               {data.user_name}
             </h3>
-            <p className="flex items-center gap-2 text-blue-500">
+            <p className="flex items-center gap-2 text-blue-500 notranslate">
               <svg
                 width="25"
                 height="24"
@@ -74,7 +74,7 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
               {data.average_rating ? data.average_rating : "0.0"} (
               {data.total_reviews})
             </p>
-            <p className="flex items-center gap-2 text-blue-500">
+            <p className="flex items-center gap-2 text-blue-500 notranslate">
               <svg
                 width="24"
                 height="24"
