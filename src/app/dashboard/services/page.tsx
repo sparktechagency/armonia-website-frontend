@@ -2,19 +2,26 @@
 import AddService from "@/components/AddService";
 import Button from "@/components/Button";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
+import { sweetAlertConfirmation } from "@/lib/alert";
 import { debounce } from "@/lib/debounce";
 import { useCategoriesQuery } from "@/redux/features/category/category.api";
-import { useServicesQuery } from "@/redux/features/services/services.api";
+import {
+  useDeleteServiceMutation,
+  useServicesQuery,
+} from "@/redux/features/services/services.api";
 import { useAppSelector } from "@/redux/hook";
 import { TCategory } from "@/type/category.type";
 import { TUniObject } from "@/type/index.type";
 import React, { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function page() {
   const [query, setQuery] = useState({ category: "", search: "" });
   const { user } = useAppSelector((state) => state.auth);
+  const [mutation] = useDeleteServiceMutation();
   const { data, isLoading: cateLoading } = useCategoriesQuery(undefined);
   const {
     data: services,
@@ -28,6 +35,26 @@ export default function page() {
     setQuery((c) => ({ ...c, search: value }));
   }, 500);
 
+  const deleteService = async (itemId: string) => {
+    const toastId = toast.loading("delete processing...", {
+      position: "bottom-center",
+    });
+    try {
+      await mutation(itemId).unwrap();
+      toast.success("Delete Successful");
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed!!",
+        text:
+          error.message ||
+          error?.data?.message ||
+          "Something went wrong. Please try again later.",
+      });
+    } finally {
+      toast.dismiss(toastId);
+    }
+  };
   return (
     <section className="bg-yellow-50 w-full">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
@@ -80,7 +107,7 @@ export default function page() {
                   <th className="p-3 border border-gray-300">Service Name</th>
                   <th className="p-3 border border-gray-300">Category</th>
                   <th className="p-3 border border-gray-300">Price</th>
-                  <th className="p-3 border border-gray-300">Action</th>
+                  <th className="p-3 border border-gray-300 text-center">Action</th>
                 </tr>
               </thead>
 
@@ -96,11 +123,19 @@ export default function page() {
                       {item.categoryName}
                     </td>
                     <td className="p-3 border border-gray-300 whitespace-pre notranslate">
-                    ${item.price}
+                      ${item.price}
                     </td>
-                    <td className="p-3 border border-gray-300 space-x-2 md:space-x-4 whitespace-pre">
-                      <FiEdit3 size={18} className="inline-block" />
-                      <MdDeleteOutline size={18} className="inline-block" />
+                    <td className="p-3 border border-gray-300 space-x-2 md:space-x-4 whitespace-pre text-center">
+                      <MdDeleteOutline
+                        onClick={() =>
+                          sweetAlertConfirmation({
+                            func: () => deleteService(item.id),
+                            object: "delete the service"
+                          })
+                        }
+                        size={20}
+                        className="inline-block hover:text-red-500 cursor-pointer"
+                      />
                     </td>
                   </tr>
                 ))}
