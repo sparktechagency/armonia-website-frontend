@@ -184,9 +184,9 @@ export default function Page() {
                               Done
                             </button>
                           ) : (
-                            <button className="bg-blue-400 text-white w-full px-2 py-1 rounded-md cursor-not-allowed">
+                            <p className="w-full px-2 py-1 text-center">
                               Acepted
-                            </button>
+                            </p>
                           )}
                         </>
                       ) : (

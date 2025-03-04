@@ -85,16 +85,17 @@ export default function Page(props: TPageProps) {
             {/* <IoLocationOutline className="size-6 lg:size-8 text-[#142F62]" /> */}
             <input
               value={query.date}
-              onChange={(e) =>
+              onChange={(e) => {
                 setQuery((c) => ({
                   ...c,
-                  [e.target.name]: e.target.value
+                  date: e.target.value,
+                  day: e.target.value
                     ? new Date(e.target.value).toLocaleDateString("en-US", {
                         weekday: "long",
                       })
                     : "",
-                }))
-              }
+                }));
+              }}
               type="date"
               id="date"
               name="date"
