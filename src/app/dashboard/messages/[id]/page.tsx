@@ -105,10 +105,13 @@ const Page = (props: TPageProps) => {
         {Object.keys(groupedMessages).map((date, index) => (
           <div key={index} className="my-1 relative">
             <p className="bg-white rounded-md shadow-md px-2 py-1 w-fit mx-auto sticky top-0 text-sm lg:text-base">
-              {dayjs(date).format("MMMM D, YYYY") ===
-              dayjs(new Date()).format("MMMM D, YYYY")
-                ? "Today" + " " + dayjs(date).format("h:mm A")
-                : dayjs(date).format("MMMM D, YYYY")}
+              {
+                dayjs(date).format("MMMM D, YYYY")
+                //  ===
+                // dayjs(new Date()).format("MMMM D, YYYY")
+                //   ? "Today" + " " + dayjs(date).format("h:mm A")
+                //   : dayjs(date).format("MMMM D, YYYY")
+              }
             </p>
             {groupedMessages[date].map(
               (message: TMessage, msgIndex: number) => (

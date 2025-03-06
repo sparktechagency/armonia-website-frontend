@@ -81,18 +81,20 @@ export default function page() {
   };
   useEffect(() => {
     setSelectedDays(user?.weekDays || []);
-    if (user?.type === "beautician" && !user?.postalCode) {
-      Swal.fire({
-        icon: "warning",
-        title: "Need Update!",
-        text: "Please update your profile with the necessary information to proceed.",
-        confirmButtonText: " Okay ",
-      }).then((res) => {
-        if (res.isConfirmed) {
-          setEditable(true);
-        }
-      });
-    }
+    setTimeout(() => {
+      if (user?.type === "beautician" && !user?.postalCode) {
+        Swal.fire({
+          icon: "warning",
+          title: "Need Update!",
+          text: "Please update your profile with the necessary information to proceed.",
+          confirmButtonText: " Okay ",
+        }).then((res) => {
+          if (res.isConfirmed) {
+            setEditable(true);
+          }
+        });
+      }
+    }, 500);
   }, [user]);
   return (
     <form

@@ -61,8 +61,8 @@ const ConversationList = () => {
   }, [appContext?.socket]);
   useEffect(() => {
     const isParti = online.find((cuser) => cuser.userId === partiId);
-    if (isParti) {
-      console.log(isParti);
+    if (isParti?.userId) {
+      // console.log(isParti);
       appContext?.setPartiActive(isParti.isActive as boolean);
     }
   }, [partiId, online]);

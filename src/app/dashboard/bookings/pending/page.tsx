@@ -95,7 +95,7 @@ export default function page() {
               <tbody>
                 {data?.data?.map((item: TUniObject, index: number) => (
                   <tr key={index} className="border-t-2 border-b-2">
-                    <td className="p-3 border-r-4 notranslate">{index}</td>
+                    <td className="p-3 border-r-4 notranslate">{++index}</td>
                     <td className="p-3 border-r-4">
                       {user?.type === "customer"
                         ? item.profile?.user?.name
