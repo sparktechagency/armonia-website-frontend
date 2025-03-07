@@ -17,13 +17,13 @@ export default function Page() {
         <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10 px-5 lg:px-10 lg:pt-4">
           <div className="bg-primary text-white text-center py-6 rounded-lg shadow-md max-w-md w-full bg-blue-500">
             <p className="text-4xl font-semibold mt-2 notranslate">
-              ${data?.data?.completed || (0).toFixed(2)}
+              ${(data?.data?.completed || 0).toFixed(2)}
             </p>
             <h1 className="text-lg font-bold">Total Net-Income</h1>
           </div>
           <div className="bg-primary text-white text-center py-6 rounded-lg shadow-md max-w-md w-full bg-green-500">
             <p className="text-4xl font-semibold mt-2 notranslate">
-              ${data?.data?.adminCharge || (0).toFixed(2)}
+              ${(data?.data?.adminCharge || 0).toFixed(2)}
             </p>
             <h1 className="text-lg font-bold">Admin Charge</h1>
           </div>

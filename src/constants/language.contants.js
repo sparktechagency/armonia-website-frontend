@@ -5,5 +5,6 @@
 export const supportedLanguages = [
   { title: "English", name: "en", },
   { title: "French", name: "fr", },
+  { title: "Portuguese", name: "pt", },
   // { title: "Arabic", name: "ar", },
 ];
