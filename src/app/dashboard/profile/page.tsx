@@ -24,7 +24,7 @@ type FormValues = {
   [key: string]: FormDataEntryValue | undefined;
 };
 
-export default function page() {
+export default function Page() {
   const appContext = useContext(context);
   const { user } = useAppSelector((state) => state.auth);
   const [editable, setEditable] = useState(false);

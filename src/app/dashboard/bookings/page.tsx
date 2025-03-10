@@ -49,7 +49,7 @@ export default function Page() {
           const res = await payment({
             bookingId: service.id,
           }).unwrap();
-          console.log(res);
+          // console.log(res);
           window.location = res.data.paymentIntent;
         } catch (error: any) {
           Swal.fire({
