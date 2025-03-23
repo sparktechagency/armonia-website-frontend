@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, use, useState } from "react";
+import React, { use, useState } from "react";
 import Image from "next/image";
 import ProfileCategory from "@/components/ProfileCategory";
 import BeauticianCart from "@/components/BeauticianCart";
@@ -12,7 +12,7 @@ import { TCategory } from "@/type/category.type";
 import { TPageProps } from "@/type/index.type";
 
 export default function Page(props: TPageProps) {
-  const { category, date, postcode } = use(props.searchParams);
+  const { category, date, address } = use(props.searchParams);
   const [query, setQuery] = useState({
     day: date
       ? new Date(date as string).toLocaleDateString("en-US", {
@@ -20,7 +20,7 @@ export default function Page(props: TPageProps) {
         })
       : "",
     date: date || "",
-    postcode: postcode || "",
+    address: address || "",
     category: category || "",
   });
   const { data: categoryData, isLoading: cateLoading } =
@@ -71,14 +71,14 @@ export default function Page(props: TPageProps) {
           <div className="flex items-center relative gap-1 border-l border-[#697586] md:pl-1 lg:pl-2">
             <IoLocationOutline className="size-6 lg:size-8 text-[#142F62]" />
             <input
-              value={query.postcode}
+              name="address"
+              value={query.address}
               onChange={(e) =>
                 setQuery((c) => ({ ...c, [e.target.name]: e.target.value }))
               }
               type="text"
-              placeholder="Post Code"
-              name="postcode"
-              className="pr-2 sm:px-2 py-2 lg:py-3 outline-none w-full text-sm sm:text-base"
+              placeholder="Address"
+              className="pr-2 sm:px-2 py-2 lg:py-3 outline-none w-full text-sm sm:text-base placeholder:text-black"
             />
           </div>
           <div className="flex items-center relative gap-1 border-l border-[#697586] md:pl-1 lg:pl-4">

@@ -14,7 +14,13 @@ import {
 import { useTimeSlotsQuery } from "@/redux/features/slots/slots.api";
 import { useAppSelector } from "@/redux/hook";
 import Image from "next/image";
-import React, { FormEvent, useContext, useEffect, useState } from "react";
+import React, {
+  FormEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { MdOutlineUpload } from "react-icons/md";
 import { TbCloudUpload, TbEdit } from "react-icons/tb";
 import { toast } from "react-toastify";
@@ -25,6 +31,7 @@ type FormValues = {
 };
 
 export default function Page() {
+  const ref = useRef(0);
   const appContext = useContext(context);
   const { user } = useAppSelector((state) => state.auth);
   const [editable, setEditable] = useState(false);
@@ -53,6 +60,7 @@ export default function Page() {
               timeSlotIds,
               weekdays: selectedDays,
               postalCode: formValues.postalCode,
+              address: formValues.address,
               bio: formValues.bio,
               category: formValues.category,
               phone: formValues.phone,
@@ -81,7 +89,7 @@ export default function Page() {
   };
   useEffect(() => {
     setSelectedDays(user?.weekDays || []);
-    setTimeout(() => {
+    if (ref.current < 3) {
       if (user?.type === "beautician" && !user?.postalCode) {
         Swal.fire({
           icon: "warning",
@@ -94,7 +102,10 @@ export default function Page() {
           }
         });
       }
-    }, 500);
+    }
+    return () => {
+      ref.current = ref.current + 1;
+    };
   }, [user]);
   return (
     <form
@@ -194,8 +205,21 @@ export default function Page() {
                   type="text"
                   required
                   name="postalCode"
+                  placeholder="1234"
                   disabled={!editable}
                   defaultValue={user?.postalCode}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
+                />
+              </label>
+              <label>
+                Address
+                <input
+                  type="text"
+                  required
+                  name="address"
+                  placeholder="Main Street, Suite 100"
+                  disabled={!editable}
+                  defaultValue={user?.address}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-4 mt-1"
                 />
               </label>
@@ -278,7 +302,11 @@ export default function Page() {
             type="submit"
             className="bg-[#1c3057] flex items-center text-white gap-2 py-2 px-6 border-2 font-bold rounded-md hover:bg-[#1F4B99] transition duration-300 text-sm md:text-base"
           >
-            {isLoading ? <BtnSpenner /> : <MdOutlineUpload size={20} />}
+            {isLoading || imageLoading ? (
+              <BtnSpenner />
+            ) : (
+              <MdOutlineUpload size={20} />
+            )}
             Update
           </button>
         ) : (

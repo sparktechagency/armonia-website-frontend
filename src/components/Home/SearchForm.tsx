@@ -4,6 +4,7 @@ import Button from "../Button";
 import { useCategoriesQuery } from "@/redux/features/category/category.api";
 import { TCategory } from "@/type/category.type";
 import { useRouter } from "next/navigation";
+import { IoLocationOutline } from "react-icons/io5";
 type FormValues = {
   [key: string]: FormDataEntryValue | undefined;
 };
@@ -61,12 +62,15 @@ const SearchForm = () => {
           ))}
         </select>
       </label>
-      <input
-        type="number"
-        name="postcode"
-        placeholder="Postcode"
-        className="max-w-md h-12 w-full px-5 focus:outline-none rounded-2xl mb-3"
-      />
+      <label htmlFor="" className="max-w-md w-full relative">
+      <IoLocationOutline size={18} className="absolute top-4 right-3 lg:right-4" />
+        <input
+          type="text"
+          name="address"
+          placeholder="Address"
+          className="h-12 w-full px-5 focus:outline-none rounded-2xl mb-3 placeholder:text-black"
+        />
+      </label>
       <input
         type="date"
         name="date"

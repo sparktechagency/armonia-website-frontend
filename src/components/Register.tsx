@@ -5,7 +5,6 @@ import Login from "./Login";
 import { cn } from "@/lib/utils";
 import { useRegistrationMutation } from "@/redux/features/auth/authApi";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import { BtnSpenner } from "./Spinner";
 import Verify from "./Verify";
 
@@ -230,7 +229,7 @@ export default function Register() {
           </p>
         </div>
         <div className="flex justify-evenly items-center mb-5">
-          <div className="mt-4 text-xl font-semibold font-lato text-[#142f62] flex items-center">
+          <div className="mt-4 text-base lg:text-xl font-semibold font-lato text-[#142f62] flex items-center">
             <input
               type="checkbox"
               id="type"
@@ -245,7 +244,7 @@ export default function Register() {
             As a Client
           </div>
 
-          <div className="mt-4 text-xl font-semibold font-lato text-[#142f62] flex items-center">
+          <div className="mt-4 text-base lg:text-xl font-semibold font-lato text-[#142f62] flex items-center">
             <input
               type="checkbox"
               id="type"
@@ -277,7 +276,7 @@ export default function Register() {
         </div>
       </form>
 
-      <p className="text-xl text-gray-500 text-center mt-5">
+      <p className="text-base lg:text-xl text-gray-500 text-center mt-5">
         Already have an account?{" "}
         <span
           onClick={() => appContext?.setModal(<Login />)}

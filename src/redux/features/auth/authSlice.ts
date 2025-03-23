@@ -22,14 +22,14 @@ export type Service = {
   price: number;
   profileId?: string;
   time: number;
-  category?: TUniObject
+  category?: TUniObject;
 };
 export type Review = {
   id?: string;
   bookingId: string;
   profileId: string;
   rating: number;
-  user?: { name: string; image?: string }
+  user?: { name: string; image?: string };
   review: string;
   createdAt?: string;
 };
@@ -44,12 +44,13 @@ export interface User {
   profile?: string;
   services: Service[];
   availableSlots?: {
-    slot: Slot
+    slot: Slot;
   }[];
   reviews?: Review[];
   total5StarReviews?: number;
   reviewsAvgRating?: number;
   postalCode?: string;
+  address?: string;
   reviewStatistics?: TUniObject;
   bio?: string;
   category?: Category;
@@ -78,7 +79,11 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoading = false;
-      Cookies.set("token", action.payload.token, { expires: 7, secure: false, sameSite: "strict" });
+      Cookies.set("token", action.payload.token, {
+        expires: 7,
+        secure: false,
+        sameSite: "strict",
+      });
     },
     logout(state) {
       state.user = null;

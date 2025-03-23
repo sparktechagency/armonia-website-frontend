@@ -4,6 +4,7 @@ import { context } from "@/app/Context";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { BtnSpenner } from "@/components/Spinner";
 import GoogleMap from "@/components/ui/LiveGoogleMap";
+import { Slot } from "@/redux/features/auth/authSlice";
 import { useBookingDetailsByIdQuery } from "@/redux/features/booking/booking.api";
 import { useCreateConversationMutation } from "@/redux/features/messages/message.api";
 import { TPageProps, TUniObject } from "@/type/index.type";
@@ -60,6 +61,31 @@ export default function Page(props: TPageProps) {
       };
     }
   }, [data?.data]);
+  const availableTime = (slots: { slot: Slot }[], appointmentDate: string) => {
+    const currentTime = new Date().getTime();
+    if (!slots || slots.length === 0) return null;
+
+    let minStart = slots[0].slot.start;
+    let maxEnd = slots[0].slot.end;
+
+    for (const item of slots) {
+      if (item.slot.start < minStart) minStart = item.slot.start;
+      if (item.slot.end > maxEnd) maxEnd = item.slot.end;
+    }
+
+    const availableTime = {
+      enableTime: new Date(
+        `${appointmentDate.split("T")[0]}T${minStart}`
+      ).getTime(),
+      disableTime: new Date(
+        `${appointmentDate.split("T")[0]}T${maxEnd}`
+      ).getTime(),
+    };
+    return availableTime;
+    // if (currentTime + 30 * 60000 ) {
+    // }
+  };
+  console.log(availableTime(data?.data?.bookedSlots, data?.data?.bookingDate));
   return (
     <LoaderWraperComp
       isError={isError}
@@ -114,13 +140,15 @@ export default function Page(props: TPageProps) {
           </li>
           <li className="flex  gap-2">
             <label className="block text-gray-700 mb-2">Payment Status:</label>
-            <p className="notranslate">{data?.data?.status === "paid" ? "30% Early Paid" : ""}</p>
+            <p className="notranslate">
+              {data?.data?.status === "paid" ? "30% Early Paid" : ""}
+            </p>
           </li>
           <li className="flex  gap-2">
             <label className="block text-gray-700 mb-2">
               Appointment Date:
             </label>
-            <p>{new Date(data?.data?.createdAt).toDateString()}</p>
+            <p>{new Date(data?.data?.bookingDate).toDateString()}</p>
           </li>
           <li>
             <label className="block text-gray-700 mb-2">Booked Services:</label>

@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import RattingStar from "./RattingStar";
 import { useAddReviewMutation } from "@/redux/features/reviews/review.api";
 import Swal from "sweetalert2";

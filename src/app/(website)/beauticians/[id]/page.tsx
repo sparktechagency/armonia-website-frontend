@@ -209,7 +209,10 @@ export default function Page(props: TPageProps) {
               </div>
               <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300 notranslate">
                 <IoLocationOutline className="size-6 lg:size-8 " />
-                <span>{data?.data?.postalCode}</span>
+                <span>
+                  {data?.data?.postalCode}{" "}
+                  {data?.data?.address && ", " + data?.data?.address}
+                </span>
                 {/* Post Code - */}
               </p>
               <p className="text-xl lg:text-3xl">
@@ -246,7 +249,7 @@ export default function Page(props: TPageProps) {
                 {data?.data?.bio}
               </p>
             </div>
-            <div className="w-full flex items-center justify-center overflow-hidden lg:h-[600px] relative">
+            <div className="w-full flex items-center justify-center overflow-hidden lg:h-[600px] lg:min-w-[40%] lg:max-w-[50%] relative">
               <Image
                 src={
                   data?.data?.user?.image
@@ -254,7 +257,7 @@ export default function Page(props: TPageProps) {
                     : "/profile-demo.png"
                 }
                 alt="beautician"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
                 fill
                 // sizes="100vw"
                 // style={{
