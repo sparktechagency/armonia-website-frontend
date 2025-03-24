@@ -81,11 +81,14 @@ export default function Page(props: TPageProps) {
         `${appointmentDate.split("T")[0]}T${maxEnd}`
       ).getTime(),
     };
-    return availableTime;
-    // if (currentTime + 30 * 60000 ) {
-    // }
+    if (currentTime > availableTime.disableTime + 30 * 60000) {
+      return "Tracking time expired!";
+    } else if (currentTime + 30 * 60000 > availableTime.enableTime) {
+      return "active";
+    } else {
+      return "Tracking will be active after 30 minutes of booking time!";
+    }
   };
-  console.log(availableTime(data?.data?.bookedSlots, data?.data?.bookingDate));
   return (
     <LoaderWraperComp
       isError={isError}

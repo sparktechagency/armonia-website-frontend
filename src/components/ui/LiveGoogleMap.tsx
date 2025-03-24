@@ -14,7 +14,8 @@ const LiveGoogleMap = ({
   currentLocation?: { latitude?: number; longitude?: number };
 }) => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY as string, // Your API Key
+    googleMapsApiKey: "AlzaSyC1DL-FTGZhce8yqcosKwOszXVCNnxqs0I", // Your API Key
+    // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY as string, // Your API Key
   });
 
   //  "AIzaSyDXdk5vmpqRnNY0iNqQ2pLGW-41i46FCwc"
@@ -34,7 +35,7 @@ const LiveGoogleMap = ({
   if (!isLoaded) return <p>Loading...</p>;
 
   return (
-    <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={17}>
+    <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={16}>
       <Marker
         icon={{
           url: "/location.png", // Replace with your custom marker image URL
