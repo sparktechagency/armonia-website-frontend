@@ -42,11 +42,11 @@ export default function Testimonials({ data = [] }: { data: Review[] }) {
       >
         {data.map((item) => (
           <SwiperSlide key={item.id}>
-            <div className="my-14 min-h-[688px] bg-blue-500 rounded-[40px] flex flex-col lg:flex-row items-center justify-around gap-10 md:gap-20 p-10">
+            <div className="my-14 lg:min-h-[688px] bg-blue-500 rounded-[40px] flex flex-col lg:flex-row items-center justify-around gap-10 md:gap-20 p-10">
               <div className="flex justify-center max-w-xl w-full">
                 <div className="hidden md:block w-[40px] lg:w-[70px] h-[228px] bg-white rounded-full mr-3" />
                 <div className="hidden md:block w-[40px] lg:w-[70px] h-[443px] bg-white rounded-full -mr-10" />
-                <div className="w-[230px] lg:w-[280px] h-[230px] md:h-[280px] my-auto rounded-full border-4 border-white overflow-hidden flex items-center justify-center">
+                <div className="w-[200px] lg:w-[280px] h-[200px] md:h-[280px] my-auto rounded-full border-4 border-white overflow-hidden flex items-center justify-center">
                   <Image
                     src={
                       item.user?.image

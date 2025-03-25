@@ -34,7 +34,7 @@ const AuthProvider = ({ children }: ProvidersProps) => {
     const weekDays = profile?.weeklySchedules?.weekDays.map(
       (item: TUniObject) => item.dayName
     );
-    let userinfo = { ...data?.data };
+    const  userinfo = { ...data?.data };
     delete userinfo?.profile;
     delete profile.weeklySchedules;
     dispatch(

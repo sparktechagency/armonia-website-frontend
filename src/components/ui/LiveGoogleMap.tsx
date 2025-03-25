@@ -14,7 +14,7 @@ const LiveGoogleMap = ({
   currentLocation?: { latitude?: number; longitude?: number };
 }) => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AlzaSyC1DL-FTGZhce8yqcosKwOszXVCNnxqs0I", // Your API Key
+    googleMapsApiKey: "AIzaSyC1DL-FTGZhce8yqcosKwOszXVCNnxqs0I", // Your API Key
     // googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY as string, // Your API Key
   });
 

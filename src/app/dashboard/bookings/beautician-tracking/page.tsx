@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { use, useContext, useEffect, useState } from "react";
 import { BiMessageRoundedDots } from "react-icons/bi";
+import { LuClockAlert } from "react-icons/lu";
 import Swal from "sweetalert2";
 
 // import { useRouter } from "next/router";
@@ -61,7 +62,10 @@ export default function Page(props: TPageProps) {
       };
     }
   }, [data?.data]);
-  const availableTime = (slots: { slot: Slot }[], appointmentDate: string) => {
+  const findingAvailableTime = (
+    slots: { slot: Slot }[],
+    appointmentDate: string
+  ) => {
     const currentTime = new Date().getTime();
     if (!slots || slots.length === 0) return null;
 
@@ -82,11 +86,11 @@ export default function Page(props: TPageProps) {
       ).getTime(),
     };
     if (currentTime > availableTime.disableTime + 30 * 60000) {
-      return "Tracking time expired!";
+      return "Google Maps tracking has expired. The tracking session ended more than 30 minutes ago and is no longer available.";
     } else if (currentTime + 30 * 60000 > availableTime.enableTime) {
       return "active";
     } else {
-      return "Tracking will be active after 30 minutes of booking time!";
+      return "Google Maps tracking will be available in 30 minutes from the booking time. Please check back later to track the location.";
     }
   };
   return (
@@ -177,7 +181,23 @@ export default function Page(props: TPageProps) {
             )
           )}
         </ul>
-        <GoogleMap currentLocation={currentLocation} />
+        {/* <GoogleMap currentLocation={currentLocation} /> */}
+        {findingAvailableTime(
+          data?.data?.bookedSlots,
+          data?.data?.bookingDate
+        ) === "active" ? (
+          <GoogleMap currentLocation={currentLocation} />
+        ) : (
+          <div className="flex flex-col justify-center items-center gap-4 min-h-64 py-16 px-6 bg-gray-200 w-full">
+            <LuClockAlert className="text-slate-500" size={34} />
+            <p className="text-center lg:text-lg text-gray-500 max-w-2xl">
+              {findingAvailableTime(
+                data?.data?.bookedSlots,
+                data?.data?.bookingDate
+              )}
+            </p>
+          </div>
+        )}
       </div>
     </LoaderWraperComp>
   );

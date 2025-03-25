@@ -28,7 +28,7 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
       )}
       <Link href={`/beauticians/${data.profile_id}`}>
         <div className="w-full flex flex-col items-center sm:flex-row px-5 lg:px-8 py-6 gap-4">
-          <div className="w-32 min-w-20 md:w-20 xl:min-w-32 xl:w-32 h-32 md:h-20 xl:h-32 rounded-full overflow-hidden flex items-center justify-center">
+          <div className="w-full md:w-20 xl:min-w-32 xl:w-32 h-full max-h-56 md:h-20 xl:h-32 md:rounded-full overflow-hidden flex items-center justify-center">
             <Image
               src={
                 data?.image
@@ -36,6 +36,10 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
                   : "/profile-demo.png"
               }
               alt="beautician"
+              // style={{
+              //   // objectFit: '', // cover, contain, none
+              //   objectPosition: 'bottom', // center, top, bottom, left, right
+              // }}
               width={128}
               height={128}
               className="w-full h-full"

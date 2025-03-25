@@ -32,9 +32,9 @@ export default function PaymentCanceled() {
           >
             Try Again
           </Link>
-          <a href="/" className="text-gray-500 hover:underline">
+          <Link href="/" className="text-gray-500 hover:underline">
             Return to Homepage
-          </a>
+          </Link>
         </div>
       </div>
     </div>
