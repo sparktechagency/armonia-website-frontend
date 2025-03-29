@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useContext } from "react";
 import Verify from "./Verify";
 import { context } from "@/app/Context";

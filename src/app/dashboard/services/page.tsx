@@ -13,12 +13,11 @@ import { useAppSelector } from "@/redux/hook";
 import { TCategory } from "@/type/category.type";
 import { TUniObject } from "@/type/index.type";
 import React, { useState } from "react";
-import { FiEdit3 } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-export default function page() {
+export default function Page() {
   const [query, setQuery] = useState({ category: "", search: "" });
   const { user } = useAppSelector((state) => state.auth);
   const [mutation] = useDeleteServiceMutation();
@@ -27,12 +26,20 @@ export default function page() {
     data: services,
     isLoading,
     isError,
-  } = useServicesQuery([{ name: "profileId", value: user?.profileId }], {
-    skip: !user?.id,
-  });
+  } = useServicesQuery(
+    [
+      { name: "profileId", value: user?.profileId },
+      ...Object.entries(query)
+        .filter((item) => item[1])
+        .map(([name, value]) => ({ name, value: value.toString() })),
+    ],
+    {
+      skip: !user?.id,
+    }
+  );
   // , {name: "name", value: query.category}
   const debounceSearch = debounce((value: string) => {
-    setQuery((c) => ({ ...c, search: value }));
+    setQuery((c) => ({ ...c, page: 1, search: value }));
   }, 500);
 
   const deleteService = async (itemId: string) => {
@@ -107,7 +114,9 @@ export default function page() {
                   <th className="p-3 border border-gray-300">Service Name</th>
                   <th className="p-3 border border-gray-300">Category</th>
                   <th className="p-3 border border-gray-300">Price</th>
-                  <th className="p-3 border border-gray-300 text-center">Action</th>
+                  <th className="p-3 border border-gray-300 text-center">
+                    Action
+                  </th>
                 </tr>
               </thead>
 
@@ -130,7 +139,7 @@ export default function page() {
                         onClick={() =>
                           sweetAlertConfirmation({
                             func: () => deleteService(item.id),
-                            object: "delete the service"
+                            object: "delete the service",
                           })
                         }
                         size={20}

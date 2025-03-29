@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { RootSpinner } from "@/components/Spinner";
 import { useGetProfileQuery } from "@/redux/features/auth/authApi";

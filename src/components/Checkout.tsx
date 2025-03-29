@@ -32,7 +32,7 @@ export default function Checkout({
   const [selectedSlot, setSelectedSlot] = useState<TUniObject[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const { user } = useAppSelector((state) => state.auth);
-  const { data, isLoading, isError } = useRemaningSlotsQuery(
+  const { data, isLoading } = useRemaningSlotsQuery(
     {
       args: [{ name: "date", value: selectedDate?.getTime() }],
       profileId,

@@ -32,7 +32,7 @@ export default function Login({ forword }: { forword?: string }) {
       const weekDays = profile?.weeklySchedules?.weekDays.map(
         (item: TUniObject) => item.dayName
       );
-      let userinfo = { ...res.data.user };
+      const userinfo = { ...res.data.user };
       delete userinfo.profile;
       delete profile.weeklySchedules;
       dispatch(

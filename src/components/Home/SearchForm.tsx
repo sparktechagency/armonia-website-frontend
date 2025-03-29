@@ -5,6 +5,7 @@ import { useCategoriesQuery } from "@/redux/features/category/category.api";
 import { TCategory } from "@/type/category.type";
 import { useRouter } from "next/navigation";
 import { IoLocationOutline } from "react-icons/io5";
+
 type FormValues = {
   [key: string]: FormDataEntryValue | undefined;
 };
@@ -25,7 +26,7 @@ const SearchForm = () => {
         //       weekday: "long",
         //     })
         //   : "",
-      }).filter(([_, value]) => value !== undefined && value) as [
+      }).filter((item) => item[1] !== undefined && item[1]) as [
         string,
         string
       ][];

@@ -12,7 +12,7 @@ import { useAppSelector } from "@/redux/hook";
 import { context } from "@/app/Context";
 import BookingDetails from "@/components/BookingDetails";
 
-export default function page() {
+export default function Page() {
   const appContext = useContext(context);
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading, isError } = useBookingsQuery([

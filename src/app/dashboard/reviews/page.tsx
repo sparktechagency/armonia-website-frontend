@@ -6,7 +6,7 @@ import { TUniObject } from "@/type/index.type";
 import RatingStar from "@/components/ui/RatingStar";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 
-export default function page() {
+export default function Page() {
   const { data, isLoading, isError } = useReviewsQuery([]);
   // const reviews = [
   //   {

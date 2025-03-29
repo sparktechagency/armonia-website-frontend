@@ -4,7 +4,6 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 const RattingStar = ({
   rating,
   setRating,
-  className,
 }: {
   rating: number;
   setRating: Dispatch<SetStateAction<number>>;
@@ -22,7 +21,7 @@ const RattingStar = ({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             id="star"
-            className={("w-12 h-12")}
+            className={"w-12 h-12"}
             onClick={() => setRating(index + 1)}
             onMouseEnter={() => setHoverRating(index + 1)}
             onMouseLeave={() => setHoverRating(0)}

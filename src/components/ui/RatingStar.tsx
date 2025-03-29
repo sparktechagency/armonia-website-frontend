@@ -2,7 +2,7 @@ import React from "react";
 
 const RatingStar = ({ rate }: { rate: number }) => {
   function fillArray(rating: number, length: number = 5): boolean[] {
-    let arr = new Array(length).fill(false);
+    const arr = new Array(length).fill(false);
     for (let i = 0; i < rating; i++) {
       arr[i] = true;
     }

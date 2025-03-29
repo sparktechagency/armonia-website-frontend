@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { context } from "@/app/Context";
 import Participant from "@/components/Messages/Participant";
@@ -35,7 +36,7 @@ const Page = (props: TPageProps) => {
           setMessages((c) => [...[...data?.data?.messages].reverse(), ...c]);
         } else {
           setParticipant(data?.data?.participants[1]?.user);
-          setMessages((c) => [...data?.data?.messages].reverse());
+          setMessages(() => [...data?.data?.messages].reverse());
         }
         setNextPage(data.pagination?.nextPage);
       }

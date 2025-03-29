@@ -15,7 +15,7 @@ const TimePicker = ({
   const generateTimes = () => {
     const times = [];
     for (let h = 0; h < 24; h++) {
-      for (let m of [0, 30]) {
+      for (const m of [0, 30]) {
         const hour = String(h).padStart(2, "0");
         const minute = String(m).padStart(2, "0");
         times.push(`${hour}:${minute}`);

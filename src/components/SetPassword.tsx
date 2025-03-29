@@ -203,7 +203,7 @@ export default function SetPassword({ method }: { method?: string }) {
               ),
             })}
           >
-            Confirm password doesn't match!
+            Confirm password doesn&#39;t match!
           </p>
         </div>
         <div className="text-center mt-6">

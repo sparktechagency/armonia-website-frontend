@@ -1,8 +1,6 @@
-import { getFromLocalStorage } from "@/lib/utils";
 import { baseApi } from "../../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
-
   endpoints: (builder) => ({
     registration: builder.mutation({
       query: (data) => {
@@ -66,7 +64,7 @@ const authApi = baseApi.injectEndpoints({
       providesTags: ["auth"],
     }),
     updateProfile: builder.mutation({
-      query: ({ body, endpint }) => {
+      query: ({ body }) => {
         return {
           url: "profiles/me",
           method: "PUT",
@@ -76,7 +74,7 @@ const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["auth"],
     }),
     updateImageName: builder.mutation({
-      query: ({ body, endpint }) => {
+      query: ({ body }) => {
         return {
           url: "users/me",
           method: "PUT",
@@ -96,6 +94,6 @@ export const {
   useVerifyEmailMutation,
   useResetPasswordMutation,
   useUpdateProfileMutation,
-  useUpdateImageNameMutation
+  useUpdateImageNameMutation,
   // useChangePasswordMutation,
 } = authApi;

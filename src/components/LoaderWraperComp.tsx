@@ -1,6 +1,6 @@
 import { FiInbox } from "react-icons/fi";
 import { cn } from "../lib/utils";
-import { ColorRing, Discuss, RotatingLines } from "react-loader-spinner";
+import { ColorRing } from "react-loader-spinner";
 
 interface ComponentProps {
   isLoading: boolean;

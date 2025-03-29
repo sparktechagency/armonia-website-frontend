@@ -144,6 +144,7 @@ export function Context({ children }: { children: React.ReactNode }) {
       const intervalId = setInterval(() => getLocation(socketData), 5000);
       return () => clearInterval(intervalId);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

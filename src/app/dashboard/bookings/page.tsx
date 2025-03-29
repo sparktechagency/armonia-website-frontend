@@ -12,7 +12,6 @@ import { useAppSelector } from "@/redux/hook";
 import { TUniObject } from "@/type/index.type";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 export default function Page() {
@@ -27,7 +26,7 @@ export default function Page() {
   ]);
   const [updateBookingStatus, { isLoading: upLoading }] =
     useUpdateBookingStatusMutation();
-  const [payment, { isLoading: muLoading }] = useCreatePaymentMutation();
+  const [payment] = useCreatePaymentMutation();
   const handleEarlyPayment = async (service: TUniObject) => {
     Swal.fire({
       text: `Would you like to proceed with an early payment of 30% of the total service amount $${service.totalAmount}?`,
@@ -64,33 +63,33 @@ export default function Page() {
       }
     });
   };
-  const hanleStatus = async ({
-    status,
-    id,
-  }: {
-    status: "accepted" | "rejected" | "cancelled" | "done";
-    id: string;
-  }) => {
-    const toastId = toast.loading("Please wait...");
-    try {
-      await updateBookingStatus({
-        status,
-        id,
-      }).unwrap();
-      toast.success(`Successfully request ${status}!`);
-    } catch (error: any) {
-      Swal.fire({
-        icon: "error",
-        title: "Failed!!",
-        text:
-          error.message ||
-          error?.data?.message ||
-          "Something went wrong. Please try again later.",
-      });
-    } finally {
-      toast.dismiss(toastId);
-    }
-  };
+  // const hanleStatus = async ({
+  //   status,
+  //   id,
+  // }: {
+  //   status: "accepted" | "rejected" | "cancelled" | "done";
+  //   id: string;
+  // }) => {
+  //   const toastId = toast.loading("Please wait...");
+  //   try {
+  //     await updateBookingStatus({
+  //       status,
+  //       id,
+  //     }).unwrap();
+  //     toast.success(`Successfully request ${status}!`);
+  //   } catch (error: any) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Failed!!",
+  //       text:
+  //         error.message ||
+  //         error?.data?.message ||
+  //         "Something went wrong. Please try again later.",
+  //     });
+  //   } finally {
+  //     toast.dismiss(toastId);
+  //   }
+  // };
   return (
     <section className="bg-yellow-50 w-full">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">

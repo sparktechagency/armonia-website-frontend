@@ -225,7 +225,7 @@ export default function Register() {
               ),
             })}
           >
-            Confirm password doesn't match!
+            Confirm password doesn&apos;t match!
           </p>
         </div>
         <div className="flex justify-evenly items-center mb-5">

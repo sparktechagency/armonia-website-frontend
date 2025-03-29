@@ -1,9 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { FormEvent, useContext } from "react";
-import { FaCaretDown } from "react-icons/fa";
+import React, { useContext } from "react";
 import { useBookingByIdQuery } from "@/redux/features/booking/booking.api";
-import Swal from "sweetalert2";
 import { context } from "@/app/Context";
 import { TUniObject } from "@/type/index.type";
 import LoaderWraperComp from "./LoaderWraperComp";
