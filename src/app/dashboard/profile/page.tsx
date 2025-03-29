@@ -89,7 +89,7 @@ export default function Page() {
   };
   useEffect(() => {
     setSelectedDays(user?.weekDays || []);
-    if (ref.current < 3) {
+    if (ref.current < 2) {
       if (user?.type === "beautician" && !user?.postalCode) {
         Swal.fire({
           icon: "warning",
