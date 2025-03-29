@@ -10,7 +10,13 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import LoaderWraperComp from "./LoaderWraperComp";
 
-export default function Testimonials({ data = [] }: { data: Review[] }) {
+export default function Testimonials({
+  data = [],
+  hideNavigation = false,
+}: {
+  data: Review[];
+  hideNavigation?: boolean;
+}) {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   return (
@@ -106,21 +112,23 @@ export default function Testimonials({ data = [] }: { data: Review[] }) {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="flex gap-4 items-center justify-center">
-          {/* Left Button */}
-          <button
-            ref={prevRef}
-            className="flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-white shadow hover:bg-gray-200 transition"
-          >
-            <IoChevronBack className="text-[#382A3F] size-8" />
-          </button>
-          <button
-            ref={nextRef}
-            className="flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-[#382A3F] shadow hover:bg-[#4A3B50] transition"
-          >
-            <IoChevronForward className="text-white size-8" />
-          </button>
-        </div>
+        {!hideNavigation && (
+          <div className="flex gap-4 items-center justify-center">
+            {/* Left Button */}
+            <button
+              ref={prevRef}
+              className="flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-white shadow hover:bg-gray-200 transition"
+            >
+              <IoChevronBack className="text-[#382A3F] size-8" />
+            </button>
+            <button
+              ref={nextRef}
+              className="flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-[#382A3F] shadow hover:bg-[#4A3B50] transition"
+            >
+              <IoChevronForward className="text-white size-8" />
+            </button>
+          </div>
+        )}
       </LoaderWraperComp>
     </section>
   );

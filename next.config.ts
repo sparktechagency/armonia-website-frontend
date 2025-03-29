@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        // protocol: "https",
+        // protocol: "http",
+        protocol: "https",
         hostname: "**", // Wildcard to allow all domains
       },
     ],

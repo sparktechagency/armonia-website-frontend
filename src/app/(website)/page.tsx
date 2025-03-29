@@ -92,11 +92,10 @@ const page = () => {
         </div>
       </section>
       <Beauticians />
-      <Testimonials data={reviewData} />
+      <Testimonials data={reviewData} hideNavigation={true} />
       <Contact />
     </>
   );
 };
 
 export default page;
-
