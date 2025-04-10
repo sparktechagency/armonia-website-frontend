@@ -13,7 +13,7 @@ const categoryApi = baseApi.injectEndpoints({
                     });
                 }
                 return {
-                    url: `categories`,
+                    url: `categories?page=1&limit=100`,
                     method: "GET",
                     params,
                 };

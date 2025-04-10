@@ -17,14 +17,13 @@ export default function page() {
           }}
         />
         <div className="lg:w-[534px]">
-          <p className="text-yellow-500 mb-2">Get in Touch!</p>
+          <p className="text-yellow-500 mb-2">Let’s Connect</p>
           <h3 className="font-bold text-3xl md:text-5xl mb-4 lg:mb-6 xl:w-3/4">
-            We are here to help you always...
+          ✨ We’re always delighted to help.
           </h3>
           <p className="text-lg text-blue-300">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, buying to many
-            desktop publishing packages.
+          Have a question or need help with your booking?. 
+          Our Client Concierge Team is here to assist you with anything you need—whether it’s choosing the right treatment, managing a booking, or personalising your Armonia experience.
           </p>
           <div className="flex items-center gap-4 lg:gap-7 mt-11">
             <svg
@@ -90,7 +89,7 @@ export default function page() {
                 Drop Us :
               </h4>
               <p className="uppercase text-blue-200 lg:text-lg">
-                support@beautyness.com
+              beauty@armoniaconcierge.com
               </p>
             </div>
           </div>
@@ -126,7 +125,7 @@ export default function page() {
                 Call Us :
               </h4>
               <p className="uppercase text-blue-200 md:text-lg">
-                Call: 1-800-123-9999
+                Call:  +351 911796101
               </p>
             </div>
           </div>
@@ -135,12 +134,10 @@ export default function page() {
       <section className="py-20 px-3 xl:px-36 text-center bg-yellow-50">
         <p className="font-semibold text-yellow-500">SCHEDULE YOUR PRESENCE</p>
         <h2 className="font-bold text-3xl lg:text-5xl text-blue-500 font-Playfair_Display mb-5">
-          Get in touch
+        Let’s Connect
         </h2>
         <p className="font-medium text-lg text-blue-300">
-          There are many variations of passages of Lorem Ipsum available
-          <br />
-          but the majority have suffered alteration in some form.
+        Have a question or need help with your booking?. Our Client Concierge Team is here to assist you with anything you need—whether it’s choosing the right treatment, managing a booking, or personalising your Armonia experience.
         </p>
         <form className="max-w-screen-lg bg-white mx-auto p-8 lg:p-[100px] mt-16 flex flex-col gap-4 shadow-xl rounded-3xl">
           <div className="relative flex items-center">
