@@ -8,7 +8,7 @@ export default function layout({
   return (
     <div className="h-full w-full bg-yellow-50">
       <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
-        My Conersation
+        My Conversations
       </h1>
       <div className="w-full flex min-h-[85vh]">
         <ConversationList />

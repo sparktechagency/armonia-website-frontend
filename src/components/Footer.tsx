@@ -18,9 +18,7 @@ export default function Footer() {
             // }}
              />
           <p className="font-medium max-w-lg mt-4">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-            sint. Velit officia consequat duis enim velit mollit. Exercitation
-            veniam consequat sunt nostrud amet.
+          Founded by Isabela, a passionate beauty professional, Armonia was created to offer something deeply personal: the highest standard of care, wherever you are. We bring the spa, salon, and wellness studio to your villa, hotel, or home—so you can indulge, unwind, and glow on your own terms.
           </p>
         </div>
         <div className="grid lg:grid-cols-3 justify-between lg:w-1/2 w-full gap-4">
@@ -61,16 +59,15 @@ export default function Footer() {
               Get In Touch
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
-              <li>Fale Conosco</li>
-              <li>Agendar Horário</li>
-              <li>(00) 0000-0000</li>
-              <li>(00) 00000-0000</li>
+              <li>Contact</li>
+              <li>Phone</li>
+              <li>+351 911796101</li>
             </ul>
           </div>
         </div>
       </div>
       <p className="py-3 text-sm md:text-base text-center font-nunito bg-gradient-to-b from-[#7E8EAC] to-[#142F62] text-white">
-        Copyright © <span>{new Date().getFullYear()}</span> Vibely. All Rights
+        Copyright © <span>{new Date().getFullYear()}</span>Armonia. All Rights
         Reserved
       </p>
     </footer>)

@@ -29,6 +29,8 @@ export default function Page() {
   } = useServicesQuery(
     [
       { name: "profileId", value: user?.profileId },
+      { name: "page", value: 1 },
+      { name: "limit", value: 100 },
       ...Object.entries(query)
         .filter((item) => item[1])
         .map(([name, value]) => ({ name, value: value.toString() })),
@@ -42,6 +44,7 @@ export default function Page() {
     setQuery((c) => ({ ...c, page: 1, search: value }));
   }, 500);
 
+  console.log(services)
   const deleteService = async (itemId: string) => {
     const toastId = toast.loading("delete processing...", {
       position: "bottom-center",

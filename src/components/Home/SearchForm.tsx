@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useCallback } from "react";
+import React, { FormEvent, useCallback, useState } from "react";
 import Button from "../Button";
 import { useCategoriesQuery } from "@/redux/features/category/category.api";
 import { TCategory } from "@/type/category.type";
@@ -12,8 +12,12 @@ type FormValues = {
 
 const SearchForm = () => {
   const router = useRouter();
-  const { data, isLoading } = useCategoriesQuery(undefined);
-
+  const { data, isLoading } = useCategoriesQuery(undefined,{
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
+  });
+  const [date, setDate] = useState("");
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -41,7 +45,7 @@ const SearchForm = () => {
       className="px-3 py-10 lg:px-10 rounded-xl bg-[#ffffffb3] flex flex-col items-center mx-4"
     >
       <h3 className="font-Playfair_Display font-semibold text-2xl md:text-3xl text-center text-blue-500 mb-10">
-        Book five star beauty service, direct to your door
+      Welcome to Armonia — your personal beauty, wellness, and lifestyle concierge in the Algarve.
       </h3>
       <label
         htmlFor="category"
@@ -54,7 +58,7 @@ const SearchForm = () => {
           className="h-12 w-full px-5 focus:outline-none rounded-2xl "
         >
           <option value="" disabled>
-            {isLoading ? "loading..." : "Select Category"}
+            {isLoading ? "loading..." : "Choose Service"}
           </option>
           {data?.data?.map((item: TCategory) => (
             <option key={item.name} value={item.name}>
@@ -72,13 +76,17 @@ const SearchForm = () => {
           className="h-12 w-full px-5 focus:outline-none rounded-2xl mb-3 placeholder:text-black"
         />
       </label>
+     
       <input
         type="date"
         name="date"
+        placeholder="Choose Date"
+        onChange={(e) => setDate(e.target.value)}
         // onChange={(e)=> new Date(e.target.value).toLocaleDateString("en-US", { weekday: "long" })}
         min={new Date().toISOString().split("T")[0]}
         className="max-w-md h-12 w-full px-5 focus:outline-none rounded-2xl mb-5"
       />
+    
       <Button
         type="submit"
         className="w-full max-w-md rounded-2xl"
