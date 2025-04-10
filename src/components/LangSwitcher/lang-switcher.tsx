@@ -1,5 +1,5 @@
 "use client";
-
+import Cookies from "js-cookie";
 // Extend the global object to include __GOOGLE_TRANSLATION_CONFIG__
 declare global {
   interface Window {
@@ -68,6 +68,8 @@ const LanguageSwitcher: React.FC = () => {
   }
 
   const switchLanguage = (lang: string) => {
+    // Cookies.remove("googtrans");
+    // console.log(lang)
     setCookie(null, COOKIE_NAME, `/auto/${lang}`);
     window.location.reload();
   };

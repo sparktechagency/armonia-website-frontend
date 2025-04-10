@@ -5,5 +5,5 @@ window.__GOOGLE_TRANSLATION_CONFIG__ = {
     { title: "Arabic", name: "ar" },
     { title: "Portuguese", name: "pt" },
   ],
-  defaultLanguage: "en",
+  defaultLanguage: "fr",
 };
