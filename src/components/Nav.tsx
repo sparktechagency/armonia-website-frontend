@@ -33,6 +33,7 @@ export default function Nav() {
     { name: "Home", href: "/" },
     { name: "Beauticians", href: "/beauticians" },
     { name: "Contact Us", href: "/contact" },
+    { name: "FAQ", href: "/faq" },
   ];
   useEffect(() => {
     links.forEach(({ name, href }) => {
@@ -102,7 +103,7 @@ export default function Nav() {
               open ? "right-0" : "-right-full"
             } transition-all duration-500`}
           >
-            <div className="flex flex-col lg:flex-row lg:items-center gap-2.5 lg:gap-24 text-lg relative px-3">
+            <div className="flex flex-col lg:flex-row lg:items-center gap-2.5 lg:gap-10 2xl:gap-24 text-lg relative px-3">
               {links.map(({ href, name }, index) => (
                 <Link
                   key={index}

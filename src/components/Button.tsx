@@ -23,7 +23,7 @@ export default function Button({
       className={
         `${
           gradientBorder ? " text-blue-500" : "bg-blue-500 text-white"
-        } font-nunito border-blue-500 border-2 p-3 lg:p-4 ` + className
+        } font-nunito border-blue-500 border-2 px-3 lg:px-4 py-2 lg:py-3` + className
       }
       // style={{ paddingTop: paddingY + "px", paddingBottom: paddingY + "px" }}
       type={type}
