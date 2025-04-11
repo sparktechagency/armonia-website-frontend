@@ -6,7 +6,6 @@ import ProfileCategory from "@/components/ProfileCategory";
 import Button from "@/components/Button";
 import Testimonials from "@/components/Testimonials";
 import Checkout from "@/components/Checkout";
-import { IoLocationOutline } from "react-icons/io5";
 import { TPageProps, TUniObject } from "@/type/index.type";
 import { useGetUserQuery } from "@/redux/features/users/users.api";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
@@ -170,9 +169,9 @@ export default function Page(props: TPageProps) {
       </header>
       <LoaderWraperComp isError={isError} isLoading={isLoading}>
         <section className="px-5 xl:px-36 py-16 flex flex-col gap-10">
-          <div className="flex flex-col lg:flex-row lg:items-center gap-10">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500">
+              <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500 capitalize">
                 {data?.data?.user.name}
               </h3>
               <div className="flex justify-between items-center">
@@ -207,14 +206,13 @@ export default function Page(props: TPageProps) {
                   {data?.data?.reviewStatistics?._count?.rating})
                 </p>
               </div>
-              <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300 notranslate">
+              {/* <p className="flex items-center gap-2 text-xl lg:text-3xl text-blue-300 notranslate">
                 <IoLocationOutline className="size-6 lg:size-8 " />
                 <span>
                   {data?.data?.postalCode}{" "}
                   {data?.data?.address && ", " + data?.data?.address}
                 </span>
-                {/* Post Code - */}
-              </p>
+              </p>*/}
               <p className="text-xl lg:text-3xl">
                 Available Time:{" "}
                 <span className="notranslate">
@@ -230,7 +228,7 @@ export default function Page(props: TPageProps) {
                   }
                 </span>
               </p>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <p className="text-xl lg:text-3xl">Working Days :</p>{" "}
                 <div className="flex items-center flex-wrap gap-2">
                   {data?.data?.weeklySchedules?.weekDays.map(
@@ -244,7 +242,7 @@ export default function Page(props: TPageProps) {
                     )
                   )}
                 </div>
-              </div>
+              </div>  */}
               <p className="text-lg lg:text-2xl font-medium text-blue-500 text-justify">
                 {data?.data?.bio}
               </p>
@@ -257,7 +255,7 @@ export default function Page(props: TPageProps) {
                     : "/profile-demo.png"
                 }
                 alt="beautician"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full"
                 fill
                 // sizes="100vw"
                 // style={{
@@ -289,7 +287,7 @@ export default function Page(props: TPageProps) {
                       : "flex-col md:flex-row-reverse"
                   }`}
                 >
-                  <div className="w-full lg:w-1/2 flex items-center justify-center overflow-hidden h-[550] relative">
+                  <div className="w-full lg:w-1/2 flex items-center justify-center overflow-hidden relative">
                     <Image
                       src={
                         image
@@ -297,7 +295,7 @@ export default function Page(props: TPageProps) {
                           : "/profile-demo.png"
                       }
                       alt={categoryName}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full"
                       width={1000}
                       height={1000}
                       // fill
