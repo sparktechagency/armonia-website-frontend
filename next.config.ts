@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         // protocol: "http",
-        protocol: "https",
+        protocol: "http",
         hostname: "**", // Wildcard to allow all domains
       },
     ],

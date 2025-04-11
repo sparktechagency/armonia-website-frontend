@@ -7,6 +7,7 @@ import Beauticians from "@/components/Home/Beauticians";
 import BenefitsSection from "@/components/AppFeatures";
 import HowItWorks from "@/components/HowItWork";
 import FounderMessage from "@/components/Founder";
+import ServiceGrid from "@/components/CategoryList";
 
 const page = () => {
   const reviewData = [
@@ -77,7 +78,9 @@ const page = () => {
         <h3 className="text-blue-500 text-xl sm:text-4xl lg:text-4xl font-semibold text-center w-3/4 xl:w-2/4 mx-auto">
         The ultimate beauty escape – without ever leaving your home provide by top beauticians in Algarve.
         </h3>
-        <div className="grid grid-cols-3 gap-2 lg:gap-6 h-40 lg:h-[614px] rounded-3xl lg:rounded-[40px] w-full max-w-2xl lg:max-w-full mx-auto overflow-hidden mt-10">
+        {/* <CategoryList/> */}
+        <ServiceGrid/>
+        {/* <div className="grid grid-cols-3 gap-2 lg:gap-6 h-40 lg:h-[614px] rounded-3xl lg:rounded-[40px] w-full max-w-2xl lg:max-w-full mx-auto overflow-hidden mt-10">
           {[1, 2, 3, 4, 5].map((item, index) => (
             <div
               key={index}
@@ -92,12 +95,11 @@ const page = () => {
               />
             </div>
           ))}
-        </div>
+        </div> */}
       </section>
       <Beauticians />
       <BenefitsSection/>
       <HowItWorks/>
-      
       <Testimonials data={reviewData} hideNavigation={true} />
       <Contact />
       <FounderMessage/>
