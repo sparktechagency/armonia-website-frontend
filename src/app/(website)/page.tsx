@@ -5,7 +5,6 @@ import SearchForm from "@/components/Home/SearchForm";
 import Beauticians from "@/components/Home/Beauticians";
 import BenefitsSection from "@/components/AppFeatures";
 import HowItWorks from "@/components/HowItWork";
-import FounderMessage from "@/components/Founder";
 import ServiceGrid from "@/components/CategoryList";
 import HomeTestimonials from "@/components/Home/HomeTestimonials";
 
@@ -102,7 +101,6 @@ const page = () => {
       <Beauticians />
       <BenefitsSection/>
       <HowItWorks/>
-      <Testimonials data={reviewData} hideNavigation={true} />
 
       <HomeTestimonials />
       <Contact />
