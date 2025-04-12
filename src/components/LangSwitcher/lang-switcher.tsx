@@ -1,5 +1,4 @@
 "use client";
-import Cookies from "js-cookie";
 // Extend the global object to include __GOOGLE_TRANSLATION_CONFIG__
 declare global {
   interface Window {

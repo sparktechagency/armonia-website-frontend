@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Contact from "@/app/(website)/contact/page";
 import SearchForm from "@/components/Home/SearchForm";
 import Beauticians from "@/components/Home/Beauticians";
@@ -63,15 +63,26 @@ const page = () => {
   // ];
   return (
     <>
-      <header className="flex items-center justify-center py-28 relative bg-gradient-to-b from-[#FFFFFF00] to-[#002B6B]">
-        <Image
+      <header className="flex items-center justify-center py-28 relative bg-gradient-to-b from-[#FFFFFF00] to-[#002B6B] min-h-[calc(100vh-120px)] overflow-hidden">
+     
+        {/* <Image
           src="/paint-brush.png"
           alt="hero"
           className="absolute -z-10 object-cover object-center"
           fill
           sizes="100vw"
-        />
-
+        /> */}
+        <video
+          className="absolute -z-10 object-cover h-full w-full"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src="/banner-video.mp4" type="video/mp4" />
+          {/* Ensure you handle unsupported formats */}
+          Your browser does not support the video tag.
+        </video>
         <SearchForm />
       </header>
       <section className="px-3 2xl:px-36 py-16 bg-[#fffbef]">
@@ -80,7 +91,7 @@ const page = () => {
           top beauticians in Algarve.
         </h3>
         {/* <CategoryList/> */}
-        <ServiceGrid/>
+        <ServiceGrid />
         {/* <div className="grid grid-cols-3 gap-2 lg:gap-6 h-40 lg:h-[614px] rounded-3xl lg:rounded-[40px] w-full max-w-2xl lg:max-w-full mx-auto overflow-hidden mt-10">
           {[1, 2, 3, 4, 5].map((item, index) => (
             <div
@@ -99,12 +110,11 @@ const page = () => {
         </div> */}
       </section>
       <Beauticians />
-      <BenefitsSection/>
-      <HowItWorks/>
+      <BenefitsSection />
+      <HowItWorks />
 
       <HomeTestimonials />
       <Contact />
-      
     </>
   );
 };

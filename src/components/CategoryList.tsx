@@ -1,24 +1,21 @@
-// components/ServiceGrid.tsx
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import { useState } from 'react'
-import { useServicesQuery } from '@/redux/features/services/services.api'
-import { useCategoriesQuery } from '@/redux/features/category/category.api'
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { useCategoriesQuery } from "@/redux/features/category/category.api";
+import Image from "next/image";
 
 const ServiceGrid = () => {
-  const [page, setPage] = useState(1)
- const { data, isLoading ,error} = useCategoriesQuery(undefined,{
+  const { data, isLoading, error } = useCategoriesQuery(undefined, {
     refetchOnFocus: true,
     refetchOnReconnect: true,
     refetchOnMountOrArgChange: true,
   });
 
-  if (isLoading) return <div>Loading...</div>
-  if (error) return <div>Error loading services</div>
-  console.log(data.data)
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading services</div>;
+  console.log(data.data);
 
   return (
     <div className="container mx-auto px-6 py-12">
@@ -43,17 +40,21 @@ const ServiceGrid = () => {
         className="mySwiper"
       >
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {data?.data?.map((service:any) => (
+          {data?.data?.map((service: any) => (
             <SwiperSlide key={service.name}>
               <Link href={`/services/${service.name}`} passHref>
                 <div className="relative overflow-hidden rounded-lg shadow-lg group">
-                  <img
+                  <Image
                     src={`${process.env.NEXT_PUBLIC_API_URL}${service?.image}`}
                     alt={service.name}
+                    height={1000}
+                    width={1000}
                     className="object-cover w-full h-[250px] group-hover:opacity-80 transition duration-300 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                    <h2 className="text-3xl font-bold text-white">{service.name}</h2>
+                    <h2 className="text-3xl font-bold text-white">
+                      {service.name}
+                    </h2>
                   </div>
                 </div>
               </Link>
@@ -61,10 +62,8 @@ const ServiceGrid = () => {
           ))}
         </div>
       </Swiper>
-
-    
     </div>
-  )
-}
+  );
+};
 
-export default ServiceGrid
+export default ServiceGrid;

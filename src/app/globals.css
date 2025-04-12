@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* use for exclued tailwind */
+.no-tailwind * {
+  all: revert !important;
+}
+
 /* Hide Google Translate Top Bar */
 .skiptranslate {
   display: none !important;

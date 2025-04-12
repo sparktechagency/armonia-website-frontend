@@ -44,7 +44,7 @@ export default function Page() {
     setQuery((c) => ({ ...c, page: 1, search: value }));
   }, 500);
 
-  console.log(services)
+  // console.log(services)
   const deleteService = async (itemId: string) => {
     const toastId = toast.loading("delete processing...", {
       position: "bottom-center",

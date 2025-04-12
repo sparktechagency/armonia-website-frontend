@@ -10,7 +10,7 @@ import Verify from "./Verify";
 
 export default function Register() {
   const appContext = useContext(context);
-  const [type, setType] = useState<string | null>(null);
+  const [type, setType] = useState<string | null>("customer");
   const [matchingPass, setMatchingPass] = useState({ pass: "", confirm: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [confrimPassword, setConfrimPassword] = useState(false);
@@ -241,7 +241,7 @@ export default function Register() {
               }
               className="mr-2 h-5 w-5 rounded-full border-gray-300 text-[#142f62] focus:ring-[#142f62]"
             />
-            As a Client
+            As Client
           </div>
 
           <div className="mt-4 text-base lg:text-xl font-semibold font-lato text-[#142f62] flex items-center">
@@ -256,7 +256,7 @@ export default function Register() {
               }
               className="mr-2 h-5 w-5 rounded-full border-gray-300 text-[#142f62] focus:ring-[#142f62]"
             />
-            As a Beautician
+            As Beautician
           </div>
         </div>
         <p

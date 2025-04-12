@@ -34,7 +34,7 @@ const benefits: Benefit[] = [
         Benefits
       </h4>
       <h2 className="text-3xl font-serif font-semibold mb-12">
-        What you'll love
+        What you&apos;ll love
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto px-4">

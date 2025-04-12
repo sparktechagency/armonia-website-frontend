@@ -61,7 +61,6 @@ export default function Page() {
           isError={isError}
           isLoading={isLoading}
           dataEmpty={data?.data?.length < 1}
-        
         >
           <div className="overflow-x-auto">
             <table className="min-w-full text-xs">
@@ -106,9 +105,11 @@ export default function Page() {
                         ? item.profile?.postalCode
                         : item.user?.email}
                     </td>
-                    <td className="p-3 border-r-4 notranslate">${item.totalAmount}</td>
+                    <td className="p-3 border-r-4 notranslate">
+                      € {item.totalAmount}
+                    </td>
                     <td className="p-3 border-r-4 text-right notranslate">
-                      {new Date(item.createdAt).toLocaleString()}
+                      {new Date(item.bookingDate).toDateString()}
                     </td>
                     {user?.type === "beautician" && (
                       <td className="p-3 border-r-4 text-center">

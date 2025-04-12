@@ -132,19 +132,26 @@ export default function Page(props: TPageProps) {
     data?.data?.services?.reduce(
       (
         acc: Record<string, any>[],
-        { categoryName, id, name, price, time, category }: Service
+        { categoryName, id, name, price, time, category, description }: Service
       ) => {
         const existingCategory = acc.find(
           (item) => item.categoryName === categoryName
         );
         if (existingCategory) {
-          existingCategory.services.push({ id, name, price, time, category });
+          existingCategory.services.push({
+            id,
+            name,
+            price,
+            time,
+            category,
+            description,
+          });
         } else {
           acc.push({
             image: category?.image,
             categoryName,
             categoryId: category?.id,
-            services: [{ id, name, price, time }],
+            services: [{ id, name, price, time, description }],
           });
         }
         return acc;
@@ -213,7 +220,7 @@ export default function Page(props: TPageProps) {
                   {data?.data?.address && ", " + data?.data?.address}
                 </span>
               </p>*/}
-              <p className="text-xl lg:text-3xl">
+              {/* <p className="text-xl lg:text-3xl">
                 Available Time:{" "}
                 <span className="notranslate">
                   {data?.data?.availableSlots?.[0]?.slot?.start}{" "}
@@ -227,7 +234,7 @@ export default function Page(props: TPageProps) {
                     ]?.slot?.end
                   }
                 </span>
-              </p>
+              </p> */}
               {/* <div className="flex items-center gap-2">
                 <p className="text-xl lg:text-3xl">Working Days :</p>{" "}
                 <div className="flex items-center flex-wrap gap-2">
@@ -311,33 +318,38 @@ export default function Page(props: TPageProps) {
                     </h3>
                     <ul className="flex flex-col mt-5 gap-6">
                       {services.map((service: Service, cindex: number) => (
-                        <li className="flex items-center gap-3" key={cindex}>
-                          <div className="flex items-center justify-between max-w-md w-full relative">
-                            <span className="border-dotted border w-full absolute bottom-1.5"></span>
-                            <p className="z-10 bg-white">{service.name}</p>
-                            <p className="z-10 bg-white">{service.time}min</p>
+                        <li key={cindex} className="space-y-2 shadow-sm p-2">
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center justify-between max-w-md w-full relative">
+                              <span className="border-dotted border w-full absolute bottom-1.5"></span>
+                              <p className="z-10 bg-white">{service.name}</p>
+                              <p className="z-10 bg-white">{service.time}min</p>
+                            </div>
+                            <div className="flex items-center justify-center gap-3 notranslate">
+                              <p>${service.price}</p>
+                              <input
+                                checked={
+                                  selectedService.find(
+                                    (item: Service) => item.id === service.id
+                                  )
+                                    ? true
+                                    : false
+                                }
+                                onChange={() =>
+                                  setSelectedService((c) =>
+                                    c.some((item) => item.id === service.id)
+                                      ? c.filter(
+                                          (item) => item.id !== service.id
+                                        )
+                                      : [...c, service]
+                                  )
+                                }
+                                type="checkbox"
+                                className="size-4 lg:size-5 accent-blue-500 rounded-md"
+                              />
+                            </div>
                           </div>
-                          <div className="flex items-center justify-center gap-3 notranslate">
-                            <p>${service.price}</p>
-                            <input
-                              checked={
-                                selectedService.find(
-                                  (item: Service) => item.id === service.id
-                                )
-                                  ? true
-                                  : false
-                              }
-                              onChange={() =>
-                                setSelectedService((c) =>
-                                  c.some((item) => item.id === service.id)
-                                    ? c.filter((item) => item.id !== service.id)
-                                    : [...c, service]
-                                )
-                              }
-                              type="checkbox"
-                              className="size-4 lg:size-5 accent-blue-500 rounded-md"
-                            />
-                          </div>
+                          <p className="text-sm text-gray-600">{service.description}</p>
                         </li>
                       ))}
                     </ul>

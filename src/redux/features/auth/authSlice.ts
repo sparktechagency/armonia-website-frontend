@@ -20,6 +20,7 @@ export type Service = {
   id: string;
   name: string;
   price: number;
+  description?: string;
   profileId?: string;
   time: number;
   category?: TUniObject;

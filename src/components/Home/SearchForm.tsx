@@ -50,7 +50,7 @@ const SearchForm = () => {
       </div>
       <form
         onSubmit={onSubmit}
-        className="px-3 py-10 lg:px-10 rounded-xl bg-[#ffffffb3] flex flex-col items-center md:mx-auto max-w-2xl"
+        className="px-3 py-10 lg:px-10 rounded-xl bg-[#ffffff3f] flex flex-col items-center md:mx-auto max-w-2xl"
       >
         <label
           htmlFor="category"
