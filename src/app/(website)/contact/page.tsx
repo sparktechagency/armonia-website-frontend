@@ -25,39 +25,7 @@ export default function page() {
           Have a question or need help with your booking?. 
           Our Client Concierge Team is here to assist you with anything you need—whether it’s choosing the right treatment, managing a booking, or personalising your Armonia experience.
           </p>
-          <div className="flex items-center gap-4 lg:gap-7 mt-11">
-            <svg
-              width="65"
-              height="66"
-              viewBox="0 0 65 66"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="size-10 md:size-16"
-            >
-              <rect
-                x="1"
-                y="1.62622"
-                width="63"
-                height="63"
-                rx="4"
-                stroke="#142F62"
-                strokeWidth="2"
-              />
-              <path
-                d="M28.125 45.7099V35.5015C28.125 33.0853 30.0838 31.1265 32.5 31.1265V31.1265C34.9162 31.1265 36.875 33.0853 36.875 35.5015V45.7099M45.625 42.7932V29.197C45.625 27.654 44.9126 26.1975 43.6947 25.2502L35.5697 18.9308C33.7642 17.5264 31.2359 17.5264 29.4303 18.9308L21.3053 25.2502C20.0874 26.1975 19.375 27.654 19.375 29.197V42.7932C19.375 43.5668 19.6823 44.3086 20.2293 44.8556C20.7763 45.4026 21.5181 45.7099 22.2917 45.7099H42.7083C43.4819 45.7099 44.2237 45.4026 44.7707 44.8556C45.3177 44.3086 45.625 43.5668 45.625 42.7932Z"
-                stroke="#142F62"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <div>
-              <h4 className="font-Playfair_Display font-bold text-xl md:text-2xl text-blue-500">
-                Visit Us :
-              </h4>
-              <p className="uppercase text-blue-200 md:text-lg">Us, abc100</p>
-            </div>
-          </div>
+         
           <div className="flex items-center gap-4 lg:gap-7 mt-8">
             <svg
               width="65"

@@ -7,6 +7,7 @@ import BenefitsSection from "@/components/AppFeatures";
 import HowItWorks from "@/components/HowItWork";
 import ServiceGrid from "@/components/CategoryList";
 import HomeTestimonials from "@/components/Home/HomeTestimonials";
+import AccordionComponent from "@/components/Home/Therapist";
 
 const page = () => {
   // const reviewData = [
@@ -112,9 +113,9 @@ const page = () => {
       <Beauticians />
       <BenefitsSection />
       <HowItWorks />
-
+<AccordionComponent/>
       <HomeTestimonials />
-      <Contact />
+      {/* <Contact /> */}
     </>
   );
 };

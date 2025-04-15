@@ -5,7 +5,7 @@ export default function ProfileCategory({
   withName = false,
   className,
 }: {
-  category: "classic" | "elite" | "celebrity";
+  category: "armonia_luxe" | "armonia_local";
   className?: string;
   withName?: boolean;
 }) {
@@ -13,9 +13,9 @@ export default function ProfileCategory({
     return (
       <span
         className={`w-8 sm:w-10 lg:w-[60px] h-8 sm:h-10 lg:h-[60px] flex items-center justify-center text-white rounded-full text-lg lg:text-2xl font-medium capitalize ${
-          category === "classic"
+          category === "armonia_luxe"
             ? "bg-yellow-500"
-            : category === "elite"
+            : category === "armonia_local"
             ? "bg-blue-500"
             : "bg-black"
         } ${className}`}
@@ -28,18 +28,18 @@ export default function ProfileCategory({
   return (
     <p
       className={`flex items-center gap-1.5 sm:gap-3 lg:gap-5 font-medium  text-lg lg:text-2xl capitalize ${
-        category === "classic"
+        category === "armonia_local"
           ? "text-yellow-500"
-          : category === "elite"
+          : category === "armonia_luxe"
           ? "text-blue-500"
           : "text-black"
       } ${className}`}
     >
       <span
         className={`w-8 sm:w-10 lg:w-[60px] h-8 sm:h-10 lg:h-[60px] flex items-center justify-center text-white rounded-full capitalize ${
-          category === "classic"
+          category === "armonia_local"
             ? "bg-yellow-500"
-            : category === "elite"
+            : category === "armonia_luxe"
             ? "bg-blue-500"
             : "bg-black"
         }`}
