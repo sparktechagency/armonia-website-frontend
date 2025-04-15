@@ -1,6 +1,5 @@
 import React from "react";
 // import Image from "next/image";
-import Contact from "@/app/(website)/contact/page";
 import SearchForm from "@/components/Home/SearchForm";
 import Beauticians from "@/components/Home/Beauticians";
 import BenefitsSection from "@/components/AppFeatures";
