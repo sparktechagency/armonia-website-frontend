@@ -12,6 +12,7 @@ const Beauticians = async () => {
     }
   );
   const data = await response.json();
+console.log(data)
   // console.log(data)
   return (
     <section className="py-16 text-center">

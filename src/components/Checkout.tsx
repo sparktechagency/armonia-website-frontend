@@ -31,7 +31,6 @@ export default function Checkout({
   const appContext = useContext(context);
   const [selectedSlot, setSelectedSlot] = useState<TUniObject[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [isSubmitable,setIsSubmitable] = useState(false)
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading } = useRemaningSlotsQuery(
     {
@@ -52,11 +51,11 @@ export default function Checkout({
   );
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const formValues = Object.values(Object.fromEntries(formData.entries()));
-    if(selectedSlot.length < totalTime / 30) {
-      toast.error("Please select the slots in order" )
-      return
+    // const formData = new FormData(e.currentTarget);
+    // const formValues = Object.values(Object.fromEntries(formData.entries()));
+    if (selectedSlot.length < totalTime / 30) {
+      toast.error("Please select the slots in order");
+      return;
     }
     const payload = {
       profileId,
@@ -86,98 +85,90 @@ export default function Checkout({
     }
   };
   const handleSlotChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const slotIsExist = selectedSlot.find((item) => {
-      return Object.values(item)[0] === e.target.value;
-    });
     // if (slotIsExist) {
     //   toast.error("The slot is already selected!", {
     //     position: "bottom-center",
     //   });
     // } else {
-    const serviceIsExist = selectedSlot.find((item) => {
-      console.log(item);
+    const slotNeed = totalTime / 30;
+
+    //check if any slot available in the selected date
+
+    if (slotNeed > data?.data?.length) {
+      toast.error(
+        `Beautician do not have ${slotNeed} slots to book. If you want to book you can reduce service`,
+        {
+          position: "bottom-center",
+        }
+      );
+      return;
+    }
+    const index = data?.data.findIndex((item: Slot) => {
+      console.log(item)
+    return  item.id === e.target.value;
     });
-    const slot = data?.data?.find((item: Slot) => item.id === e.target.value);
-    let slotNeed = totalTime / 30;
+    // console.log(index)
 
-//check if any slot available in the selected date
+    if (index === -1) {
+      toast.error("Please select the slots in order");
+    }
+    if (index !== 0) {
+      const newArr = data?.data.slice(index - 1);
+      newArr.splice(slotNeed + 1, newArr.length - slotNeed);
 
-if (slotNeed > data?.data?.length) {
-  toast.error(
-    `Beautician do not have ${slotNeed} slots to book. If you want to book you can reduce service`,
-    {
-      position: "bottom-center",
-    }
-  );
-  return
-}
-let index = data?.data.findIndex(
-  (item: Slot) => item.id === e.target.value
-);
-  if(index === -1) {
-    toast.error("Please select the slots in order")
-  }
-  if(index !== 0) {
-    let newArr = data?.data.slice(index-1);
-    newArr.splice(slotNeed+1, newArr.length - slotNeed)
-  
-    if (newArr.length < slotNeed) {
-      toast.error(
-        `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
-      );
-      return
-    }
-    for (let i = 0; i < newArr.length - 1; i++) {
-      let currentIndex = newArr[i]?.index;
-      let nextIndex = newArr[i + 1]?.index;
-      if (nextIndex === undefined) {
-        setIsSubmitable(false)
-        toast.error("Please select the slots in order");
-        break
-        return; // Exit the loop if the next index is undefined
+      if (newArr.length < slotNeed) {
+        toast.error(
+          `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
+        );
+        return;
       }
-      if (nextIndex - currentIndex !== 1) {
-        setIsSubmitable(false)
-        toast.error(`Please select slots that should has ${slotNeed} slots in order. other than you can change the the service`);
-        break; 
-        return
+      for (let i = 0; i < newArr.length - 1; i++) {
+        const currentIndex = newArr[i]?.index;
+        const nextIndex = newArr[i + 1]?.index;
+        console.log("Errrr", nextIndex);
+        if (nextIndex === undefined) {
+          toast.error("Please select the slots in order");
+          break;
+          return; // Exit the loop if the next index is undefined
+        }
+        if (nextIndex - currentIndex !== 1) {
+          toast.error(
+            `Please select slots that should has ${slotNeed} slots in order. other than you can change the the service`
+          );
+          break;
+          return;
+        }
       }
-    }
-    console.log(newArr)
-    setSelectedSlot((c)=> newArr.map((item:Slot)=> item.id))
-    setIsSubmitable(true)
-  }else{
-    let newArr = data?.data.slice(index);
-    newArr.splice(slotNeed, newArr.length - slotNeed)
+      setSelectedSlot(() => newArr.map((item: Slot) => item.id));
+    } else {
+      const newArr = data?.data.slice(index);
+      newArr.splice(slotNeed, newArr.length - slotNeed);
 
-    if (newArr.length < slotNeed) {
-      toast.error(
-        `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
-      );
-      return
-    }
-    for (let i = 0; i < newArr.length - 1; i++) {
-      let currentIndex = newArr[i]?.index;
-      let nextIndex = newArr[i + 1]?.index;
-      console.log("Next Index",nextIndex)
-      if (nextIndex === undefined) {
-        setIsSubmitable(false)
-        toast.error("Please select the slots in order");
-        break
-        return; // Exit the loop if the next index is undefined
+      if (newArr.length < slotNeed) {
+        toast.error(
+          `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
+        );
+        return;
       }
-      if (nextIndex - currentIndex !== 1) {
-        setIsSubmitable(false)
-        toast.error(`Please select slots that should has ${slotNeed +1} slots in order. other than you can change the the service`);
-        break; 
-        return
+      for (let i = 0; i < newArr.length - 1; i++) {
+        const currentIndex = newArr[i]?.index;
+        const nextIndex = newArr[i + 1]?.index;
+        console.log(nextIndex);
+        if (nextIndex === undefined) {
+          toast.error("Please select the slots in order");
+          break;
+        }
+        if (nextIndex - currentIndex !== 1) {
+          toast.error(
+            `Please select slots that should has ${
+              slotNeed + 1
+            } slots in order. other than you can change the the service`
+          );
+          break;
+        }
       }
+      setSelectedSlot(() => newArr.map((item: Slot) => item.id));
     }
-  
-    console.log(newArr)
-    setSelectedSlot((c)=> newArr.map((item:Slot)=> item.id))
-    setIsSubmitable(true)
-  }
     // setSelectedSlot((c) =>
     //   serviceIsExist
     //     ? [
@@ -196,7 +187,7 @@ let index = data?.data.findIndex(
     // }
   };
 
-  console.log("Total Slots", `${totalTime / 30}`);
+  // console.log("Total Slots", `${totalTime / 30}`);
   // const bongoBoltu = selectedSlot.find((item) => item[`slot-${2}`]);
   // console.log("bongoBoltu", bongoBoltu ? Object.values(bongoBoltu)[0] : "");
   // console.log(selectedSlot.find((item) => item[`slot-${2}`]) ? selectedSlot.find((item) => item[`slot-${2}`])[`slot-${2}`] : "");
@@ -281,7 +272,9 @@ let index = data?.data.findIndex(
               <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-8">
                 Selected Service Prices
               </h1>
-              <p className="font-bold">Total Required slot : {totalTime/30}</p>
+              <p className="font-bold">
+                Total Required slot : {totalTime / 30}
+              </p>
               <ul className="space-y-2">
                 {selectedServices.map((service, index) => (
                   <li
@@ -337,7 +330,7 @@ let index = data?.data.findIndex(
                   </option>
                 ))}
               </select>
-         
+
               <div className="flex justify-between items-center mt-8 font-bold lg:text-xl text-lg">
                 <span>Total</span>
                 <span className="text-green-600 notranslate">${total}</span>
