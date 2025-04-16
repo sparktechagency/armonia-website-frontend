@@ -107,9 +107,8 @@ export default function Page(props: TPageProps) {
       </header>
       <section className=" py-16">
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-36 justify-center py-4">
-          <ProfileCategory category="celebrity" withName />
-          <ProfileCategory category="elite" withName />
-          <ProfileCategory category="celebrity" withName />
+          <ProfileCategory category="armonia_luxe" withName />
+          <ProfileCategory category="armonia_local" withName />
         </div>
         <LoaderWraperComp
           isError={isError}

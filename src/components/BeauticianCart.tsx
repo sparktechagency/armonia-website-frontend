@@ -12,7 +12,6 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
   const [sliceQty, setSliceQty] = useState(0);
 
   const next = (length: number) => {
-    console.log({ sliceQty, length });
     setSliceQty((c) => (c < length - 4 ? c + 1 : c));
   };
   const preview = () => {

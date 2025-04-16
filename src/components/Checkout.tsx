@@ -31,6 +31,7 @@ export default function Checkout({
   const appContext = useContext(context);
   const [selectedSlot, setSelectedSlot] = useState<TUniObject[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isSubmitable,setIsSubmitable] = useState(false)
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading } = useRemaningSlotsQuery(
     {
@@ -41,16 +42,29 @@ export default function Checkout({
   );
   const [dispatch, { isLoading: muLoading }] = useCreateBookingMutation();
 
+  const total = selectedServices.reduce(
+    (sum, service) => sum + service.price,
+    0
+  );
+  const totalTime = selectedServices.reduce(
+    (sum, service) => sum + service.time,
+    0
+  );
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const formValues = Object.values(Object.fromEntries(formData.entries()));
+    if(selectedSlot.length < totalTime / 30) {
+      toast.error("Please select the slots in order" )
+      return
+    }
     const payload = {
       profileId,
       bookingDate: selectedDate?.getTime(),
       serviceIds: selectedServices.map((item) => item.id),
-      timeSlotIds: formValues,
+      timeSlotIds: selectedSlot,
     };
+    console.log(payload);
     try {
       await dispatch(payload).unwrap();
       appContext?.setModal(null);
@@ -71,11 +85,118 @@ export default function Checkout({
       });
     }
   };
+  const handleSlotChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const slotIsExist = selectedSlot.find((item) => {
+      return Object.values(item)[0] === e.target.value;
+    });
+    // if (slotIsExist) {
+    //   toast.error("The slot is already selected!", {
+    //     position: "bottom-center",
+    //   });
+    // } else {
+    const serviceIsExist = selectedSlot.find((item) => {
+      console.log(item);
+    });
+    const slot = data?.data?.find((item: Slot) => item.id === e.target.value);
+    let slotNeed = totalTime / 30;
 
-  const total = selectedServices.reduce(
-    (sum, service) => sum + service.price,
-    0
+//check if any slot available in the selected date
+
+if (slotNeed > data?.data?.length) {
+  toast.error(
+    `Beautician do not have ${slotNeed} slots to book. If you want to book you can reduce service`,
+    {
+      position: "bottom-center",
+    }
   );
+  return
+}
+let index = data?.data.findIndex(
+  (item: Slot) => item.id === e.target.value
+);
+  if(index === -1) {
+    toast.error("Please select the slots in order")
+  }
+  if(index !== 0) {
+    let newArr = data?.data.slice(index-1);
+    newArr.splice(slotNeed+1, newArr.length - slotNeed)
+  
+    if (newArr.length < slotNeed) {
+      toast.error(
+        `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
+      );
+      return
+    }
+    for (let i = 0; i < newArr.length - 1; i++) {
+      let currentIndex = newArr[i]?.index;
+      let nextIndex = newArr[i + 1]?.index;
+      if (nextIndex === undefined) {
+        setIsSubmitable(false)
+        toast.error("Please select the slots in order");
+        break
+        return; // Exit the loop if the next index is undefined
+      }
+      if (nextIndex - currentIndex !== 1) {
+        setIsSubmitable(false)
+        toast.error(`Please select slots that should has ${slotNeed} slots in order. other than you can change the the service`);
+        break; 
+        return
+      }
+    }
+    console.log(newArr)
+    setSelectedSlot((c)=> newArr.map((item:Slot)=> item.id))
+    setIsSubmitable(true)
+  }else{
+    let newArr = data?.data.slice(index);
+    newArr.splice(slotNeed, newArr.length - slotNeed)
+
+    if (newArr.length < slotNeed) {
+      toast.error(
+        `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
+      );
+      return
+    }
+    for (let i = 0; i < newArr.length - 1; i++) {
+      let currentIndex = newArr[i]?.index;
+      let nextIndex = newArr[i + 1]?.index;
+      console.log("Next Index",nextIndex)
+      if (nextIndex === undefined) {
+        setIsSubmitable(false)
+        toast.error("Please select the slots in order");
+        break
+        return; // Exit the loop if the next index is undefined
+      }
+      if (nextIndex - currentIndex !== 1) {
+        setIsSubmitable(false)
+        toast.error(`Please select slots that should has ${slotNeed +1} slots in order. other than you can change the the service`);
+        break; 
+        return
+      }
+    }
+  
+    console.log(newArr)
+    setSelectedSlot((c)=> newArr.map((item:Slot)=> item.id))
+    setIsSubmitable(true)
+  }
+    // setSelectedSlot((c) =>
+    //   serviceIsExist
+    //     ? [
+    //         ...c.filter(
+    //           (item) => !(`slot-${index}` in item)
+    //         ),
+    //         {
+    //           ["slot" + "-" + index]: e.target.value,
+    //         },
+    //       ]
+    //     : [
+    //         ...c,
+    //         { ["slot" + "-" + index]: e.target.value },
+    //       ]
+    // );
+    // }
+  };
+
+  console.log("Total Slots", `${totalTime / 30}`);
   // const bongoBoltu = selectedSlot.find((item) => item[`slot-${2}`]);
   // console.log("bongoBoltu", bongoBoltu ? Object.values(bongoBoltu)[0] : "");
   // console.log(selectedSlot.find((item) => item[`slot-${2}`]) ? selectedSlot.find((item) => item[`slot-${2}`])[`slot-${2}`] : "");
@@ -160,6 +281,7 @@ export default function Checkout({
               <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-8">
                 Selected Service Prices
               </h1>
+              <p className="font-bold">Total Required slot : {totalTime/30}</p>
               <ul className="space-y-2">
                 {selectedServices.map((service, index) => (
                   <li
@@ -170,8 +292,7 @@ export default function Checkout({
                       <p>
                         <span className="font-semibold">{service.name}</span>
                         <span className="text-[10px] font-medium">
-                          {" "}
-                          (30min)
+                          {service.time} min
                         </span>
                       </p>
                       <span className="text-blue-500 text-right notranslate">
@@ -179,67 +300,6 @@ export default function Checkout({
                       </span>
                     </div>
                     <div className="w-full relative max-w-[118px] sm:max-w-32">
-                      <select
-                        className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-2 md:py-1 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1 text-sm sm:text-base"
-                        // defaultValue={""}
-                        value={
-                          selectedSlot.find((item) => item[`slot-${index}`])
-                            ? Object.values(
-                                selectedSlot.find(
-                                  (item) => item[`slot-${index}`]
-                                ) || {}
-                              )[0]
-                            : ""
-                        }
-                        required
-                        onClick={() => {
-                          if (!selectedDate)
-                            toast.warning(
-                              "Appointment date select is required!",
-                              { position: "bottom-center" }
-                            );
-                        }}
-                        name={"slot" + "-" + index}
-                        onChange={(e) => {
-                          const slotIsExist = selectedSlot.find((item) => {
-                            return Object.values(item)[0] === e.target.value;
-                          });
-                          // console.log(slotIsExist);
-                          if (slotIsExist) {
-                            toast.error("The slot is already selected!", {
-                              position: "bottom-center",
-                            });
-                          } else {
-                            const serviceIsExist = selectedSlot.find(
-                              (item) => `slot-${index}` in item
-                            );
-                            setSelectedSlot((c) =>
-                              serviceIsExist
-                                ? [
-                                    ...c.filter(
-                                      (item) => !(`slot-${index}` in item)
-                                    ),
-                                    {
-                                      ["slot" + "-" + index]: e.target.value,
-                                    },
-                                  ]
-                                : [
-                                    ...c,
-                                    { ["slot" + "-" + index]: e.target.value },
-                                  ]
-                            );
-                          }
-                        }}
-                      >
-                        <option disabled value="">
-                          {isLoading ? "Loading..." : "Slot"}
-                        </option>
-                        {data?.data?.map((item: Slot, slotIindex: number) => (
-                          <option key={slotIindex} value={item.id} className="notranslate">
-                            {item.start} - {item.end}
-                          </option>
-                        ))}
-                      </select>
                       <FaCaretDown
                         size={12}
                         className="text-gray-500 hover:text-gray-400 absolute top-[15px] right-2 pointer-events-none"
@@ -248,6 +308,36 @@ export default function Checkout({
                   </li>
                 ))}
               </ul>
+              <select
+                className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-2 md:py-1 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1 text-sm sm:text-base"
+                // defaultValue={""}
+                // value={
+                //   selectedSlot.find((item) => item)
+                // }
+                required
+                onClick={() => {
+                  if (!selectedDate)
+                    toast.warning("Appointment date select is required!", {
+                      position: "bottom-center",
+                    });
+                }}
+                name={"slot" + "-"}
+                onChange={(e) => handleSlotChange(e)}
+              >
+                <option disabled value="">
+                  {isLoading ? "Loading..." : "Slot"}
+                </option>
+                {data?.data?.map((item: Slot, slotIindex: number) => (
+                  <option
+                    key={slotIindex}
+                    value={item.id}
+                    className="notranslate"
+                  >
+                    {item.start} - {item.end}
+                  </option>
+                ))}
+              </select>
+         
               <div className="flex justify-between items-center mt-8 font-bold lg:text-xl text-lg">
                 <span>Total</span>
                 <span className="text-green-600 notranslate">${total}</span>
@@ -265,6 +355,7 @@ export default function Checkout({
       <div className="flex items-center justify-center">
         <button
           type="submit"
+          // disabled={isSubmitable}
           className="flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 "
         >
           {muLoading && <BtnSpenner />} Send Request

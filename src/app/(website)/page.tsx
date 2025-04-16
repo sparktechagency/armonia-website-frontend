@@ -9,7 +9,7 @@ import HomeTestimonials from "@/components/Home/HomeTestimonials";
 import AccordionComponent from "@/components/Home/Therapist";
 
 const page = () => {
-  // const reviewData = [
+  
   //   {
   //     id: "rev1",
   //     bookingId: "cm71jkr8u0006i0dunxaulunu",

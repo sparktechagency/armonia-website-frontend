@@ -20,7 +20,7 @@ export default function ProfileCategory({
             : "bg-black"
         } ${className}`}
       >
-        {category[0]}
+        {category.split("_")[1]}
       </span>
     );
   }
@@ -44,9 +44,9 @@ export default function ProfileCategory({
             : "bg-black"
         }`}
       >
-        {category[0]}
+        {category.split("_")[1]}
       </span>
-      {category}
+      {category.split("_")[1]}
     </p>
   );
 }
