@@ -13,6 +13,7 @@ import { BtnSpenner } from "./Spinner";
 import { context } from "@/app/Context";
 import { useRouter } from "next/navigation";
 import { BusinessDayPicker, TWeekday } from "./ui/DatePicker";
+import { validateAndSelectSlots } from "@/lib/helpers";
 
 // type FormValues = {
 //   [key: string]: FormDataEntryValue | undefined;
@@ -29,9 +30,11 @@ export default function Checkout({
 }) {
   const router = useRouter();
   const appContext = useContext(context);
-  const [selectedSlot, setSelectedSlot] = useState<TUniObject[]>([]);
+  const [selectedSlot, setSelectedSlot] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const { user } = useAppSelector((state) => state.auth);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [selectedSlotInfo, setSelectedSlotInfo] = useState<Slot[]>([]);
   const { data, isLoading } = useRemaningSlotsQuery(
     {
       args: [{ name: "date", value: selectedDate?.getTime() }],
@@ -57,13 +60,17 @@ export default function Checkout({
       toast.error("Please select the slots in order");
       return;
     }
+    if (isButtonDisabled) {
+      toast.error("Please select the slots in order");
+      return;
+    }
     const payload = {
       profileId,
       bookingDate: selectedDate?.getTime(),
       serviceIds: selectedServices.map((item) => item.id),
       timeSlotIds: selectedSlot,
+      slots: selectedSlotInfo,
     };
-    console.log(payload);
     try {
       await dispatch(payload).unwrap();
       appContext?.setModal(null);
@@ -84,109 +91,52 @@ export default function Checkout({
       });
     }
   };
+
   const handleSlotChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // if (slotIsExist) {
-    //   toast.error("The slot is already selected!", {
-    //     position: "bottom-center",
-    //   });
-    // } else {
     const slotNeed = totalTime / 30;
 
-    //check if any slot available in the selected date
-
     if (slotNeed > data?.data?.length) {
+      setIsButtonDisabled(true);
       toast.error(
-        `Beautician do not have ${slotNeed} slots to book. If you want to book you can reduce service`,
+        `Beautician does not have ${slotNeed} slots to book. Please reduce service duration.`,
         {
           position: "bottom-center",
         }
       );
       return;
     }
-    const index = data?.data.findIndex((item: Slot) => {
-      console.log(item)
-    return  item.id === e.target.value;
-    });
-    // console.log(index)
-
+    const index = data?.data.findIndex(
+      (item: Slot) => item.id === e.target.value
+    );
     if (index === -1) {
       toast.error("Please select the slots in order");
+      throw new Error("Invalid slot selected");
+      return;
     }
-    if (index !== 0) {
-      const newArr = data?.data.slice(index - 1);
-      newArr.splice(slotNeed + 1, newArr.length - slotNeed);
 
-      if (newArr.length < slotNeed) {
-        toast.error(
-          `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
+    try {
+      let selectedIds: { ids: string[]; info: Slot[] };
+      if (index !== 0) {
+        selectedIds = validateAndSelectSlots(
+          index - 1,
+          slotNeed + 1,
+          data?.data
         );
-        return;
+      } else {
+        selectedIds = validateAndSelectSlots(index, slotNeed, data?.data);
       }
-      for (let i = 0; i < newArr.length - 1; i++) {
-        const currentIndex = newArr[i]?.index;
-        const nextIndex = newArr[i + 1]?.index;
-        console.log("Errrr", nextIndex);
-        if (nextIndex === undefined) {
-          toast.error("Please select the slots in order");
-          break;
-          return; // Exit the loop if the next index is undefined
-        }
-        if (nextIndex - currentIndex !== 1) {
-          toast.error(
-            `Please select slots that should has ${slotNeed} slots in order. other than you can change the the service`
-          );
-          break;
-          return;
-        }
+      setSelectedSlotInfo(selectedIds.info);
+      setSelectedSlot(selectedIds.ids);
+      setIsButtonDisabled(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        setIsButtonDisabled(true);
+        setSelectedSlot([]);
+        setSelectedSlotInfo([]);
+        console.log(error.message);
       }
-      setSelectedSlot(() => newArr.map((item: Slot) => item.id));
-    } else {
-      const newArr = data?.data.slice(index);
-      newArr.splice(slotNeed, newArr.length - slotNeed);
-
-      if (newArr.length < slotNeed) {
-        toast.error(
-          `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
-        );
-        return;
-      }
-      for (let i = 0; i < newArr.length - 1; i++) {
-        const currentIndex = newArr[i]?.index;
-        const nextIndex = newArr[i + 1]?.index;
-        console.log(nextIndex);
-        if (nextIndex === undefined) {
-          toast.error("Please select the slots in order");
-          break;
-        }
-        if (nextIndex - currentIndex !== 1) {
-          toast.error(
-            `Please select slots that should has ${
-              slotNeed + 1
-            } slots in order. other than you can change the the service`
-          );
-          break;
-        }
-      }
-      setSelectedSlot(() => newArr.map((item: Slot) => item.id));
     }
-    // setSelectedSlot((c) =>
-    //   serviceIsExist
-    //     ? [
-    //         ...c.filter(
-    //           (item) => !(`slot-${index}` in item)
-    //         ),
-    //         {
-    //           ["slot" + "-" + index]: e.target.value,
-    //         },
-    //       ]
-    //     : [
-    //         ...c,
-    //         { ["slot" + "-" + index]: e.target.value },
-    //       ]
-    // );
-    // }
   };
-
   // console.log("Total Slots", `${totalTime / 30}`);
   // const bongoBoltu = selectedSlot.find((item) => item[`slot-${2}`]);
   // console.log("bongoBoltu", bongoBoltu ? Object.values(bongoBoltu)[0] : "");
@@ -272,9 +222,32 @@ export default function Checkout({
               <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-8">
                 Selected Service Prices
               </h1>
-              <p className="font-bold">
-                Total Required slot : {totalTime / 30}
-              </p>
+              <div>
+                <p className="font-bold">
+                  Total Required slot : {totalTime / 30}
+                </p>
+                <div>
+                  <p className="font-semibold">Selected Slots:</p>
+               
+                  {selectedSlotInfo.slice(1).map((item, i) => (
+                    <p key={item.id || i}>
+                      {item.start} - {item.end}
+                    </p>
+                  ))}
+                </div>
+
+                {/* <p className="text-gray-700 font-semibold">
+                  Selected Time:
+                  {selectedSlotInfo?.length > 0 &&
+                  selectedSlotInfo[0]?.start &&
+                  selectedSlotInfo[selectedSlotInfo.length - 1]?.end
+                    ? `${selectedSlotInfo[0].start} - ${
+                        selectedSlotInfo[selectedSlotInfo.length - 1].end
+                      }`
+                    : ""}
+                </p> */}
+              </div>
+
               <ul className="space-y-2">
                 {selectedServices.map((service, index) => (
                   <li
@@ -348,8 +321,11 @@ export default function Checkout({
       <div className="flex items-center justify-center">
         <button
           type="submit"
-          // disabled={isSubmitable}
-          className="flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 "
+          disabled={isButtonDisabled}
+          className={`${
+            isButtonDisabled ? "bg-gray-400" : "bg-blue-500"
+          } flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 `}
+          // className="flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 "
         >
           {muLoading && <BtnSpenner />} Send Request
         </button>

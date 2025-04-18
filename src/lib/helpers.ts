@@ -1,4 +1,5 @@
 import { Slot } from "@/redux/features/auth/authSlice";
+import { toast } from "react-toastify";
 
 const getMinute = (time: string) => (Number(time.split(":")[0]) * 60) + Number(time.split(":")[1])
 function getIndexOfSlot(slots: Slot[], time: string, option: "start" | "end") {
@@ -26,3 +27,39 @@ export const validateionTime = ({ start, end, slots }: { start: string; end: str
         throw new Error("Service available Start time be before End time!")
     }
 }
+
+
+export const validateAndSelectSlots = (
+    startIndex: number,
+    slotNeed: number,
+    slots: Slot[]
+  ) => {
+    const newArr = slots.slice(startIndex);
+    newArr.splice(slotNeed, newArr.length - slotNeed);
+  
+    if (newArr.length < slotNeed) {
+      toast.error(
+        `Beautician does not have ${slotNeed} consecutive slots available. Please reduce the service duration or select earlier slots.`
+      );
+      throw new Error("slot error");
+    }
+  
+    for (let i = 0; i < newArr.length - 1; i++) {
+      const currentIndex = newArr[i]?.index;
+      const nextIndex = newArr[i + 1]?.index;
+  
+      if (nextIndex === undefined) {
+        toast.error("Please select the slots in order");
+        throw new Error("slot error");
+      }
+  
+      if (nextIndex - currentIndex !== 1) {
+        toast.error(
+          `Please select slots that should have ${slotNeed} slots in order. Otherwise, please change the service.`
+        );
+        throw new Error("slot error");
+      }
+    }
+    return {ids:newArr.map((item: Slot) => item.id),info:newArr};
+  };
+  

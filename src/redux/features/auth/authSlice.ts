@@ -13,6 +13,7 @@ export interface Slot {
   id: string;
   start: string;
   end: string;
+  index: number;
 }
 export type Service = {
   categoryName: string;
