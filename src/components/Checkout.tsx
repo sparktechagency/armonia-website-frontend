@@ -6,7 +6,6 @@ import { useAppSelector } from "@/redux/hook";
 import { useRemaningSlotsQuery } from "@/redux/features/slots/slots.api";
 import { FaCaretDown } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { TUniObject } from "@/type/index.type";
 import { useCreateBookingMutation } from "@/redux/features/booking/booking.api";
 import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
