@@ -5,6 +5,7 @@ import { context } from "@/app/Context";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { BtnSpenner } from "@/components/Spinner";
 import GoogleMap from "@/components/ui/LiveGoogleMap";
+import { Slot } from "@/redux/features/auth/authSlice";
 // import { Slot } from "@/redux/features/auth/authSlice";
 import { useBookingDetailsByIdQuery } from "@/redux/features/booking/booking.api";
 import { useCreateConversationMutation } from "@/redux/features/messages/message.api";
@@ -13,6 +14,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { use, useContext, useEffect, useState } from "react";
 import { BiMessageRoundedDots } from "react-icons/bi";
+import { LuClockAlert } from "react-icons/lu";
 // import { LuClockAlert } from "react-icons/lu";
 import Swal from "sweetalert2";
 
@@ -63,37 +65,56 @@ export default function Page(props: TPageProps) {
       };
     }
   }, [data?.data]);
-  // const findingAvailableTime = (
-  //   slots: { slot: Slot }[],
-  //   appointmentDate: string
-  // ) => {
-  //   const currentTime = new Date().getTime();
-  //   if (!slots || slots.length === 0) return null;
+  const getTimeByDateAndTime = ({
+    date,
+    time,
+  }: {
+    date: string;
+    time: string;
+  }) => {
+    return new Date(`${date}T${time}`).getTime();
+  };
+  const findingAvailableTime = (
+    slots: { slot: Slot }[],
+    appointmentDate: string
+  ) => {
+    const currentTime = new Date().getTime();
+    if (!slots || slots.length === 0) return null;
 
-  //   let minStart = slots[0].slot.start;
-  //   let maxEnd = slots[0].slot.end;
+    let minStart = slots[0].slot.start;
+    let maxEnd = slots[0].slot.end;
+    // console.log(
+    //   getTimeByDateAndTime({
+    //     date: appointmentDate.split("T")[0],
+    //     time: minStart,
+    //   })
+    // );
+    for (const item of slots) {
+      if (item.slot.start < minStart) minStart = item.slot.start;
+      if (item.slot.end > maxEnd) maxEnd = item.slot.end;
+    }
 
-  //   for (const item of slots) {
-  //     if (item.slot.start < minStart) minStart = item.slot.start;
-  //     if (item.slot.end > maxEnd) maxEnd = item.slot.end;
-  //   }
-
-  //   const availableTime = {
-  //     enableTime: new Date(
-  //       `${appointmentDate.split("T")[0]}T${minStart}`
-  //     ).getTime(),
-  //     disableTime: new Date(
-  //       `${appointmentDate.split("T")[0]}T${maxEnd}`
-  //     ).getTime(),
-  //   };
-  //   if (currentTime > availableTime.disableTime + 30 * 60000) {
-  //     return "Google Maps tracking has expired. The tracking session ended more than 30 minutes ago and is no longer available.";
-  //   } else if (currentTime + 30 * 60000 > availableTime.enableTime) {
-  //     return "active";
-  //   } else {
-  //     return "Google Maps tracking will be available in 30 minutes from the booking time. Please check back later to track the location.";
-  //   }
-  // };
+    const availableTime = {
+      enableTime: getTimeByDateAndTime({
+        date: appointmentDate.split("T")[0],
+        time: minStart,
+      }),
+      disableTime: getTimeByDateAndTime({
+        date: appointmentDate.split("T")[0],
+        time: maxEnd,
+      }),
+    };
+    if (currentTime > availableTime.disableTime) {
+      return "Google Maps tracking has expired. The tracking session is ended.";
+    } else if (currentTime + 30 * 60000 > availableTime.enableTime) {
+      return "active";
+    } else {
+      return "Google Maps tracking will be available in 30 minutes from the booking time. Please check back later to track the location.";
+    }
+  };
+  console.log(
+    findingAvailableTime(data?.data?.bookedSlots, data?.data?.bookingDate)
+  );
   return (
     <LoaderWraperComp
       isError={isError}
@@ -144,7 +165,7 @@ export default function Page(props: TPageProps) {
         <ul className="space-y-2 w-full max-w-3xl px-2 lg:px-4">
           <li className="flex gap-2">
             <label className="block text-gray-700 mb-2">Total Price:</label>
-            <p className="notranslate">${data?.data?.totalAmount}</p>
+            <p className="notranslate"> € {data?.data?.totalAmount}</p>
           </li>
           <li className="flex  gap-2">
             <label className="block text-gray-700 mb-2">Payment Status:</label>
@@ -156,7 +177,22 @@ export default function Page(props: TPageProps) {
             <label className="block text-gray-700 mb-2">
               Appointment Date:
             </label>
-            <p>{new Date(data?.data?.bookingDate).toDateString()}</p>
+            <p>
+              {new Date(data?.data?.bookingDate).toDateString()}{" "}
+              {data?.data?.bookedSlots?.[0].slot.start}
+            </p>
+          </li>
+          <li className="flex  gap-2">
+            <label className="block text-gray-700 mb-2">
+              Appointment Time:
+            </label>
+            <p>
+              {data?.data?.bookedSlots?.[0].slot.start} -{" "}
+              {
+                data?.data?.bookedSlots?.[data?.data?.bookedSlots?.length - 1]
+                  .slot?.end
+              }
+            </p>
           </li>
           <li>
             <label className="block text-gray-700 mb-2">Booked Services:</label>
@@ -173,7 +209,7 @@ export default function Page(props: TPageProps) {
                   </span>
                 </p>
                 <span className="text-blue-500 text-right notranslate">
-                  ${service?.price}
+                  € {service?.price}
                 </span>
                 {/* <p>
                 {service?.bookedSlots?.start}-{service?.bookedSlots?.end}
@@ -183,12 +219,12 @@ export default function Page(props: TPageProps) {
           )}
         </ul>
         {/* <GoogleMap currentLocation={currentLocation} /> */}
-        {/* {findingAvailableTime(
+        {findingAvailableTime(
           data?.data?.bookedSlots,
           data?.data?.bookingDate
-        ) === "active" ? ( */}
+        ) === "active" ? (
           <GoogleMap currentLocation={currentLocation} />
-        {/* ) : (
+        ) : (
           <div className="flex flex-col justify-center items-center gap-4 min-h-64 py-16 px-6 bg-gray-200 w-full">
             <LuClockAlert className="text-slate-500" size={34} />
             <p className="text-center lg:text-lg text-gray-500 max-w-2xl">
@@ -198,7 +234,7 @@ export default function Page(props: TPageProps) {
               )}
             </p>
           </div>
-        )} */}
+        )}
       </div>
     </LoaderWraperComp>
   );

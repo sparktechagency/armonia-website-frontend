@@ -1,7 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
+import {  FaTwitter } from "react-icons/fa";
+import { BiLogoInstagramAlt } from "react-icons/bi";
+import { IoLogoFacebook } from "react-icons/io5";
+ 
 export default function Footer() {
   return (
     <footer className="bg-gradient-pink-blue text-blue-300">
@@ -24,6 +27,17 @@ export default function Footer() {
             to your villa, hotel, or home—so you can indulge, unwind, and glow
             on your own terms.
           </p>
+          <div className="flex justify-start gap-3 lg:gap-5 mt-4">
+            <a className="hover:text-blue-500 transition-all" href="https://www.facebook.com/armonia.concierge" target="_blank" rel="noopener noreferrer">
+              <IoLogoFacebook size={22} />
+            </a>
+            <a className="hover:text-blue-500 transition-all" href="https://www.instagram.com/armonia.concierge/" target="_blank" rel="noopener noreferrer">
+              <BiLogoInstagramAlt size={22} />
+            </a>
+            <a className="hover:text-blue-500 transition-all" href="http://" target="_blank" rel="noopener noreferrer">
+              <FaTwitter size={22} />
+            </a>
+          </div>
         </div>
         <div className="grid lg:grid-cols-3 justify-between lg:w-1/2 w-full gap-4">
           <div>

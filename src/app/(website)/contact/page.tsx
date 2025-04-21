@@ -7,7 +7,7 @@ export default function page() {
     <>
       <section className="py-20 px-3 xl:px-36 flex gap-10 md:gap-16 justify-center items-center flex-col-reverse lg:flex-row">
         <Image
-          src="/help.png"
+          src="/contact-img.jpg"
           alt="help"
           width={524}
           height={568}
