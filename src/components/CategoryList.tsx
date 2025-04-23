@@ -121,7 +121,7 @@ function SampleNextArrow(props: ArrowProps) {
   return (
     <div
       onClick={onClick}
-      className="absolute top-1/2 -left-4 transform -translate-y-1/2 text-black/70 drop-shadow-md cursor-pointer z-10"
+      className="absolute top-1/2 -left-4 xl:-left-7 transform -translate-y-1/2 text-black/70 drop-shadow-md cursor-pointer z-10"
     >
       <FaChevronLeft className="size-3 md:size-4 xl:size-5 bg-white/30 rounded-md" />
     </div>
@@ -133,7 +133,7 @@ function SamplePrevArrow(props: ArrowProps) {
   return (
     <div
       onClick={onClick}
-      className="absolute top-1/2 -right-5 transform -translate-y-1/2 text-black/70 drop-shadow-md cursor-pointer z-10"
+      className="absolute top-1/2 -right-5 xl:-right-7 transform -translate-y-1/2 text-black/70 drop-shadow-md cursor-pointer z-10"
     >
       <FaChevronRight className="size-3 md:size-4 xl:size-5 bg-white/30 rounded-md" />
     </div>
