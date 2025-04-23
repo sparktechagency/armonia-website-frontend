@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // components/AccordionComponent.tsx
 "use client";
 import { useState } from "react";

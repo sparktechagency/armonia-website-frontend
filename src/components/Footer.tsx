@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {  FaTwitter } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 import { BiLogoInstagramAlt } from "react-icons/bi";
 import { IoLogoFacebook } from "react-icons/io5";
- 
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-pink-blue text-blue-300">
@@ -28,13 +28,28 @@ export default function Footer() {
             on your own terms.
           </p>
           <div className="flex justify-start gap-3 lg:gap-5 mt-4">
-            <a className="hover:text-blue-500 transition-all" href="https://www.facebook.com/armonia.concierge" target="_blank" rel="noopener noreferrer">
+            <a
+              className="hover:text-blue-500 transition-all"
+              href="https://www.facebook.com/armonia.concierge"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <IoLogoFacebook size={22} />
             </a>
-            <a className="hover:text-blue-500 transition-all" href="https://www.instagram.com/armonia.concierge/" target="_blank" rel="noopener noreferrer">
+            <a
+              className="hover:text-blue-500 transition-all"
+              href="https://www.instagram.com/armonia.concierge/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <BiLogoInstagramAlt size={22} />
             </a>
-            <a className="hover:text-blue-500 transition-all" href="http://" target="_blank" rel="noopener noreferrer">
+            <a
+              className="hover:text-blue-500 transition-all"
+              href="http://"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaTwitter size={22} />
             </a>
           </div>
@@ -49,10 +64,14 @@ export default function Footer() {
                 <Link href="/treatments">Treatments</Link>
               </li>
               <li>
-                <Link href="/events">Events</Link>
+                {/* <Link href="/events"> */}
+                Events
+                {/* </Link> */}
               </li>
               <li>
-                <Link href="/gift">Gift CARDS</Link>
+                {/* <Link href="/gift"> */}
+                Gift CARDS
+                {/* </Link> */}
               </li>
               <li>
                 <Link href="/faq">FAQ</Link>
@@ -65,13 +84,15 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
               <li>
-                <Link href="/privacy">PRVACY POLICY</Link>
+                <Link href="/policy">PRIVACY POLICY</Link>
               </li>
               <li>
                 <Link href="/terms">TERMS OF SERVICE</Link>
               </li>
               <li>
-                <Link href="/cancellation-policy">CANCELLATION POLICY</Link>
+                {/* <Link href="/cancellation-policy"> */}
+                CANCELLATION POLICY
+                {/* </Link> */}
               </li>
             </ul>
           </div>
@@ -81,8 +102,12 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
               <li>BECOME A THERAPIST</li>
-              <li>CONTACT US</li>
-              <li>+00351 911796101</li>
+              <li>
+                <Link href={"/contact"}>CONTACT US</Link>
+              </li>
+              <li>
+                <a href="tel:+351911796101">+00351 911796101</a>
+              </li>
             </ul>
           </div>
         </div>

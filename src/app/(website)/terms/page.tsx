@@ -44,7 +44,7 @@ export default function page() {
           us immediately of any unauthorized use of your account.
         </p>
         <h2>4. Prohibited Activities</h2>
-        <p>
+        <div>
           You agree not to engage in any of the following activities:
           <ul>
             <li>
@@ -59,7 +59,7 @@ export default function page() {
               or services.
             </li>
           </ul>
-        </p>
+        </div>
         <h2>5. Termination</h2>
         <p>
           We reserve the right to suspend or terminate your access to our

@@ -9,11 +9,9 @@ import HomeTestimonials from "@/components/Home/HomeTestimonials";
 import AccordionComponent from "@/components/Home/Therapist";
 
 const page = () => {
-  
   return (
     <>
       <header className="flex items-center justify-center py-28 relative bg-gradient-to-b from-[#FFFFFF00] to-[#002B6B] min-h-[calc(100vh-120px)] overflow-hidden">
-     
         {/* <Image
           src="/paint-brush.png"
           alt="hero"
@@ -61,7 +59,7 @@ const page = () => {
       <Beauticians />
       <BenefitsSection />
       <HowItWorks />
-<AccordionComponent/>
+      <AccordionComponent />
       <HomeTestimonials />
       {/* <Contact /> */}
     </>
