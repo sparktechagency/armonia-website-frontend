@@ -63,16 +63,16 @@ export default function Footer() {
               <li>
                 <Link href="/treatments">Treatments</Link>
               </li>
-              <li>
-                {/* <Link href="/events"> */}
+              {/* <li>
+                <Link href="/events">
                 Events
-                {/* </Link> */}
-              </li>
-              <li>
-                {/* <Link href="/gift"> */}
+                </Link>
+              </li> */}
+              {/* <li>
+                <Link href="/gift">
                 Gift CARDS
-                {/* </Link> */}
-              </li>
+                </Link>
+              </li> */}
               <li>
                 <Link href="/faq">FAQ</Link>
               </li>
