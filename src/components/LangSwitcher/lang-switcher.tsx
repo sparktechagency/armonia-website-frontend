@@ -1,55 +1,47 @@
 "use client";
-// Extend the global object to include __GOOGLE_TRANSLATION_CONFIG__
-declare global {
-  interface Window {
-    __GOOGLE_TRANSLATION_CONFIG__?: {
-      defaultLanguage: string;
-    };
-  }
-}
 
 import { useEffect, useRef, useState } from "react";
 import { parseCookies, setCookie } from "nookies";
 import { supportedLanguages } from "@/constants/language.contants";
 import { IoLanguage } from "react-icons/io5";
 
-// Google Translation Cookie Name
+// The following cookie name is important because it's Google-predefined for the translation engine purpose
 const COOKIE_NAME = "googtrans";
 
-const LanguageSwitcher: React.FC = () => {
+const LanguageSwitcher = () => {
   const menuRef = useRef<HTMLDivElement>(null);
-  const [currentLanguage, setCurrentLanguage] = useState<string | null>(null);
-  const [languageConfig, setLanguageConfig] = useState<Record<
-    string,
-    any
-  > | null>(null);
+  const [currentLanguage, setCurrentLanguage] = useState();
+  const [languageConfig, setLanguageConfig] = useState();
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
+  // When the component has initialized, we must activate the translation engine the following way.
   useEffect(() => {
+    // 1. Read the cookie
     const cookies = parseCookies();
-    const existingLanguageCookie = cookies[COOKIE_NAME];
-    let languageValue: string | undefined;
-    if (window.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
-      if (existingLanguageCookie) {
-        const sp = existingLanguageCookie.split("/");
-        if (sp.length > 2) {
-          languageValue = sp[2];
-        }
+    const existingLanguageCookieValue = cookies[COOKIE_NAME];
+
+    let languageValue;
+    if (existingLanguageCookieValue) {
+      // 2. If the cookie is defined, extract a language nickname from there.
+      const sp = existingLanguageCookieValue.split("/");
+      if (sp.length > 2) {
+        languageValue = sp[2];
       }
     }
-
-    if (window.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
-      languageValue = window.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage;
+    // 3. If __GOOGLE_TRANSLATION_CONFIG__ is defined and we still not decided about languageValue, let's take a current language from the predefined defaultLanguage below.
+    if (global.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
+      languageValue = global.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage;
     }
-
     if (languageValue) {
+      // 4. Set the current language if we have a related decision.
       setCurrentLanguage(languageValue);
     }
-
-    if (window.__GOOGLE_TRANSLATION_CONFIG__) {
-      setLanguageConfig(window.__GOOGLE_TRANSLATION_CONFIG__);
+    // 5. Set the language config.
+    if (global.__GOOGLE_TRANSLATION_CONFIG__) {
+      setLanguageConfig(global.__GOOGLE_TRANSLATION_CONFIG__);
     }
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -62,14 +54,17 @@ const LanguageSwitcher: React.FC = () => {
     };
   }, []);
 
+  // Don't display anything if current language information is unavailable.
   if (!currentLanguage || !languageConfig) {
     return null;
   }
 
+  // The following function switches the current language
   const switchLanguage = (lang: string) => {
-    // Cookies.remove("googtrans");
-    // console.log(lang)
-    setCookie(null, COOKIE_NAME, `/auto/${lang}`);
+    console.log(lang);
+    // We just need to set the related cookie and reload the page
+    // "/auto/" prefix is Google's definition as far as a cookie name
+    setCookie(null, COOKIE_NAME, "/auto/" + lang);
     window.location.reload();
   };
 

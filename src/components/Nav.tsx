@@ -13,10 +13,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout } from "@/redux/features/auth/authSlice";
 import { sweetAlertConfirmation } from "@/lib/alert";
-import { LanguageSwitcher } from "./LangSwitcher/lang-switcher";
 import { FaChevronDown } from "react-icons/fa";
 import { useUnreadNoticeQuery } from "@/redux/features/notification/notification.api";
 import { cn } from "@/lib/utils";
+import { LanguageSwitcher } from "./LangSwitcher/lang-switcher";
 
 export default function Nav() {
   const path = usePathname();

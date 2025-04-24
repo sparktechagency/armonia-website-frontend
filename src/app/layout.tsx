@@ -28,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${playfairDisplay.variable} ${lato.variable}`}>
-      <head>
+    <html lang="en" className={`${playfairDisplay.variable} ${lato.variable}`}>
+     <head>
         {/* <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -46,8 +46,8 @@ export default function RootLayout({
           type="image/png"
           sizes="16x16"
           href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" /> */}
+        /> */}
+        <link rel="manifest" href="/site.webmanifest" />
 
         <Script src="/scripts/lang-config.js" strategy="beforeInteractive" />
         <Script src="/scripts/translation.js" strategy="beforeInteractive" />
