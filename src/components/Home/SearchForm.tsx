@@ -80,7 +80,7 @@ const SearchForm = () => {
           <input
             type="text"
             name="address"
-            placeholder="Address"
+            placeholder="Addres"
             className="h-12 w-full px-5 focus:outline-none rounded-2xl mb-3 placeholder:text-black"
           />
         </label>

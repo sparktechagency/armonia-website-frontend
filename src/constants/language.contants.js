@@ -1,9 +1,7 @@
-
-
 export const supportedLanguages = [
   { title: "English", name: "en" },
-  // { title: "Arabic", name: "ar" },
-  // { title: "Bangla", name: "bn" },
-  // { title: "French", name: "fr" },
-  { title: "Portuguese", name: "pt" }
+  { title: "Português", name: "pt" },
+  { title: "বাংলা", name: "bn" },
+  { title: "العربية", name: "ar" },
+  { title: "Français", name: "fr" },
 ];
