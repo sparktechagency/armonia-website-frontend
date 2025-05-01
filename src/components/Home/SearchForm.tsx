@@ -66,7 +66,7 @@ const SearchForm = () => {
               {!isLoading ? "Choose Service" : "loading..."}
             </option>
             {data?.data?.map((item: TCategory) => (
-              <option key={item.name} value={item.name}>
+              <option key={item.name} value={item.name} className="notranslate">
                 {item.name}
               </option>
             ))}

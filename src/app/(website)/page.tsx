@@ -33,8 +33,8 @@ const page = () => {
         <SearchForm />
       </header>
       <section className="px-3 2xl:px-36 py-16 bg-[#fffbef]">
-        <h3 className="text-blue-500 text-xl sm:text-4xl lg:text-4xl font-semibold text-center w-3/4 xl:w-2/4 mx-auto">
-          The ultimate beauty escape – without ever leaving your home provide by
+        <h3 className="font-serif font-semibold text-xl sm:text-2xl lg:text-4xl text-center w-4/5 mx-auto">
+          The ultimate beauty escape – without ever leaving your home, provide by
           top beauticians in Algarve.
         </h3>
         {/* <CategoryList/> */}

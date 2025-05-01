@@ -94,7 +94,7 @@ const ServiceGrid = () => {
                     className="object-cover w-full h-[250px] group-hover:opacity-80 transition duration-300 ease-in-out"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                    <h2 className="text-3xl font-bold text-white">
+                    <h2 className="text-3xl font-bold text-white notranslate">
                       {service.name}
                     </h2>
                   </div>

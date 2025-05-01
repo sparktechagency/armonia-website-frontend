@@ -135,7 +135,7 @@ export default function Nav() {
                     height={50}
                     className="rounded-full overflow-hidden min-w-[50px] w-[50px] h-[50px] object-cover border"
                   />
-                  <p className="font-semibold">{user?.name}</p>
+                  <p className="font-semibold notranslate">{user?.name}</p>
                   <FaChevronDown
                     className={
                       dashboardMenuOpen

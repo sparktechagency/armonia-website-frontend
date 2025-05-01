@@ -1,11 +1,16 @@
-import React from "react";
+"use client";
+
+import React, { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaTwitter } from "react-icons/fa";
 import { BiLogoInstagramAlt } from "react-icons/bi";
 import { IoLogoFacebook } from "react-icons/io5";
+import { context } from "@/app/Context";
+import Register from "./Register";
 
 export default function Footer() {
+  const appContext = useContext(context);
   return (
     <footer className="bg-gradient-pink-blue text-blue-300">
       <div className="px-3 xl:px-36 py-8 lg:py-20 flex flex-col lg:flex-row lg:items-center justify-between bg-blue-50 gap-10">
@@ -101,7 +106,14 @@ export default function Footer() {
               Get In Touch
             </h3>
             <ul className="mt-4 flex flex-col gap-3">
-              <li>BECOME A THERAPIST</li>
+              <li
+                className="cursor-pointer"
+                onClick={() =>
+                  appContext?.setModal(<Register requestType="beautician" />)
+                }
+              >
+                BECOME A THERAPIST
+              </li>
               <li>
                 <Link href={"/contact"}>CONTACT US</Link>
               </li>

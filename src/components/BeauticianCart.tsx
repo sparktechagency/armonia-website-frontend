@@ -45,7 +45,7 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
             />
           </div>
           <div className="w-full overflow-hidden flex flex-col gap-4 text-start">
-            <h3 className="font-Playfair_Display text-xl lg:text-2xl font-bold">
+            <h3 className="font-Playfair_Display text-xl lg:text-2xl font-bold notranslate">
               {data.user_name}
             </h3>
             <p className="flex items-center gap-2 text-blue-500 notranslate">
@@ -126,7 +126,7 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
           .map((item: TUniObject) => (
             <span
               key={item.id}
-              className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded text-center bg-blue-100 text-xs sm:text-sm w-full"
+              className="px-3 xl:px-4 py-1.5 lg:py-2 border border-blue-400 rounded text-center bg-blue-100 text-xs sm:text-sm w-full notranslate"
             >
               {item.dayName?.slice(0, 3)}
             </span>

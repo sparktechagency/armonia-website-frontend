@@ -178,7 +178,7 @@ export default function Page(props: TPageProps) {
         <section className="px-5 xl:px-36 py-16 flex flex-col gap-10">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500 capitalize">
+              <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500 capitalize notranslate">
                 {data?.data?.user.name}
               </h3>
               <div className="flex justify-between items-center">
@@ -280,7 +280,7 @@ export default function Page(props: TPageProps) {
               a Touch of Elegance
             </p>
           </div>
-          <div className="space-y-12 lg:space-y-10">
+          <div className="space-y-12 lg:space-y-12">
             {categories1.map(
               (
                 { image, categoryName, services }: TUniObject,
@@ -288,13 +288,15 @@ export default function Page(props: TPageProps) {
               ) => (
                 <div
                   key={index}
-                  className={`flex gap-5 lg:gap-10 items-center ${
-                    index % 2 === 0
-                      ? "flex-col md:flex-row"
-                      : "flex-col md:flex-row-reverse"
-                  }`}
+                  className={`flex gap-5 lg:gap-10 flex-col md:flex-row`}
+                  //   ${
+                  //   index % 2 === 0
+                  //     ? "flex-col md:flex-row"
+                  //     : "flex-col md:flex-row-reverse"
+                  // }
+                  
                 >
-                  <div className="w-full lg:w-1/2 flex items-center justify-center overflow-hidden relative">
+                  <div className="w-full h-fit lg:w-1/2 flex items-center justify-center overflow-hidden relative pt-10 xl:pt-16">
                     <Image
                       src={
                         image
@@ -326,7 +328,7 @@ export default function Page(props: TPageProps) {
                               <p className="z-10 bg-white">{service.time}min</p>
                             </div>
                             <div className="flex items-center justify-center gap-3 notranslate">
-                              <p>${service.price}</p>
+                              <p>€{service.price}</p>
                               <input
                                 checked={
                                   selectedService.find(

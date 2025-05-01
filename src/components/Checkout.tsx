@@ -4,7 +4,6 @@ import React, { FormEvent, useContext, useState } from "react";
 import { Service, Slot } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useRemaningSlotsQuery } from "@/redux/features/slots/slots.api";
-import { FaCaretDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useCreateBookingMutation } from "@/redux/features/booking/booking.api";
 import Swal from "sweetalert2";
@@ -218,16 +217,15 @@ export default function Checkout({
               />
             </div>
             <div className="lg:py-8 mt-20  mx-auto">
-              <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-8">
+              <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-3 mt-">
                 Selected Service Prices
               </h1>
               <div>
-                <p className="font-bold">
+                <p className="py-4 font-medium">
                   Total Required slot : {totalTime / 30}
                 </p>
-                <div>
-                  <p className="font-semibold">Selected Slots:</p>
-               
+                <p className="mb-2">Selected Services</p>
+                <div className="">
                   {selectedSlotInfo.slice(1).map((item, i) => (
                     <p key={item.id || i}>
                       {item.start} - {item.end}
@@ -255,21 +253,21 @@ export default function Checkout({
                   >
                     <div className="flex justify-between items-center w-full gap-2">
                       <p>
-                        <span className="font-semibold">{service.name}</span>
+                        <span className="font-semibold">{service.name}</span> {" "}
                         <span className="text-[10px] font-medium">
                           {service.time} min
                         </span>
                       </p>
                       <span className="text-blue-500 text-right notranslate">
-                        ${service.price}
+                        € {service.price}
                       </span>
                     </div>
-                    <div className="w-full relative max-w-[118px] sm:max-w-32">
+                    {/* <div className="w-full relative max-w-[118px] sm:max-w-32">
                       <FaCaretDown
                         size={12}
                         className="text-gray-500 hover:text-gray-400 absolute top-[15px] right-2 pointer-events-none"
                       />
-                    </div>
+                    </div> */}
                   </li>
                 ))}
               </ul>
@@ -279,6 +277,7 @@ export default function Checkout({
                 // value={
                 //   selectedSlot.find((item) => item)
                 // }
+              
                 required
                 onClick={() => {
                   if (!selectedDate)
@@ -289,8 +288,8 @@ export default function Checkout({
                 name={"slot" + "-"}
                 onChange={(e) => handleSlotChange(e)}
               >
-                <option disabled value="">
-                  {isLoading ? "Loading..." : "Slot"}
+                <option disabled selected value="">
+                  {isLoading ? "Loading..." : "Slot select"}
                 </option>
                 {data?.data?.map((item: Slot, slotIindex: number) => (
                   <option
@@ -305,7 +304,7 @@ export default function Checkout({
 
               <div className="flex justify-between items-center mt-8 font-bold lg:text-xl text-lg">
                 <span>Total</span>
-                <span className="text-green-600 notranslate">${total}</span>
+                <span className="text-green-600 notranslate">€ {total}</span>
               </div>
             </div>
           </div>

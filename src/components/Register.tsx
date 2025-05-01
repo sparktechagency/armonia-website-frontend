@@ -8,9 +8,13 @@ import Swal from "sweetalert2";
 import { BtnSpenner } from "./Spinner";
 import Verify from "./Verify";
 
-export default function Register() {
+export default function Register({
+  requestType,
+}: {
+  requestType?: "cutomer" | "beautician";
+}) {
   const appContext = useContext(context);
-  const [type, setType] = useState<string | null>("customer");
+  const [type, setType] = useState<string | null>(requestType || "customer");
   const [matchingPass, setMatchingPass] = useState({ pass: "", confirm: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [confrimPassword, setConfrimPassword] = useState(false);
