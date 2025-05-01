@@ -16,6 +16,12 @@
 .translated-ltr {
   margin-top: -40px !important;
 }
+/* .notranslate {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+} */
 
 /* Hide scrollbar for Chrome, Safari, and Edge */
 .scrollbar-none::-webkit-scrollbar {
