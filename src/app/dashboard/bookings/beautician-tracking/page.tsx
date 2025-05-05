@@ -5,6 +5,7 @@ import { context } from "@/app/Context";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { BtnSpenner } from "@/components/Spinner";
 import GoogleMap from "@/components/ui/LiveGoogleMap";
+import { convertMinutesToTotalDuration } from "@/lib/getDurationFromMinute";
 import { Slot } from "@/redux/features/auth/authSlice";
 // import { Slot } from "@/redux/features/auth/authSlice";
 import { useBookingDetailsByIdQuery } from "@/redux/features/booking/booking.api";
@@ -191,7 +192,12 @@ export default function Page(props: TPageProps) {
               {
                 data?.data?.bookedSlots?.[data?.data?.bookedSlots?.length - 1]
                   .slot?.end
-              }
+              }{" "}
+              (You will need{" "}
+              {convertMinutesToTotalDuration(
+                data?.data?.bookedSlots?.length * 30
+              )}
+              )
             </p>
           </li>
           <li>

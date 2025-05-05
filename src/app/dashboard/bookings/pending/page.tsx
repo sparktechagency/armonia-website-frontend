@@ -83,7 +83,7 @@ export default function Page() {
                   </th>
                   <th className="p-3 border-r-4">Price</th>
                   <th className="p-3 border-r-4 text-right">
-                    Appointment Date & Time
+                    Appointment Date
                   </th>
                   {user?.type === "beautician" && (
                     <th className="p-3 border-r-4 text-center">Service</th>

@@ -5,6 +5,7 @@ import { useBookingByIdQuery } from "@/redux/features/booking/booking.api";
 import { context } from "@/app/Context";
 import { TUniObject } from "@/type/index.type";
 import LoaderWraperComp from "./LoaderWraperComp";
+import { convertMinutesToTotalDuration } from "@/lib/getDurationFromMinute";
 
 // type FormValues = {
 //   [key: string]: FormDataEntryValue | undefined;
@@ -46,7 +47,7 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
   //     });
   //   }
   // };
-  console.log(data?.data);
+  // console.log(data?.data?.services?.[0]?.bookedSlots?.[0]?.slot?.start);
   const total = data?.data?.services?.reduce(
     (sum: number, service: TUniObject) => sum + service.price,
     0
@@ -119,6 +120,27 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
                 </label>
                 <p>{new Date(data?.data?.createdAt).toDateString()}</p>
               </div>
+              <div>
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="username"
+                >
+                  Appointment Time
+                </label>
+                <p>
+                  {data?.data?.services?.[0]?.bookedSlots?.[0]?.slot?.start} To{" "}
+                  {
+                    data?.data?.services?.[0]?.bookedSlots?.[
+                      data?.data?.services?.[0]?.bookedSlots?.length - 1
+                    ]?.slot?.end
+                  }{" "}
+                  (You will need {" "}
+                  {convertMinutesToTotalDuration(
+                    data?.data?.services?.[0]?.bookedSlots?.length * 30
+                  )}
+                  )
+                </p>
+              </div>
               <div className="lg:py-8 mt-20  mx-auto">
                 <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-8">
                   Selected Service Prices
@@ -131,15 +153,17 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
                         className="flex justify-between items-center border-b border-dotted gap-3 pb-3 text-gray-700"
                       >
                         <p>
-                          <span className="font-semibold text-ellipsis truncate">{service?.name}</span>
+                          <span className="font-semibold text-ellipsis truncate">
+                            {service?.name}
+                          </span>
                         </p>
                         <span className="text-blue-500 text-right">
                           ${service?.price}
                         </span>
-                        <p>
+                        {/* <p>
                           {service?.bookedSlots?.start}-
                           {service?.bookedSlots?.end}
-                        </p>
+                        </p> */}
                       </li>
                     )
                   )}

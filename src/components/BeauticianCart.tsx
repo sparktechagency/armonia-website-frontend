@@ -94,7 +94,7 @@ export default function BeauticianCart({ data }: { data: TUniObject }) {
                   fill="#141414"
                 />
               </svg>
-              {data?.postalCode}
+              {data?.address}
             </p>
             <div className="max-w-full w-full flex items-center gap-2 overflow-x-scroll scrollbar-none">
               {data?.services

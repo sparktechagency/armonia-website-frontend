@@ -46,7 +46,7 @@ export const BusinessDayPicker: React.FC<BusinessDayPickerProps> = ({
         placeholderText="Select date"
         dateFormat="yyyy-MM-dd"
         minDate={new Date()}
-        className="border py-2 px-3 shadow rounded w-full text-gray-700 leading-tight group-focus:outline-none group-focus:shadow-outline"
+        className="border py-2 px-3 shadow rounded w-full text-gray-700 leading-tight group-focus:outline-none group-focus:shadow-outline outline-none"
       />
       <MdOutlineDateRange
         size={19}

@@ -12,6 +12,8 @@ import { context } from "@/app/Context";
 import { useRouter } from "next/navigation";
 import { BusinessDayPicker, TWeekday } from "./ui/DatePicker";
 import { validateAndSelectSlots } from "@/lib/helpers";
+import { convertMinutesToTotalDuration } from "@/lib/getDurationFromMinute";
+import { cn } from "@/lib/utils";
 
 // type FormValues = {
 //   [key: string]: FormDataEntryValue | undefined;
@@ -28,11 +30,13 @@ export default function Checkout({
 }) {
   const router = useRouter();
   const appContext = useContext(context);
+  const { user } = useAppSelector((state) => state.auth);
   const [selectedSlot, setSelectedSlot] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const { user } = useAppSelector((state) => state.auth);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [selectedSlotInfo, setSelectedSlotInfo] = useState<Slot[]>([]);
+  const [isPreviousAvailable, setIsPreviousAvailable] =
+    useState<boolean>(false);
   const { data, isLoading } = useRemaningSlotsQuery(
     {
       args: [{ name: "date", value: selectedDate?.getTime() }],
@@ -64,6 +68,7 @@ export default function Checkout({
     }
     const payload = {
       profileId,
+      isPreviousAvailable,
       bookingDate: selectedDate?.getTime(),
       serviceIds: selectedServices.map((item) => item.id),
       timeSlotIds: selectedSlot,
@@ -96,7 +101,9 @@ export default function Checkout({
     if (slotNeed > data?.data?.length) {
       setIsButtonDisabled(true);
       toast.error(
-        `Beautician does not have ${slotNeed} slots to book. Please reduce service duration.`,
+        `Beautician does not have ${convertMinutesToTotalDuration(
+          totalTime
+        )} to book!`,
         {
           position: "bottom-center",
         }
@@ -120,7 +127,9 @@ export default function Checkout({
           slotNeed + 1,
           data?.data
         );
+        setIsPreviousAvailable(true);
       } else {
+        setIsPreviousAvailable(false);
         selectedIds = validateAndSelectSlots(index, slotNeed, data?.data);
       }
       setSelectedSlotInfo(selectedIds.info);
@@ -163,7 +172,7 @@ export default function Checkout({
           <h1 className="lg:text-4xl text-4xl font-bold text-blue-500 font-Playfair_Display">
             Book Appointment
           </h1>
-          <p>Please fill this form to book an appointment</p>
+          {/* <p>Please fill this form to book an appointment</p> */}
           <div className="space-y-4">
             <div>
               <label
@@ -200,7 +209,7 @@ export default function Checkout({
             <div>
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="username"
+                // htmlFor="username"
               >
                 Appointment Date
               </label>
@@ -216,22 +225,66 @@ export default function Checkout({
                 setSelectedDate={setSelectedDate}
               />
             </div>
-            <div className="lg:py-8 mt-20  mx-auto">
-              <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-3 mt-">
+            <div>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                // htmlFor="username"
+              >
+                Appointment Time
+              </label>
+              <select
+                className={cn(
+                  "appearance-none shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                  { "text-gray-400": !selectedDate }
+                )}
+                // defaultValue={""}
+                value={
+                  data?.data?.find(
+                    (item: Slot) =>
+                      item.id === selectedSlot[isPreviousAvailable ? 1 : 0]
+                  )?.id || ""
+                }
+                required
+                onClick={() => {
+                  if (!selectedDate)
+                    toast.warning("Appointment date select is required!", {
+                      position: "bottom-center",
+                    });
+                }}
+                name={"slot" + "-"}
+                onChange={(e) => handleSlotChange(e)}
+              >
+                <option disabled value="">
+                  {isLoading ? "Loading..." : "Select start time"}
+                </option>
+                {data?.data?.map((item: Slot, slotIindex: number) => (
+                  <option
+                    key={slotIindex}
+                    value={item.id}
+                    className="notranslate"
+                  >
+                    {item.start}
+                    {/* - {item.end} */}
+                  </option>
+                ))}
+              </select>
+              <p className="text-sm text-gray-600 pt-1">
+                You will need {convertMinutesToTotalDuration(totalTime)} from
+                selected start time!
+              </p>
+            </div>
+            <div className="lg:py-4 mt-20  mx-auto">
+              <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-4">
                 Selected Service Prices
               </h1>
               <div>
-                <p className="py-4 font-medium">
-                  Total Required slot : {totalTime / 30}
-                </p>
-                <p className="mb-2">Selected Services</p>
-                <div className="">
+                {/* <div className="">
                   {selectedSlotInfo.slice(1).map((item, i) => (
                     <p key={item.id || i}>
                       {item.start} - {item.end}
                     </p>
                   ))}
-                </div>
+                </div> */}
 
                 {/* <p className="text-gray-700 font-semibold">
                   Selected Time:
@@ -244,7 +297,9 @@ export default function Checkout({
                     : ""}
                 </p> */}
               </div>
-
+              {/* <p className="mb-2 block text-gray-700 font-medium">
+                Selected Services
+              </p> */}
               <ul className="space-y-2">
                 {selectedServices.map((service, index) => (
                   <li
@@ -253,7 +308,7 @@ export default function Checkout({
                   >
                     <div className="flex justify-between items-center w-full gap-2">
                       <p>
-                        <span className="font-semibold">{service.name}</span> {" "}
+                        <span className="font-semibold">{service.name}</span>{" "}
                         <span className="text-[10px] font-medium">
                           {service.time} min
                         </span>
@@ -271,38 +326,8 @@ export default function Checkout({
                   </li>
                 ))}
               </ul>
-              <select
-                className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-2 md:py-1 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-1 text-sm sm:text-base"
-                // defaultValue={""}
-                // value={
-                //   selectedSlot.find((item) => item)
-                // }
-              
-                required
-                onClick={() => {
-                  if (!selectedDate)
-                    toast.warning("Appointment date select is required!", {
-                      position: "bottom-center",
-                    });
-                }}
-                name={"slot" + "-"}
-                onChange={(e) => handleSlotChange(e)}
-              >
-                <option disabled selected value="">
-                  {isLoading ? "Loading..." : "Slot select"}
-                </option>
-                {data?.data?.map((item: Slot, slotIindex: number) => (
-                  <option
-                    key={slotIindex}
-                    value={item.id}
-                    className="notranslate"
-                  >
-                    {item.start} - {item.end}
-                  </option>
-                ))}
-              </select>
 
-              <div className="flex justify-between items-center mt-8 font-bold lg:text-xl text-lg">
+              <div className="flex justify-between items-center mt-6 font-bold lg:text-xl text-lg">
                 <span>Total</span>
                 <span className="text-green-600 notranslate">€ {total}</span>
               </div>
@@ -319,10 +344,8 @@ export default function Checkout({
       <div className="flex items-center justify-center">
         <button
           type="submit"
-          disabled={isButtonDisabled}
-          className={`${
-            isButtonDisabled ? "bg-gray-400" : "bg-blue-500"
-          } flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 `}
+          disabled={muLoading}
+          className={`${"bg-blue-500"} flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 `}
           // className="flex justify-center items-center gap-2 max-w-lg w-full mt-10 rounded-2xl font-nunito bg-blue-500 text-white border-blue-500 border-2 p-3 lg:p-4 "
         >
           {muLoading && <BtnSpenner />} Send Request
