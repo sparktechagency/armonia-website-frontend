@@ -294,7 +294,6 @@ export default function Page(props: TPageProps) {
                   //     ? "flex-col md:flex-row"
                   //     : "flex-col md:flex-row-reverse"
                   // }
-                  
                 >
                   <div className="w-full h-fit lg:w-1/2 flex items-center justify-center overflow-hidden relative pt-10 xl:pt-16">
                     <Image
@@ -351,7 +350,9 @@ export default function Page(props: TPageProps) {
                               />
                             </div>
                           </div>
-                          <p className="text-sm text-gray-600">{service.description}</p>
+                          <p className="text-sm text-gray-600">
+                            {service.description}
+                          </p>
                         </li>
                       ))}
                     </ul>
@@ -368,7 +369,7 @@ export default function Page(props: TPageProps) {
               gradientBorder
               openModalOnClick={<Login forword={`/beauticians/${id}`} />}
             >
-              Login & Checkout
+              Checkout
             </Button>
           ) : selectedService.length ? (
             <Button
@@ -387,7 +388,7 @@ export default function Page(props: TPageProps) {
                 />
               }
             >
-              Continue to Checkout
+              Checkout
             </Button>
           ) : (
             <button

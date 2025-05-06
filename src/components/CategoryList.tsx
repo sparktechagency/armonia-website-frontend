@@ -77,7 +77,7 @@ const ServiceGrid = () => {
                 className="px-2 lg:px-4 cursor-pointer"
                 onMouseDown={handleNavigate}
                 onMouseUp={() => {
-                  console.log(clickAble);
+                  // console.log(clickAble);
                   if (clickAble) {
                     router.push(`/services/${service.name}`);
                   } else {

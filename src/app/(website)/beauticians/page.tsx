@@ -58,7 +58,7 @@ export default function Page(props: TPageProps) {
                 setQuery((c) => ({ ...c, [e.target.name]: e.target.value }))
               }
               name="category"
-              className="pr-2 sm:px-2 py-2 lg:py-3 outline-none min-w-[100px] w-full text-sm sm:text-base"
+              className="pr-2 sm:px-2 py-2 lg:py-3 outline-none min-w-[100px] w-full text-sm sm:text-base notranslate"
             >
               <option value="">{cateLoading ? "loading..." : "All"}</option>
               {categoryData?.data?.map((item: TCategory) => (

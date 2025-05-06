@@ -94,7 +94,7 @@ export default function Checkout({
       });
     }
   };
-
+  console.log(selectedServices);
   const handleSlotChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const slotNeed = totalTime / 30;
 
@@ -179,7 +179,7 @@ export default function Checkout({
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                User Name
+                Client Name
               </label>
               <input
                 required

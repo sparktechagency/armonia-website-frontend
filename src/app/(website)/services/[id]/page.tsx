@@ -1,5 +1,6 @@
 import { TPageProps } from "@/type/index.type";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const page = async (props: TPageProps) => {
@@ -14,10 +15,10 @@ const page = async (props: TPageProps) => {
     }
   );
   const data = await response.json();
-  console.log(data?.data);
+  // console.log(data?.data);
   return (
     <div className="px-3 xl:px-36 py-4 ">
-      <div className="flex flex-col lg:flex-row justify-between items-center p-8 gap-7 bg-white">
+      <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start p-8 gap-7 bg-white">
         <div className="flex flex-col max-w-lg">
           <h1 className="text-4xl font-semibold text-black mb-4">
             {data?.data?.[0]?.name}
@@ -34,13 +35,21 @@ const page = async (props: TPageProps) => {
             className="no-tailwind"
             dangerouslySetInnerHTML={{ __html: data?.data?.[0]?.description }}
           ></div>
-          <button className="bg-black text-white py-2 px-6 rounded-lg hover:bg-gray-800 mt-3">
-            BOOK NOW
-          </button>
+          <Link
+            href={`/services?category=${data?.data?.[0]?.name}&bg=${data?.data?.[0]?.image}`}
+          >
+            <button className="bg-black text-white py-2 px-6 rounded-lg hover:bg-gray-800 mt-3 w-full">
+              BOOK NOW
+            </button>
+          </Link>
         </div>
         <div className="lg:w-1/2 lg:pl-8">
           <Image
-            src="/category/spa-procedures.jpg"
+            src={
+              data?.data?.[0]?.image
+                ? `${process.env.NEXT_PUBLIC_API_URL}/${data?.data?.[0]?.image}`
+                : "/profile-demo.png"
+            }
             alt="Mobile Waxing"
             width={1000}
             height={1000}
