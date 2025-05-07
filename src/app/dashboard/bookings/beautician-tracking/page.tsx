@@ -10,10 +10,10 @@ import { Slot } from "@/redux/features/auth/authSlice";
 // import { Slot } from "@/redux/features/auth/authSlice";
 import { useBookingDetailsByIdQuery } from "@/redux/features/booking/booking.api";
 import { useCreateConversationMutation } from "@/redux/features/messages/message.api";
-import { TPageProps, TUniObject } from "@/type/index.type";
+import { TUniObject } from "@/type/index.type";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { use, useContext, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import {  useContext, useEffect, useState } from "react";
 import { BiMessageRoundedDots } from "react-icons/bi";
 import { LuClockAlert } from "react-icons/lu";
 // import { LuClockAlert } from "react-icons/lu";
@@ -21,8 +21,9 @@ import Swal from "sweetalert2";
 
 // import { useRouter } from "next/router";
 
-export default function Page(props: TPageProps) {
-  const { id } = use(props.searchParams);
+export default function Page() {
+  const searchParams = useSearchParams();
+  const { id } = Object.fromEntries(searchParams.entries());
   const router = useRouter();
   const appContext = useContext(context);
   const [currentLocation, setCurrenLocation] = useState<{

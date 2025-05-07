@@ -1,27 +1,29 @@
 "use client";
-import React, { use } from "react";
+
+import React, { useState } from "react";
 import { useServicesByCategoryQuery } from "@/redux/features/services/services.api";
-import { TPageProps } from "@/type/index.type";
+import { TUniObject } from "@/type/index.type";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import Image from "next/image";
 import ServiceCart from "@/components/ui/ServiceCart";
+import PaginationC, { TQuery } from "@/components/PaginationC";
+import { useSearchParams } from "next/navigation";
 
-const Service = (props: TPageProps) => {
-  const { category, bg } = use(props.searchParams);
+const Page = () => {
+  const searchParams = useSearchParams();
+  const { category, bg } = Object.fromEntries(searchParams.entries());
+  const [query, setQuery] = useState<TQuery<TUniObject>>({ page: 1, limit: 6 });
   const { data, isLoading, isError } = useServicesByCategoryQuery(
     {
       category: category as string,
       args: [
-        { name: "page", value: 1 },
-        { name: "limit", value: 100 },
-        // ...Object.entries(query)
-        //   .filter((item) => item[1])
-        //   .map(([name, value]) => ({ name, value: value.toString() })),
+        ...Object.entries(query)
+          .filter((item) => item[1])
+          .map(([name, value]) => ({ name, value: value.toString() })),
       ],
     },
     { skip: !category }
   );
-
   return (
     <div className="min-h-[90vh]">
       <header className="relative h-[200px] lg:h-[350px] flex items-center justify-center bg-[#435981]">
@@ -40,9 +42,9 @@ const Service = (props: TPageProps) => {
           {category}
         </h1>
       </header>
-      <p className="text-center text-xl font-medium mt-6">
+      {/* <p className="text-center text-xl font-medium mt-6">
         Services of {category}
-      </p>
+      </p> */}
       <LoaderWraperComp
         isError={isError}
         isLoading={isLoading}
@@ -54,9 +56,14 @@ const Service = (props: TPageProps) => {
             <ServiceCart key={service.id} service={service} />
           ))}
         </div>
+        <PaginationC
+          setQuery={setQuery}
+          query={query}
+          totalPage={data?.pagination?.totalPages}
+        />
       </LoaderWraperComp>
     </div>
   );
 };
 
-export default Service;
+export default Page;

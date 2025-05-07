@@ -1,15 +1,34 @@
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import { TUniObject } from "@/type/index.type";
 import ResponsivePaginationComponent from "react-responsive-pagination";
-// const props = { totalPage, query, setQuery };
-const PaginationC = ({ className }: { className?: string }) => {
-  const [page, setPage] = useState(1);
+import "react-responsive-pagination/themes/minimal-light-dark.css";
+export type TQuery<T> = {
+  page: number;
+  search?: string;
+  limit: number;
+} & T;
+export type TSetQuery<T> = React.Dispatch<React.SetStateAction<TQuery<T>>>;
+
+const PaginationC = ({
+  query,
+  setQuery,
+  totalPage,
+  className,
+}: {
+  className?: string;
+  query: TQuery<TUniObject>;
+  setQuery: TSetQuery<TUniObject>;
+  totalPage: number;
+}) => {
+  const handleChange = (current: number) => {
+    setQuery((c) => ({ ...c, page: current }));
+  };
   return (
-    <div className={cn("w-full flex justify-center", className)}>
+    <div className={cn("w-full max-w-80 mx-auto mb-8", className)}>
       <ResponsivePaginationComponent
-        total={40}
-        current={page}
-        onPageChange={setPage}
+        total={totalPage}
+        current={query.page || 1}
+        onPageChange={handleChange}
       />
     </div>
   );

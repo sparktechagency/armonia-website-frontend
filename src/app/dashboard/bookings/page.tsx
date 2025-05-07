@@ -3,6 +3,7 @@ import { context } from "@/app/Context";
 import BookingDetails from "@/components/BookingDetails";
 import BookingReviewForm from "@/components/BookingReviewForm";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
+import PaginationC, { TQuery } from "@/components/PaginationC";
 import {
   useBookingsQuery,
   useUpdateBookingStatusMutation,
@@ -11,19 +12,24 @@ import { useCreatePaymentMutation } from "@/redux/features/earnings/earnings.api
 import { useAppSelector } from "@/redux/hook";
 import { TUniObject } from "@/type/index.type";
 import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function Page() {
-  const appContext = useContext(context);
   const router = useRouter();
+  const appContext = useContext(context);
+  const [query, setQuery] = useState<TQuery<TUniObject>>({
+    name: "status",
+    value: "accepted",
+    page: 1,
+    limit: 15,
+  });
   const { user } = useAppSelector((state) => state.auth);
-  const { data, isLoading, isError } = useBookingsQuery([
-    {
-      name: "status",
-      value: "accepted",
-    },
-  ]);
+  const { data, isLoading, isError } = useBookingsQuery(
+    Object.entries(query)
+      .filter((item) => item[1])
+      .map(([name, value]) => ({ name, value: value.toString() }))
+  );
   const [updateBookingStatus, { isLoading: upLoading }] =
     useUpdateBookingStatusMutation();
   const [payment] = useCreatePaymentMutation();
@@ -144,9 +150,11 @@ export default function Page() {
                         ? item.profile?.postalCode
                         : item.user?.email}
                     </td>
-                    <td className="p-3 border-r-4 notranslate">€ {item.totalAmount}</td>
+                    <td className="p-3 border-r-4 notranslate">
+                      € {item.totalAmount}
+                    </td>
                     <td className="p-3 border-r-4 text-right notranslate">
-                      {new Date(item.bookingDate).toDateString()} 
+                      {new Date(item.bookingDate).toDateString()}
                     </td>
                     {user?.type === "beautician" && (
                       <td className="p-3 border-r-4 text-center">
@@ -231,6 +239,11 @@ export default function Page() {
               </tbody>
             </table>
           </div>
+          <PaginationC
+            setQuery={setQuery}
+            query={query}
+            totalPage={data?.pagination?.totalPages}
+          />
         </LoaderWraperComp>
       </div>
     </section>

@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import ProfileCategory from "@/components/ProfileCategory";
 import BeauticianCart from "@/components/BeauticianCart";
@@ -9,19 +9,26 @@ import { useBeauticiansQuery } from "@/redux/features/users/users.api";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { useCategoriesQuery } from "@/redux/features/category/category.api";
 import { TCategory } from "@/type/category.type";
-import { TPageProps } from "@/type/index.type";
+import { TUniObject } from "@/type/index.type";
+import PaginationC, { TQuery } from "@/components/PaginationC";
+import { useSearchParams } from "next/navigation";
 
-export default function Page(props: TPageProps) {
-  const { category, date, address } = use(props.searchParams);
-  const [query, setQuery] = useState({
-    day: date
+export default function Page() {
+  const searchParams = useSearchParams();
+  const { category, date, address } = Object.fromEntries(
+    searchParams.entries()
+  );
+  const [query, setQuery] = useState<TQuery<TUniObject>>({
+    day: (date as string)
       ? new Date(date as string).toLocaleDateString("en-US", {
           weekday: "long",
         })
       : "",
-    date: date || "",
-    address: address || "",
-    category: category || "",
+    date: (date as string) || "",
+    address: (address as string) || "",
+    category: (category as string) || "",
+    page: 1,
+    limit: 12,
   });
   const { data: categoryData, isLoading: cateLoading } =
     useCategoriesQuery(undefined);
@@ -121,6 +128,11 @@ export default function Page(props: TPageProps) {
             })}
           </div>
         </LoaderWraperComp>
+        <PaginationC
+          setQuery={setQuery}
+          query={query}
+          totalPage={data?.pagination?.totalPages}
+        />
       </section>
     </>
   );
