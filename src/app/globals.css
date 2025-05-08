@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 
+
+
+/* Optional: Hide scrollbar for specific elements */
+::-webkit-scrollbar {
+  display: none; /* Hides scrollbar for webkit browsers */
+}
+
 /* use for exclued tailwind */
 .no-tailwind * {
   all: revert !important;
