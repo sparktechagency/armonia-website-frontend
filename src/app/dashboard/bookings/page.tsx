@@ -19,8 +19,7 @@ export default function Page() {
   const router = useRouter();
   const appContext = useContext(context);
   const [query, setQuery] = useState<TQuery<TUniObject>>({
-    name: "status",
-    value: "accepted",
+    status: "accepted",
     page: 1,
     limit: 15,
   });
