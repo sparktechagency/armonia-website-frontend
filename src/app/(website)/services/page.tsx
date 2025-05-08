@@ -53,7 +53,12 @@ const Page = () => {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-5 2xl:px-36 my-8 md:my-14">
           {data?.data?.map((service: any) => (
-            <ServiceCart key={service.id} service={service} />
+            <ServiceCart
+              key={service.id}
+              service={service}
+              category={category}
+              bg={bg}
+            />
           ))}
         </div>
         <PaginationC

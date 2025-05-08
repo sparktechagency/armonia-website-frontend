@@ -9,7 +9,15 @@ import { useGetUserQuery } from "@/redux/features/users/users.api";
 import { TUniObject } from "@/type/index.type";
 import Link from "next/link";
 
-const ServiceCart = ({ service }: { service: any }) => {
+const ServiceCart = ({
+  service,
+  category,
+  bg,
+}: {
+  service: any;
+  category: string;
+  bg: string;
+}) => {
   const appContext = useContext(context);
   const { user } = useAppSelector((state) => state.auth);
   const { data } = useGetUserQuery(service.profileId, {
@@ -29,7 +37,9 @@ const ServiceCart = ({ service }: { service: any }) => {
         />
       );
     } else {
-      appContext?.setModal(<Login />);
+      appContext?.setModal(
+        <Login forword={`/services?category=${category}&bg=${bg}`} />
+      );
     }
   };
   const Description = ({
