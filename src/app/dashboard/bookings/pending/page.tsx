@@ -131,7 +131,7 @@ export default function Page() {
                           <button
                             disabled={upLoading}
                             onClick={() =>
-                              hanleStatus({ id: item.id, status: "rejected" })
+                              hanleStatus({ id: item.id, status: "cancelled" })
                             }
                             className="bg-red-400 text-white px-2 py-1 rounded-md"
                           >

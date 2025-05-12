@@ -191,7 +191,7 @@ export default function Page() {
                             </button>
                           ) : (
                             <p className="w-full px-2 py-1 text-center">
-                              Acepted
+                              Accepted
                             </p>
                           )}
                         </>
