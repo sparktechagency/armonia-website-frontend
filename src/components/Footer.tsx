@@ -95,9 +95,7 @@ export default function Footer() {
                 <Link href="/terms">TERMS OF SERVICE</Link>
               </li>
               <li>
-                {/* <Link href="/cancellation-policy"> */}
-                CANCELLATION POLICY
-                {/* </Link> */}
+                <Link href="/cancellation-policy">CANCELLATION POLICY</Link>
               </li>
             </ul>
           </div>

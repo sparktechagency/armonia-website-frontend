@@ -2,7 +2,18 @@ import FounderSection from "@/components/Founder";
 import Image from "next/image";
 import React from "react";
 
-export default function page() {
+export default async function page() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}profiles/beauticians?limit=3`,
+    {
+      next: {
+        revalidate: 60,
+      },
+      cache: "no-cache",
+    }
+  );
+  const data = await response.json();
+  console.log(data);
   return (
     <>
       <header className="relative h-[350px] flex items-center justify-center bg-[#435981]">
