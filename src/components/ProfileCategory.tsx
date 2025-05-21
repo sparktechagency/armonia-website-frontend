@@ -7,7 +7,7 @@ export default function ProfileCategory({
   withName = false,
   className,
 }: {
-  category: "armonia_luxe" | "armonia_local";
+  category: "Armonia_Luxe" | "Armonia_Local";
   className?: string;
   withName?: boolean;
 }) {
@@ -15,12 +15,15 @@ export default function ProfileCategory({
     return (
       <Image
         src={
-          category === "armonia_luxe"
+          category === "Armonia_Luxe"
             ? "/category/luxe.svg"
             : "/category/local.svg"
         }
         alt="Cate"
-        className={cn("w-8 sm:w-10 lg:w-[60px] h-8 sm:h-10 lg:h-[60px] rounded-full", className)}
+        className={cn(
+          "w-8 sm:w-10 lg:w-[60px] h-8 sm:h-10 lg:h-[60px] rounded-full",
+          className
+        )}
         width={1000}
         height={1000}
       />
@@ -30,16 +33,16 @@ export default function ProfileCategory({
   return (
     <p
       className={`flex items-center gap-1.5 sm:gap-3 lg:gap-5 font-medium  text-lg lg:text-2xl capitalize ${
-        category === "armonia_local"
+        category === "Armonia_Local"
           ? "text-yellow-500"
-          : category === "armonia_luxe"
+          : category === "Armonia_Luxe"
           ? "text-blue-500"
           : "text-black"
       } ${className}`}
     >
       <Image
         src={
-          category === "armonia_luxe"
+          category === "Armonia_Luxe"
             ? "/category/luxe.svg"
             : "/category/local.svg"
         }
