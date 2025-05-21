@@ -114,8 +114,8 @@ export default function Page() {
       </header>
       <section className=" py-16">
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-36 justify-center py-4">
-          <ProfileCategory category="armonia_luxe" withName />
-          <ProfileCategory category="armonia_local" withName />
+          <ProfileCategory category="Armonia_Luxe" withName />
+          <ProfileCategory category="Armonia_Local" withName />
         </div>
         <LoaderWraperComp
           isError={isError}
