@@ -13,122 +13,19 @@ import { Service } from "@/redux/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { useAppSelector } from "@/redux/hook";
 import Login from "@/components/Login";
+import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 export default function Page(props: TPageProps) {
   const { id } = use(props.params);
+  const searchParams = useSearchParams();
+  const { cate } = Object.fromEntries(searchParams.entries());
+  const [selectedCategory, setSelectedCategory] = useState(cate);
   const [selectedService, setSelectedService] = useState<Service[]>([]);
   const { data, isLoading, isError } = useGetUserQuery(id);
   const { user } = useAppSelector((state) => state.auth);
 
-  // const categories = {
-  //   "Make up": {
-  //     image: "/category/make-up.jpg",
-  //     name: "Make Up",
-  //     services: [
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //     ],
-  //   },
-  //   "Hair styling": {
-  //     image: "/category/hair-styling.jpg",
-  //     name: "Hair Styling",
-  //     services: [
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //     ],
-  //   },
-  //   "Nail care": {
-  //     image: "/category/nail-care.jpg",
-  //     name: "Skin Care",
-  //     services: [
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //     ],
-  //   },
-  //   Cosmetology: {
-  //     image: "/category/cosmetology.jpg",
-  //     name: "Manicure",
-  //     services: [
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //     ],
-  //   },
-  //   "SPA procedures": {
-  //     image: "/category/spa-procedures.jpg",
-  //     name: "Manicure",
-  //     services: [
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //       {
-  //         name: "Hair Cut",
-  //         duration: "30min",
-  //         price: "$50",
-  //       },
-  //     ],
-  //   },
-  // };
-
-  const categories1 =
+  const categoryWise =
     data?.data?.services?.reduce(
       (
         acc: Record<string, any>[],
@@ -175,7 +72,7 @@ export default function Page(props: TPageProps) {
         </h1>
       </header>
       <LoaderWraperComp isError={isError} isLoading={isLoading}>
-        <section className="px-5 xl:px-36 py-16 flex flex-col gap-10">
+        <section className="px-5 xl:px-36 py-16 flex flex-col gap-2 md:gap-10">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             <div className="flex flex-col gap-4">
               <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500 capitalize notranslate">
@@ -271,7 +168,7 @@ export default function Page(props: TPageProps) {
               />
             </div>
           </div>
-          <div className="text-center py-10">
+          <div className="text-center py-0 md:py-10">
             <h2 className="text-3xl lg:text-5xl font-bold font-Playfair_Display">
               Our Services
             </h2>
@@ -279,87 +176,111 @@ export default function Page(props: TPageProps) {
               Bringing Out Your Natural Beauty with Expert Care, Precision, and
               a Touch of Elegance
             </p>
-          </div>
-          <div className="space-y-12 lg:space-y-12">
-            {categories1.map(
-              (
-                { image, categoryName, services }: TUniObject,
-                index: number
-              ) => (
-                <div
+            <div className="flex justify-center flex-nowrap gap-3 overflow-x-auto mt-4">
+              {categoryWise.map((catergory: TUniObject, index: number) => (
+                <button
                   key={index}
-                  className={`flex gap-5 lg:gap-10 flex-col md:flex-row`}
-                  //   ${
-                  //   index % 2 === 0
-                  //     ? "flex-col md:flex-row"
-                  //     : "flex-col md:flex-row-reverse"
-                  // }
+                  onClick={() => setSelectedCategory(catergory.categoryName)}
+                  className={cn(
+                    "whitespace-pre py-3.5 px-3 text-base cursor-pointer text-brand/80 hover:text-[#000000] transition-all relative hover:bg-sky-100 hover:before:absolute before:left-0 before:bottom-0 before:w-full before:h-0.5 before:bg-blue-400",
+                    {
+                      "text-brand bg-sky-100 before:absolute before:left-0 before:bottom-0 before:w-full before:h-0.5 before:bg-blue-400":
+                        selectedCategory === catergory.categoryName ||
+                        (!selectedCategory && index === 0),
+                    }
+                  )}
                 >
-                  <div className="w-full h-fit lg:w-1/2 flex items-center justify-center overflow-hidden relative pt-10 xl:pt-16">
-                    <Image
-                      src={
-                        image
-                          ? `${process.env.NEXT_PUBLIC_API_URL}${image}`
-                          : "/profile-demo.png"
-                      }
-                      alt={categoryName}
-                      className="w-full h-full"
-                      width={1000}
-                      height={1000}
-                      // fill
-                      // sizes="100vw"
-                      // style={{
-                      //   objectFit: "cover",
-                      // }}
-                    />
-                  </div>
-                  <div className="w-full lg:w-1/2">
-                    <h3 className="text-3xl lg:text-5xl font-bold text-blue-500">
-                      {categoryName}
-                    </h3>
-                    <ul className="flex flex-col mt-5 gap-6">
-                      {services.map((service: Service, cindex: number) => (
-                        <li key={cindex} className="space-y-2 shadow-sm p-2">
-                          <div className="flex items-center gap-3">
-                            <div className="flex items-center justify-between max-w-md w-full relative">
-                              <span className="border-dotted border w-full absolute bottom-1.5"></span>
-                              <p className="z-10 bg-white">{service.name}</p>
-                              <p className="z-10 bg-white">{service.time}min</p>
-                            </div>
-                            <div className="flex items-center justify-center gap-3 notranslate">
-                              <p>€{service.price}</p>
-                              <input
-                                checked={
-                                  selectedService.find(
-                                    (item: Service) => item.id === service.id
-                                  )
-                                    ? true
-                                    : false
-                                }
-                                onChange={() =>
-                                  setSelectedService((c) =>
-                                    c.some((item) => item.id === service.id)
-                                      ? c.filter(
-                                          (item) => item.id !== service.id
-                                        )
-                                      : [...c, service]
-                                  )
-                                }
-                                type="checkbox"
-                                className="size-4 lg:size-5 accent-blue-500 rounded-md"
-                              />
-                            </div>
-                          </div>
-                          <p className="text-sm text-gray-600">
-                            {service.description}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                  <p className="flex items-center gap-2">
+                    <span>{catergory.categoryName}</span>
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            {categoryWise
+              .filter((item: TUniObject) =>
+                selectedCategory
+                  ? item.categoryName === selectedCategory
+                  : item.categoryName === categoryWise[0].categoryName
               )
-            )}
+              .map(
+                (
+                  { image, categoryName, services }: TUniObject,
+                  index: number
+                ) => (
+                  <div
+                    key={index}
+                    className={`flex gap-5 lg:gap-10 flex-col md:flex-row`}
+                  >
+                    <div className="w-full h-fit md:sticky top-0 left-0 lg:w-1/2 flex items-center justify-center overflow-hidden relative pt-5 md:pt-10 xl:pt-16">
+                      <Image
+                        src={
+                          image
+                            ? `${process.env.NEXT_PUBLIC_API_URL}${image}`
+                            : "/profile-demo.png"
+                        }
+                        alt={categoryName}
+                        className="w-full h-full object-cover"
+                        width={1000}
+                        height={1000}
+                        // fill
+                        // sizes="100vw"
+                        // style={{
+                        //   objectFit: "cover",
+                        // }}
+                      />
+                    </div>
+                    <div className="w-full lg:w-1/2 flex flex-col justify-center">
+                      <h3 className="text-3xl lg:text-5xl font-bold text-blue-500">
+                        {categoryName}
+                      </h3>
+                      <ul className="flex flex-col mt-5 gap-6">
+                        {services.map((service: Service, cindex: number) => (
+                          <li key={cindex} className="space-y-2 shadow-sm p-2">
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center justify-between max-w-md w-full relative">
+                                <span className="border-dotted border w-full absolute bottom-1.5"></span>
+                                <p className="z-10 bg-white">{service.name}</p>
+                                <p className="z-10 bg-white">
+                                  {service.time}min
+                                </p>
+                              </div>
+                              <div className="flex items-center justify-center gap-3 notranslate">
+                                <p>€{service.price}</p>
+                                <input
+                                  checked={
+                                    selectedService.find(
+                                      (item: Service) => item.id === service.id
+                                    )
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={() =>
+                                    setSelectedService((c) =>
+                                      c.some((item) => item.id === service.id)
+                                        ? c.filter(
+                                            (item) => item.id !== service.id
+                                          )
+                                        : [...c, service]
+                                    )
+                                  }
+                                  type="checkbox"
+                                  className="size-4 lg:size-5 accent-blue-500 rounded-md"
+                                />
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-600">
+                              {service.description}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )
+              )}
           </div>
 
           {!user?.id ? (

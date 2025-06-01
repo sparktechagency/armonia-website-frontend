@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 import ProfileCategory from "@/components/ProfileCategory";
@@ -40,7 +41,6 @@ export default function Page() {
         value,
       }))
   );
-
   return (
     <>
       <header className="bg-[#435981] relative h-[200px] md:h-[457px] flex items-center justify-center flex-col gap-10 md:gap-16">
@@ -124,7 +124,13 @@ export default function Page() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 lg:gap-9 px-5 2xl:px-36 mt-8 md:mt-14">
             {data?.data?.map((item: any) => {
-              return <BeauticianCart key={item.profile_id} data={item} />;
+              return (
+                <BeauticianCart
+                  key={item.profile_id}
+                  data={item}
+                  selectedCategory={query.category}
+                />
+              );
             })}
           </div>
         </LoaderWraperComp>

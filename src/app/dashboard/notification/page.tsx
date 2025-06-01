@@ -1,6 +1,6 @@
 "use client";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
-import { timeAgo } from "@/lib/utils";
+import { compareByCTime } from "@/lib/time";
 import { useAllNotificationQuery } from "@/redux/features/notification/notification.api";
 import { TUniObject } from "@/type/index.type";
 import React, { createElement } from "react";
@@ -35,7 +35,7 @@ const Page = () => {
                   {notification?.message}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-500">
-                  {timeAgo(notification?.createdAt)}
+                  {compareByCTime(notification?.createdAt)}
                 </p>
               </div>
             </div>

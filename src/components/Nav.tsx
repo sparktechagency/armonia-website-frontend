@@ -33,7 +33,7 @@ export default function Nav() {
     { name: "Home", href: "/" },
     { name: "Beauticians", href: "/beauticians" },
     { name: "Contact Us", href: "/contact" },
-    { name: "FAQ", href: "/faq" },
+    // { name: "FAQ", href: "/faq" },
   ];
   useEffect(() => {
     links.forEach(({ name, href }) => {
