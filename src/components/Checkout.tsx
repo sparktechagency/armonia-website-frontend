@@ -37,13 +37,6 @@ export default function Checkout({
   const [selectedSlotInfo, setSelectedSlotInfo] = useState<Slot[]>([]);
   const [isPreviousAvailable, setIsPreviousAvailable] =
     useState<boolean>(false);
-  const { data, isLoading } = useRemaningSlotsQuery(
-    {
-      args: [{ name: "date", value: selectedDate?.getTime() }],
-      profileId,
-    },
-    { skip: !setSelectedDate }
-  );
   const [dispatch, { isLoading: muLoading }] = useCreateBookingMutation();
 
   const total = selectedServices.reduce(
@@ -53,6 +46,16 @@ export default function Checkout({
   const totalTime = selectedServices.reduce(
     (sum, service) => sum + service.time,
     0
+  );
+  const { data, isLoading } = useRemaningSlotsQuery(
+    {
+      args: [
+        { name: "date", value: selectedDate?.getTime() },
+        { name: "duration", value: totalTime },
+      ],
+      profileId,
+    },
+    { skip: !setSelectedDate }
   );
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
