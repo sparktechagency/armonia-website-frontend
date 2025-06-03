@@ -56,8 +56,9 @@ export default function Checkout({
   );
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const formData = new FormData(e.currentTarget);
-    // const formValues = Object.values(Object.fromEntries(formData.entries()));
+    const formData = new FormData(e.currentTarget);
+    const formValues = Object.fromEntries(formData.entries());
+    // return console.log(formValues);
     if (selectedSlot.length < totalTime / 30) {
       toast.error("Please select the slots in order");
       return;
@@ -67,6 +68,7 @@ export default function Checkout({
       return;
     }
     const payload = {
+      ...formValues,
       profileId,
       isPreviousAvailable,
       bookingDate: selectedDate?.getTime(),
@@ -94,7 +96,7 @@ export default function Checkout({
       });
     }
   };
-  console.log(selectedServices);
+  // console.log(selectedServices);
   const handleSlotChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const slotNeed = totalTime / 30;
 
@@ -169,7 +171,7 @@ export default function Checkout({
           <p className="text-xl font-semibold font-Playfair_Display">
             Beautician
           </p>
-          <h1 className="lg:text-4xl text-4xl font-bold text-blue-500 font-Playfair_Display">
+          <h1 className="lg:text-3xl text-2xl font-bold text-blue-500 font-Playfair_Display">
             Book Appointment
           </h1>
           {/* <p>Please fill this form to book an appointment</p> */}
@@ -183,11 +185,12 @@ export default function Checkout({
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
-                defaultValue={user?.name}
                 type="text"
+                id="username"
+                name="username"
+                defaultValue={user?.name}
                 placeholder="Username"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
             <div>
@@ -198,12 +201,28 @@ export default function Checkout({
                 Email (Not Editable)
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username"
-                type="text"
-                value={user?.email}
                 readOnly
+                type="text"
+                id="username"
+                value={user?.email}
                 placeholder="Email"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="location"
+              >
+                Your Location
+              </label>
+              <input
+                required
+                id="location"
+                type="text"
+                name="location"
+                placeholder="Location..."
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
             <div>
@@ -251,7 +270,7 @@ export default function Checkout({
                       position: "bottom-center",
                     });
                 }}
-                name={"slot" + "-"}
+                // name={"slot" + "-"}
                 onChange={(e) => handleSlotChange(e)}
               >
                 <option disabled value="">
@@ -274,7 +293,7 @@ export default function Checkout({
               </p>
             </div>
             <div className="lg:py-4 mt-20  mx-auto">
-              <h1 className="lg:text-4xl text-3xl font-bold font-Playfair_Display text-blue-500 mb-4">
+              <h1 className="lg:text-3xl text-2xl font-bold font-Playfair_Display text-blue-500 mb-4">
                 Selected Service Prices
               </h1>
               <div>

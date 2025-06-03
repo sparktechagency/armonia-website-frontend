@@ -159,7 +159,7 @@ export default function Page(props: TPageProps) {
                     : "/profile-demo.png"
                 }
                 alt="beautician"
-                className="w-full h-full"
+                className="w-full h-full object-cover"
                 fill
                 // sizes="100vw"
                 // style={{

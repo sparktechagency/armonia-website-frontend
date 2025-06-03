@@ -82,8 +82,8 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isLoading = false;
       Cookies.set("token", action.payload.token, {
-        expires: 7,
-        secure: false,
+        // expires: 7,
+        // secure: true,
         sameSite: "strict",
       });
     },
