@@ -1,13 +1,22 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useReviewsQuery } from "@/redux/features/reviews/review.api";
 import { TUniObject } from "@/type/index.type";
 import RatingStar from "@/components/ui/RatingStar";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
+import PaginationC, { TQuery } from "@/components/PaginationC";
 
 export default function Page() {
-  const { data, isLoading, isError } = useReviewsQuery([]);
+  const [query, setQuery] = useState<TQuery<TUniObject>>({
+    page: 1,
+    limit: 10,
+  });
+  const { data, isLoading, isError } = useReviewsQuery(
+    Object.entries(query)
+      .filter((item) => item[1])
+      .map(([name, value]) => ({ name, value: value.toString() }))
+  );
   // const reviews = [
   //   {
   //     name: "Sophia Gupta",
@@ -71,32 +80,39 @@ export default function Page() {
           isError={isError}
           isLoading={isLoading}
           dataEmpty={data?.data?.reviews?.length < 1}
-          className="flex flex-col gap-9 mt-8"
+          className="mt-8"
         >
-          {data?.data?.reviews?.map((review: TUniObject, index: number) => (
-            <div key={index} className="border-b">
-              <div className="flex items-center gap-2">
-                <Image
-                  src={
-                    review?.user?.image
-                      ? `${process.env.NEXT_PUBLIC_API_URL}${review?.user.image}`
-                      : "/profile-demo.png"
-                  }
-                  alt={review?.user.name}
-                  width={40}
-                  height={40}
-                  className="w-10 h-10 object-cover rounded-full"
-                />
-                <div>
-                  <p>{review?.user.name}</p>
-                  <div className="flex items-center gap-1">
-                    <RatingStar rate={review.rating || 0} />
+          <div className="flex flex-col gap-9 ">
+            {data?.data?.reviews?.map((review: TUniObject, index: number) => (
+              <div key={index} className="border-b">
+                <div className="flex items-center gap-2">
+                  <Image
+                    src={
+                      review?.user?.image
+                        ? `${process.env.NEXT_PUBLIC_API_URL}${review?.user.image}`
+                        : "/profile-demo.png"
+                    }
+                    alt={review?.user.name}
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 object-cover rounded-full"
+                  />
+                  <div>
+                    <p>{review?.user.name}</p>
+                    <div className="flex items-center gap-1">
+                      <RatingStar rate={review.rating || 0} />
+                    </div>
                   </div>
                 </div>
+                <p className="my-3 text-sm">{review?.review}</p>
               </div>
-              <p className="my-3 text-sm">{review?.review}</p>
-            </div>
-          ))}
+            ))}
+          </div>
+          <PaginationC
+            setQuery={setQuery}
+            query={query}
+            totalPage={data?.pagination?.totalPages}
+          />
         </LoaderWraperComp>
       </div>
     </section>

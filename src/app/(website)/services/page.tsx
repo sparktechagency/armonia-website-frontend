@@ -12,7 +12,7 @@ import { useSearchParams } from "next/navigation";
 const Page = () => {
   const searchParams = useSearchParams();
   const { category, bg } = Object.fromEntries(searchParams.entries());
-  const [query, setQuery] = useState<TQuery<TUniObject>>({ page: 1, limit: 6 });
+  const [query, setQuery] = useState<TQuery<TUniObject>>({ page: 1, limit: 9 });
   const { data, isLoading, isError } = useServicesByCategoryQuery(
     {
       category: category as string,

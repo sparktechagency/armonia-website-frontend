@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
 import {
   useBookingsQuery,
@@ -11,16 +11,21 @@ import { toast } from "react-toastify";
 import { useAppSelector } from "@/redux/hook";
 import { context } from "@/app/Context";
 import BookingDetails from "@/components/BookingDetails";
+import PaginationC, { TQuery } from "@/components/PaginationC";
 
 export default function Page() {
   const appContext = useContext(context);
+  const [query, setQuery] = useState<TQuery<TUniObject>>({
+    page: 1,
+    limit: 15,
+    status: "pending",
+  });
   const { user } = useAppSelector((state) => state.auth);
-  const { data, isLoading, isError } = useBookingsQuery([
-    {
-      name: "status",
-      value: "pending",
-    },
-  ]);
+  const { data, isLoading, isError } = useBookingsQuery(
+    Object.entries(query)
+      .filter((item) => item[1])
+      .map(([name, value]) => ({ name, value: value.toString() }))
+  );
   const [updateBookingStatus, { isLoading: upLoading }] =
     useUpdateBookingStatusMutation();
 
@@ -164,6 +169,11 @@ export default function Page() {
               </tbody>
             </table>
           </div>
+          <PaginationC
+            setQuery={setQuery}
+            query={query}
+            totalPage={data?.pagination?.totalPages}
+          />
         </LoaderWraperComp>
       </div>
     </section>

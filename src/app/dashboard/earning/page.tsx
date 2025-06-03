@@ -1,12 +1,18 @@
 "use client";
 import LoaderWraperComp from "@/components/LoaderWraperComp";
+import PaginationC, { TQuery } from "@/components/PaginationC";
 import { cn } from "@/lib/utils";
 import { usePaymentsQuery } from "@/redux/features/earnings/earnings.api";
 import { TUniObject } from "@/type/index.type";
-import React from "react";
+import React, { useState } from "react";
 
 export default function Page() {
-  const { data, isLoading, isError } = usePaymentsQuery([]);
+  const [query, setQuery] = useState<TQuery<TUniObject>>({ page: 1, limit: 10 });
+  const { data, isLoading, isError } = usePaymentsQuery(
+    Object.entries(query)
+      .filter((item) => item[1])
+      .map(([name, value]) => ({ name, value: value.toString() }))
+  );
   console.log(data);
   return (
     <section className="bg-yellow-50 w-full">
@@ -102,6 +108,11 @@ export default function Page() {
                 )}
               </tbody>
             </table>
+            <PaginationC
+              setQuery={setQuery}
+              query={query}
+              totalPage={data?.pagination?.totalPages}
+            />
           </LoaderWraperComp>
         </div>
       </div>

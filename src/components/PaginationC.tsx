@@ -24,7 +24,7 @@ const PaginationC = ({
     setQuery((c) => ({ ...c, page: current }));
   };
   return (
-    <div className={cn("w-full max-w-80 mx-auto mb-8", className)}>
+    <div className={cn("w-full max-w-80 mx-auto py-8", className)}>
       <ResponsivePaginationComponent
         total={totalPage}
         current={query.page || 1}

@@ -149,6 +149,7 @@ export default function Checkout({
       }
     }
   };
+  console.log(data)
   // console.log("Total Slots", `${totalTime / 30}`);
   // const bongoBoltu = selectedSlot.find((item) => item[`slot-${2}`]);
   // console.log("bongoBoltu", bongoBoltu ? Object.values(bongoBoltu)[0] : "");
