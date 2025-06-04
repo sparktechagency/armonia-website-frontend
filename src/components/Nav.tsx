@@ -73,7 +73,7 @@ export default function Nav() {
         <Login forword={loginForword?.split("_").join("/")} />
       );
     }
-  }, []);
+  }, [loginForword]);
   const dispath = useAppDispatch();
   const handleLogout = () => {
     dispath(logout());

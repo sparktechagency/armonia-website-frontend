@@ -1,12 +1,12 @@
-import { Slot } from "@/redux/features/auth/authSlice";
+import { TSlot } from "@/redux/features/auth/authSlice";
 import { toast } from "react-toastify";
 
 const getMinute = (time: string) => (Number(time.split(":")[0]) * 60) + Number(time.split(":")[1])
-function getIndexOfSlot(slots: Slot[], time: string, option: "start" | "end") {
+function getIndexOfSlot(slots: TSlot[], time: string, option: "start" | "end") {
     return slots?.findIndex((item) => item[option] === time)
 }
 
-export const validateionTime = ({ start, end, slots }: { start: string; end: string, slots: Slot[] }) => {
+export const validateionTime = ({ start, end, slots }: { start: string; end: string, slots: TSlot[] }) => {
     const firstSlotIndex = getIndexOfSlot(slots, start, "start")
     const lastSlotIndex = getIndexOfSlot(slots, end, "end")
     const serviceStartMinute = getMinute(start)
@@ -32,7 +32,7 @@ export const validateionTime = ({ start, end, slots }: { start: string; end: str
 export const validateAndSelectSlots = (
     startIndex: number,
     slotNeed: number,
-    slots: Slot[]
+    slots: TSlot[]
   ) => {
     const newArr = slots.slice(startIndex);
     newArr.splice(slotNeed, newArr.length - slotNeed);
@@ -60,6 +60,6 @@ export const validateAndSelectSlots = (
         throw new Error("slot error");
       }
     }
-    return {ids:newArr.map((item: Slot) => item.id),info:newArr};
+    return {ids:newArr.map((item: TSlot) => item.id),info:newArr};
   };
   

@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("token")?.value; // Example: Checking a cookie
-
+console.log({token})
   const privateRoutes = ["/dashboard",];
 
   if (privateRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {

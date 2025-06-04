@@ -69,7 +69,7 @@ export default function BookingDetails({ bookingId }: { bookingId: string }) {
             height: "auto",
           }}
         />
-        <LoaderWraperComp isLoading={isLoading} isError={isError}>
+        <LoaderWraperComp isLoading={isLoading} isError={isError} className="w-full">
           <div className="space-y-4">
             <p className="text-xl font-semibold font-Playfair_Display">
               Customer

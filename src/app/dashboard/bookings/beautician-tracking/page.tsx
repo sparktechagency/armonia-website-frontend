@@ -6,7 +6,7 @@ import LoaderWraperComp from "@/components/LoaderWraperComp";
 import { BtnSpenner } from "@/components/Spinner";
 import GoogleMap from "@/components/ui/LiveGoogleMap";
 import { convertMinutesToTotalDuration } from "@/lib/getDurationFromMinute";
-import { Slot } from "@/redux/features/auth/authSlice";
+import { TSlot } from "@/redux/features/auth/authSlice";
 // import { Slot } from "@/redux/features/auth/authSlice";
 import { useBookingDetailsByIdQuery } from "@/redux/features/booking/booking.api";
 import { useCreateConversationMutation } from "@/redux/features/messages/message.api";
@@ -77,7 +77,7 @@ export default function Page() {
     return new Date(`${date}T${time}`).getTime();
   };
   const findingAvailableTime = (
-    slots: { slot: Slot }[],
+    slots: { slot: TSlot }[],
     appointmentDate: string
   ) => {
     const currentTime = new Date().getTime();

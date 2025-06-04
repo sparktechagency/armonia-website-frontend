@@ -58,9 +58,19 @@ export default function Page() {
   };
   return (
     <section className="bg-yellow-50 w-full">
-      <h1 className="text-2xl font-semibold w-full bg-blue-500 px-5 py-4 text-white">
-        Service Request
-      </h1>
+      <div className="flex justify-between items-center gap-3 bg-blue-500 px-5 ">
+        <h1 className="text-2xl font-semibold py-4 text-white">
+          Service Request
+        </h1>
+        <input
+          type="text"
+          onChange={(e) =>
+            setQuery((c) => ({ ...c, bookingNumber: e.target.value }))
+          }
+          placeholder="Search by booking number"
+          className="flex-grow ml-2 max-w-xs bg-white border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
       <div className=" mx-auto sm:p-4 dark:text-gray-800">
         <LoaderWraperComp
           isError={isError}
@@ -79,7 +89,7 @@ export default function Page() {
               </colgroup>
               <thead className=" border-b-2 border-black">
                 <tr className=" text-left">
-                  <th className="p-3 border-r-4">SI NO.</th>
+                  <th className="p-3 border-r-4">Booking NO.</th>
                   <th className="p-3 border-r-4">
                     {user?.type === "customer" ? "Beautician" : "User"} Name
                   </th>
@@ -99,7 +109,7 @@ export default function Page() {
               <tbody>
                 {data?.data?.map((item: TUniObject, index: number) => (
                   <tr key={index} className="border-t-2 border-b-2">
-                    <td className="p-3 border-r-4 notranslate">{++index}</td>
+                    <td className="p-3 border-r-4 notranslate">{item.bookingNumber}</td>
                     <td className="p-3 border-r-4">
                       {user?.type === "customer"
                         ? item.profile?.user?.name

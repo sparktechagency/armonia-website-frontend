@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { FormEvent, useContext, useState } from "react";
-import { Service, Slot } from "@/redux/features/auth/authSlice";
+import { Service, TSlot } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hook";
 import { useRemaningSlotsQuery } from "@/redux/features/slots/slots.api";
 import { toast } from "react-toastify";
@@ -11,7 +11,6 @@ import { BtnSpenner } from "./Spinner";
 import { context } from "@/app/Context";
 import { useRouter } from "next/navigation";
 import { BusinessDayPicker, TWeekday } from "./ui/DatePicker";
-import { validateAndSelectSlots } from "@/lib/helpers";
 import { convertMinutesToTotalDuration } from "@/lib/getDurationFromMinute";
 import { cn } from "@/lib/utils";
 
@@ -31,12 +30,8 @@ export default function Checkout({
   const router = useRouter();
   const appContext = useContext(context);
   const { user } = useAppSelector((state) => state.auth);
-  const [selectedSlot, setSelectedSlot] = useState<string[]>([]);
+  const [selectedSlot, setSelectedSlot] = useState<TSlot[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [selectedSlotInfo, setSelectedSlotInfo] = useState<Slot[]>([]);
-  const [isPreviousAvailable, setIsPreviousAvailable] =
-    useState<boolean>(false);
   const [dispatch, { isLoading: muLoading }] = useCreateBookingMutation();
 
   const total = selectedServices.reduce(
@@ -57,27 +52,24 @@ export default function Checkout({
     },
     { skip: !setSelectedDate }
   );
+  const remainingSlots = Object.entries(data?.data || {});
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const formValues = Object.fromEntries(formData.entries());
     // return console.log(formValues);
-    if (selectedSlot.length < totalTime / 30) {
-      toast.error("Please select the slots in order");
-      return;
-    }
-    if (isButtonDisabled) {
-      toast.error("Please select the slots in order");
-      return;
-    }
+    // if (selectedSlot.length < totalTime / 30) {
+    //   toast.error("Please select the slots in order");
+    //   return;
+    // }
     const payload = {
       ...formValues,
       profileId,
-      isPreviousAvailable,
       bookingDate: selectedDate?.getTime(),
       serviceIds: selectedServices.map((item) => item.id),
-      timeSlotIds: selectedSlot,
-      slots: selectedSlotInfo,
+      timeSlotIds: selectedSlot.map((item: TSlot) => item.id),
+      slots: selectedSlot,
+      isPreviousAvailable: false,
     };
     try {
       await dispatch(payload).unwrap();
@@ -100,60 +92,7 @@ export default function Checkout({
     }
   };
   // console.log(selectedServices);
-  const handleSlotChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const slotNeed = totalTime / 30;
 
-    if (slotNeed > data?.data?.length) {
-      setIsButtonDisabled(true);
-      toast.error(
-        `Beautician does not have ${convertMinutesToTotalDuration(
-          totalTime
-        )} to book!`,
-        {
-          position: "bottom-center",
-        }
-      );
-      return;
-    }
-    const index = data?.data.findIndex(
-      (item: Slot) => item.id === e.target.value
-    );
-    if (index === -1) {
-      toast.error("Please select the slots in order");
-      throw new Error("Invalid slot selected");
-      return;
-    }
-
-    try {
-      let selectedIds: { ids: string[]; info: Slot[] };
-      if (index !== 0) {
-        selectedIds = validateAndSelectSlots(
-          index - 1,
-          slotNeed + 1,
-          data?.data
-        );
-        setIsPreviousAvailable(true);
-      } else {
-        setIsPreviousAvailable(false);
-        selectedIds = validateAndSelectSlots(index, slotNeed, data?.data);
-      }
-      setSelectedSlotInfo(selectedIds.info);
-      setSelectedSlot(selectedIds.ids);
-      setIsButtonDisabled(false);
-    } catch (error) {
-      if (error instanceof Error) {
-        setIsButtonDisabled(true);
-        setSelectedSlot([]);
-        setSelectedSlotInfo([]);
-        console.log(error.message);
-      }
-    }
-  };
-  console.log(data)
-  // console.log("Total Slots", `${totalTime / 30}`);
-  // const bongoBoltu = selectedSlot.find((item) => item[`slot-${2}`]);
-  // console.log("bongoBoltu", bongoBoltu ? Object.values(bongoBoltu)[0] : "");
-  // console.log(selectedSlot.find((item) => item[`slot-${2}`]) ? selectedSlot.find((item) => item[`slot-${2}`])[`slot-${2}`] : "");
   return (
     <form
       onSubmit={handleSubmit}
@@ -221,6 +160,7 @@ export default function Checkout({
                 Your Location
               </label>
               <input
+                // autoComplete="on"
                 required
                 id="location"
                 type="text"
@@ -260,13 +200,13 @@ export default function Checkout({
                   "appearance-none shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
                   { "text-gray-400": !selectedDate }
                 )}
-                // defaultValue={""}
-                value={
-                  data?.data?.find(
-                    (item: Slot) =>
-                      item.id === selectedSlot[isPreviousAvailable ? 1 : 0]
-                  )?.id || ""
-                }
+                defaultValue={""}
+                // value={
+                //   data?.data?.find(
+                //     (item: Slot) =>
+                //       item.id === selectedSlot[isPreviousAvailable ? 1 : 0]
+                //   )?.id || ""
+                // }
                 required
                 onClick={() => {
                   if (!selectedDate)
@@ -275,21 +215,29 @@ export default function Checkout({
                     });
                 }}
                 // name={"slot" + "-"}
-                onChange={(e) => handleSlotChange(e)}
+                onChange={(e) => {
+                  setSelectedSlot(data?.data?.[e.target.value]);
+                }}
               >
                 <option disabled value="">
-                  {isLoading ? "Loading..." : "Select start time"}
+                  {isLoading
+                    ? "Loading..."
+                    : remainingSlots.length < 0
+                    ? "No available slots"
+                    : "Select time slot"}
                 </option>
-                {data?.data?.map((item: Slot, slotIindex: number) => (
-                  <option
-                    key={slotIindex}
-                    value={item.id}
-                    className="notranslate"
-                  >
-                    {item.start}
-                    {/* - {item.end} */}
-                  </option>
-                ))}
+                {remainingSlots?.map(([key, value], slotIindex: number) => {
+                  console.log(key, value);
+                  return (
+                    <option
+                      key={slotIindex}
+                      value={key}
+                      className="notranslate"
+                    >
+                      {key}
+                    </option>
+                  );
+                })}
               </select>
               <p className="text-sm text-gray-600 pt-1">
                 You will need {convertMinutesToTotalDuration(totalTime)} from

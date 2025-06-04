@@ -9,7 +9,7 @@ interface AuthState {
   isLoading: boolean;
 }
 
-export interface Slot {
+export interface TSlot {
   id: string;
   start: string;
   end: string;
@@ -46,7 +46,7 @@ export interface User {
   profile?: string;
   services: Service[];
   availableSlots?: {
-    slot: Slot;
+    slot: TSlot;
   }[];
   reviews?: Review[];
   total5StarReviews?: number;
@@ -82,8 +82,8 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isLoading = false;
       Cookies.set("token", action.payload.token, {
-        // expires: 7,
-        // secure: true,
+        expires: 365,
+        secure: true,
         sameSite: "strict",
       });
     },
