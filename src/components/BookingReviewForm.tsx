@@ -50,8 +50,7 @@ const BookingReviewForm = ({
             Review
           </h1>
           <p className="text-center text-[#697586]">
-            Dear Client Please give a feedback for Us, How was feel you in our
-            Salon service
+            We’d Love Your Feedback – How Was Your Armonia Experience?
           </p>
         </div>
         <RattingStar rating={rating} setRating={setRating} />
