@@ -76,8 +76,8 @@ export default function Checkout({
       appContext?.setModal(null);
       Swal.fire({
         icon: "success",
-        title: "Booking success!!",
-        text: "Your booking request has been sent successfully! 🎉",
+        title: "✅Request Received",
+        text: "Thank you! Our concierge team will be in touch within 3 hours to confirm your booking. You'll hear from us via email shortly. ",
       });
       router.push("/dashboard/bookings/pending");
     } catch (error: any) {

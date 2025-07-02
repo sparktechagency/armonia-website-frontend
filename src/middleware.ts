@@ -20,5 +20,5 @@ console.log({token})
 
 // Define the matcher to apply middleware only to specific routes
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*",],
 };

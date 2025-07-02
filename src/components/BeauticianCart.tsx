@@ -9,6 +9,7 @@ import { TUniObject } from "@/type/index.type";
 import { Service } from "@/redux/features/auth/authSlice";
 import { PiMapPinLineBold } from "react-icons/pi";
 import { RiStarFill } from "react-icons/ri";
+import { useAppSelector } from "@/redux/hook";
 
 export default function BeauticianCart({
   data,
@@ -18,7 +19,7 @@ export default function BeauticianCart({
   selectedCategory?: string;
 }) {
   const [sliceQty, setSliceQty] = useState(0);
-
+  const { user } = useAppSelector((state) => state.auth);
   const next = (length: number) => {
     setSliceQty((c) => (c < length - 4 ? c + 1 : c));
   };
@@ -53,7 +54,7 @@ export default function BeauticianCart({
         }`}
       >
         <div className="w-full flex flex-col items-center sm:flex-row px-5 lg:px-8 py-6 gap-4">
-          <div className="w-full md:w-20 xl:min-w-32 xl:w-32 h-full max-h-56 md:h-20 xl:h-32 md:rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
+          <div className="relative w-full md:w-20 xl:min-w-32 xl:w-32 h-full max-h-56 md:h-20 xl:h-32 md:rounded-full overflow-hidden flex items-center justify-center flex-shrink-0">
             <Image
               src={
                 data?.image
@@ -69,11 +70,19 @@ export default function BeauticianCart({
               height={128}
               className="w-full h-full"
             />
+            {!user?.id && (
+              <div className="absolute inset-0 bg-white/30 backdrop-blur-sm z-10"></div>
+            )}
           </div>
           <div className="w-full overflow-hidden flex flex-col gap-4 text-start">
-            <h3 className="font-Playfair_Display text-xl lg:text-2xl font-bold notranslate">
-              {data.user_name}
-            </h3>
+            <div className="relative inline-block w-fit">
+              <h3 className="relative z-10 font-Playfair_Display text-xl lg:text-2xl font-bold notranslate">
+                {data.user_name}
+              </h3>
+              {!user?.id && (
+                <div className="absolute inset-0 bg-white/30 backdrop-blur-sm z-10 rounded-md"></div>
+              )}
+            </div>
             <p className="flex items-center gap-2 text-blue-500 notranslate">
               <RiStarFill size={20} className="flex-shrink-0 text-yellow-400" />
               {data.average_rating ? data.average_rating : "0.0"} (
@@ -84,7 +93,7 @@ export default function BeauticianCart({
                 size={20}
                 className="flex-shrink-0 mt-0.5 text-yellow-400"
               />
-              {data?.address}
+              <span className="line-clamp-2 ">{data?.address}</span>
             </p>
             <div className="max-w-full w-full flex items-center gap-2 overflow-x-scroll scrollbar-none">
               {getUniqueCategoryNames(data?.services)?.map(

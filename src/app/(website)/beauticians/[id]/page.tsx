@@ -75,9 +75,14 @@ export default function Page(props: TPageProps) {
         <section className="px-5 xl:px-36 py-16 flex flex-col gap-2 md:gap-10">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500 capitalize notranslate">
-                {data?.data?.user.name}
-              </h3>
+              <div className="relative inline-block w-fit">
+                <h3 className="font-bold text-4xl lg:text-7xl font-Playfair_Display text-blue-500 capitalize notranslate">
+                  {data?.data?.user.name}
+                </h3>
+                {!user?.id && (
+                  <div className="absolute inset-0 bg-white/30 backdrop-blur-sm z-10 rounded-md"></div>
+                )}
+              </div>
               <div className="flex justify-between items-center">
                 <ProfileCategory category={data?.data?.category} withName />
                 <p className="flex items-center gap-2 text-blue-500 notranslate">
@@ -151,7 +156,7 @@ export default function Page(props: TPageProps) {
                 {data?.data?.bio}
               </p>
             </div>
-            <div className="w-full flex items-center justify-center overflow-hidden lg:h-[600px] lg:min-w-[40%] lg:max-w-[50%] relative">
+            <div className=" w-full flex items-center justify-center overflow-hidden lg:h-[600px] lg:min-w-[40%] lg:max-w-[50%] relative">
               <Image
                 src={
                   data?.data?.user?.image
@@ -166,6 +171,9 @@ export default function Page(props: TPageProps) {
                 //   objectFit: "cover",
                 // }}
               />
+              {!user?.id && (
+                <div className="absolute inset-0 bg-white/30 backdrop-blur-sm z-10"></div>
+              )}
             </div>
           </div>
           <div className="text-center py-0 md:py-10">
