@@ -80,7 +80,7 @@ export default function Page(props: TPageProps) {
                   {data?.data?.user.name}
                 </h3>
                 {!user?.id && (
-                  <div className="absolute inset-0 bg-white/30 backdrop-blur-sm z-10 rounded-md"></div>
+                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10 rounded-md"></div>
                 )}
               </div>
               <div className="flex justify-between items-center">
@@ -172,7 +172,7 @@ export default function Page(props: TPageProps) {
                 // }}
               />
               {!user?.id && (
-                <div className="absolute inset-0 bg-white/30 backdrop-blur-sm z-10"></div>
+                <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10"></div>
               )}
             </div>
           </div>
